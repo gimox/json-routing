@@ -20,7 +20,7 @@ For each `route.js` file in your routes folder add a `route.json` file.  In this
 
     // configurable mapping
     "VERB /example/path" : {
-        "handler"    : "functionName",
+        "handler"    : "function",
         "middleware" : "fileName:functionName",
         "regex"      : true | false
     }
@@ -78,8 +78,8 @@ var routeOptions = {
 routes(app, routeOptions);
 
 ```
--  routes      : the path to your routes folder.
--  controller  : the path to your routes folder.
+-  routes      : the path to your routes folder (json definition).
+-  controller  : the path to your controller folder (logic code).
 -  setup       : the function you want called in your routes when they get loaded
 -  vars        : an object you want passed into your setup function
 
