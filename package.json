@@ -1,7 +1,7 @@
 {
   "name": "json-routing",
   "description": "Json configurable routing for express 4",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Giorgio Modoni <modogio@gmail.com>",
   "main": "./lib/route",
   "repository": {
