@@ -15,14 +15,16 @@ For each `route.js` file in your routes folder add a `route.json` file.  In this
 ```javascript
 {
 
-    "VERB /route/path" : "function",
-    "GET /simple/example" : "function",
+    // short config
+    "VERB /route/path" : "action",
+    "GET /simple/example" : "action",
 
-    // configurable mapping
-    "VERB /example/path" : {
-        "handler"    : "function",
-        "middleware" : "fileName:functionName",
-        "regex"      : true | false
+    // extended  configuration
+    "GET /example/path" : {
+        "action"        : "functionName", // function/method name
+        "controller"    :"controllerName" // custom controller name without .js
+        "middleware"    : "fileName:functionName",
+        "regex"         : true | false
     }
 }
 ```
@@ -50,10 +52,13 @@ routes(app);
 
 
 ### 3.
-Create your logic code in ./controllers
+Create a directory controllers (default ./controllers). Add a file with same .json name inside. Create your logic code
+
+Note. export.functioname must be as declared in *.json (default "index")
+
 ```javascript
 
-exports.init = function(req,res) {
+exports.index = function(req,res) {
     res.json({ code:1, message: 'hello' });
 };
 
@@ -69,19 +74,19 @@ When you initialize the module (step 3 above), you can specify a few options.  A
 ```javascript
 
 var routeOptions = {
-    routes  : "./routes",
-    controller: "./controllers",
-    setup   : "init",
-    vars    : null
+    routesPath      : "./routes",
+    controllerPath  : "./controllers",
+    action          : "index",
+    vars            : null
 }
 
 routes(app, routeOptions);
 
 ```
--  routes      : the path to your routes folder (json definition).
--  controller  : the path to your controller folder (logic code).
--  setup       : the function you want called in your routes when they get loaded
--  vars        : an object you want passed into your setup function
+-  routesPath      : the path to your routes folder.
+-  controllerPath  : the path to your routes folder.
+-  action          : the default action (=function) you want called in your routes when they get loaded
+-  vars            : an object you want passed into your setup function
 
 For example, lets say you have a database connection you want to pass to all of your routes.
 
