@@ -1,0 +1,7 @@
+{
+  "GET /complex/": {
+    "action": "index",
+    "controller": "ComplexController",
+    "middleware": "test:index"
+  }
+}
