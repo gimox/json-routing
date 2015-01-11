@@ -66,7 +66,7 @@ if i need to call the policy file auth.js and the function check => "policy": "a
 ### 3.
 Create a directory controllers (default ./controllers). Add a file with same .json name inside. Create your logic code
 
-Note. export.function ame must be as declared in *.json
+Note. export.function name must be as declared in *.json
 
 ```javascript
 
@@ -81,7 +81,7 @@ Other Options & Passing Variables
 -----------------
 
 
-When you initialize the module (step 3 above), you can specify a few options.
+When you initialize the module (step 1 above), you can specify a few options.
 All are listed below with the default values.  An explaination follows.
 
 ```javascript
