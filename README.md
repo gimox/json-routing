@@ -1,92 +1,144 @@
 Express JSON Routes
 ===================
 Make routes much easier to use in MVC format.
-I'm searching for time a simple nodejs routing with simple configuration, good performance, minimum logic, and a MVC organization: this is json-routes.
+I'm searching for time a simple nodejs routing with:
+ 
+ -  simple configuration,
+ -  good performance, 
+ -  MVC organization
+
+this is json-routes.
 
 
 How It Works
 -------------
 
-### 1.
-In your app.js file just include the module like
-```javascript
+**The basic concepts.**
+Create a json file with your routing config and add code logic in a externale file creating a MVC style structure.
 
-// Includes
-var express     = require('express');
-var routes      = require('json-routing');
-var app         = express();
+I follows the Expressjs 4 routing standards, helping the developer to speedy the routes creation and organization.
 
 
-...
-
-// setup stuff
-app.set(...);
-app.use(...);
-
-// the important think!
-routes(app);
+Proposed Structure
+-------------
+This is an example of default proposed structure, you can customize and change as you preferred.
 
 ```
+project root
+├── controllers/
+│   ├── IndexController.js
+│   ├── AuthController.js
+│   ├── UsersController.js
+├── policy/
+│   │   ├── AuthorizationPolicy.js
+│   │   ├── mymiddleware.js
+├── routes/
+│   │   │   ├── auth.json
+│   │   │   ├── users.json
+│   │   │   ├── index.json
+├── app.js/
+├── package.json/
+├── README.md/
+```
 
-### 2.
-Create *.json files as you need in ./routes directory grouping routing by logical job.
+- routes: this folder contain all `*.json` routing configuration. You can create many *.json file as you need. by default all routes inside a file search for a logic code (= modules = controllers) inside `./controller`, named as *.json + suffix  "Controller.js (the first letter must be capitalized)". 
 
-For example, all users routes in a file called users.json.
+> **Example:** 
+> If you have a definition file called `users.json`, by default the route search the controller `UsersControllers.json`. 
+For routes *auth.json* all routes call the controller `AuthController.js` ecc.. ecc..
 
-In this JSON file, define your routes, you can use a short syntax or a more extended.
-```javascript
+
+### Configure the routing file 
+Routing file is encoded in JSON format and by default is in ./routes.
+You can configure the routing with 2 type of syntax:
+
+- simple
+- extended
+
+**Simple**
+Router is created using this syntax: `"VERB path" : "action"`
+
+*Example of simple config*
+```json
 {
-    // short config
-    "VERB /route/path" : "action",
-    "GET /simple/example" : "index",
-    "GET /admin*" : "index",
-    "GET /form/example" : "index"
-    "POST /form/example/:name" : "update",
+ "GET /users" : "index",
+ "PUT /users/" : "create",
+ "POST /users/:name" : "update",
+ ...
+ add more route as you need
+}
+```
+- VERB:  must by uppercase and can be GET, POST, PUT, DELETE ecc ecc;
+- path: is the routing path and follow the express4 standard routing, you can use jolly caracter and other type syntax `/admin*,` `/admin/:name` ecc. ecc.;
+- action: is the function/method to fire when the routes is called. remember that the logic file (=controller) creation is explained in "Proposed Structure" documentation, and you can change it if you need.
 
 
-    // extended  configuration
-    "GET /example/path" : {
-        "action"        : "functionName", // function/method name
-        "controller"    : "controllerName" // custom controller name without .js
+**Extended**
+Router is created using this syntax: `"VERB path" : {}
+
+*Example of extended config*
+```json
+{
+  "GET /user/whoiam" : {
+        "action"        : "myinfo", // function/method name
+        "controller"    : "users" // custom controller 
         "policy"        : "fileName:functionName",
         "regex"         : true | false
     }
+...
 }
 ```
+The initial syntax is the same as simple but now the second parameters is not a string but a JSON definition,  let me explain the options:
 
--   The `VERB` can be any verb that express supports (`GET`, `POST`, `PUT`, `DELETE`) and must be UPPERCASE
--   Use same express4 routing syntax for address: /index, /index*, /index/:name ecc ecc.
--   action is function/method
--   controller is the logic code file (= old routes file) => basePath can be defined in global settings
--   policy is the function/class called before controller  (=  middleware) => basePath can ber defined in global settings.
-if i need to call the policy file auth.js and the function check => "policy": "auth:check"
+- `action`: the same as simple config;
+- `controller`: a custom controller name, the standard follows this conventions: jsonroutesname+Controller.js (camel case), but if you need to call a controller named userlogin and not UserController;
+- `policy:` is a modules/function called before the controller (= middleware), by default it call a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName"
+- `regex`:  you can set a regex to validate your route, i discourage use it and i prefer add this logic in the controller for a better code speed.
+
+> **Note:**  you can add simple and extended funtion in the same file as you need
 
 
 
-### 3.
-Create a directory controllers (default ./controllers). Add a file with same .json name inside. Create your logic code
 
-Note. export.function name must be as declared in *.json
+### Init Module
+
+Configure the routing modules in your main js file, as any other nodes modules. 
 
 ```javascript
+// Includes
+var express     = require('express');
+var app         = express();
+var routes      = require('json-routing'); // add module
 
-exports.index = function(req,res) {
-    res.json({ code:1, message: 'hello' });
-};
+...
+
+// your code..
+app.set(...);
+app.use(...);
+
+// this is the magic!
+routes(app); //init modules
 
 ```
 
 
-Other Options & Passing Variables
+Change default Options 
 -----------------
-
-
-When you initialize the module (step 1 above), you can specify a few options.
+When you initialize the module, you can specify a few options to customize directory structure.
 All are listed below with the default values.  An explaination follows.
 
+your main.js file
 ```javascript
+// Includes
+var express     = require('express');
+var app         = express();
+var routes      = require('json-routing'); // add module
 
-//define options
+// your code..
+app.set(...);
+app.use(...);
+
+//define routes default options
 var routeOptions = {
     routesPath      : "./routes",
     controllerPath  : "./controllers",
@@ -102,50 +154,132 @@ routes(app, routeOptions);
 -  policyPath      : the path to your policy folder.
 
 
+Full example
+-----------------
+
+*app.js*
+```javascript
+var express = require('express')
+    , app = express()
+    , port = process.env.PORT || 3000
+    , routing = require('./lib/route');
+
+/**
+ * global options for routing
+ *
+ * set all file inside /api/* for a more cleaner code
+ */
+var routeOptions = {
+    routesPath: "./api/routes"
+    , controllersPath: "./api/controllers"
+    , policyPath: './api/policy'
+};
+
+/**
+ * init json-routing
+ */
+routing(app, routeOptions);
+
+/**
+ * standard express 4 routing
+ * yes.. you can use both routing together if you need
+ */
+var router = express.Router();
+router.get('/express/', function (req, res) {
+    res.send(' this is a standard routing ');
+});
+app.use('/', router);
+
+/**
+ * server start
+ *
+ * @type {http.Server}
+ */
+var server = app.listen(port, function () {
+    console.log('Listening on port %d', server.address().port);
+});
+```
+this is the main file, we set routing and add global setting to use ./api as root directory
+
+
+*./api/routes/users.json*
+```json
+{
+  "GET /users" : "index",
+  "POST /users/:id" : "update",
+  "GET /users/banned" : {
+        "action"        : "getbanned", // function/method name
+        "controller"    : "bannedCustom" // custom controller 
+        "policy"        : "auth:check",
+        "regex"         : true | false
+    }
+...
+}
+```
+define the routes using simple and extended configuration.
+
+
+*./api/controllers/UsersController.js*
+```javascript
+exports.index = function(req,res,next) {
+    res.send(' index routes ');
+};
+
+exports.update = function(req,res,next) {
+    res.send(' update routes params:'+req.params.id);
+};
+```
+a basic controller logic
+
+*./api/controllers/bannedCustom.js*
+```javascript
+exports.getbanned = function(req,res,next) {
+    res.send(' this is a route inside users that has a custom controller ');
+};
+```
+this is the controller with custom name
+
+
+*./api/policy/auth.js*
+```javascript
+exports.getbanned = function(req,res,next) {
+    if (!req.session.isLogged){
+	     return  res.redirect('http://'+req.hostname+":3000/403");
+    }
+    next();
+};
+```
+Let me explain this policy: it check if a user is logged, else set a redirect, so we can use the middleware to check ACL, authorization or get/set global vars, and this is very useful.
+
+
+
+
+
 Set global var
 -----------------
 We encourage to use standard tecnique for best performance: use middleware.
+using the full example described above we can change the policy file to attach a global var.
 
-
-**Define a route**
-
-Routes *.json file:
+*./api/policy/auth.js*
 ```javascript
-{
-  "GET /complex": {
-    "action": "index",
-    "controller": "ComplexController",
-    "policy": "test:index"
-  }
-}
-```
-
-
-**Define a policy and add a vars, if we need somethink global we can define in "/*"**
-
-Policy file: ./../policy/test.js
-```javascript
-
-module.exports.index = function (req, res,next) {
-
-    var req.globalVar = {};
-    req.globalVar.applicationName = "mytestApp";
-
+exports.getbanned = function(req,res,next) {
+    if (!req.session.isLogged){
+	     return  res.redirect('http://'+req.hostname+":3000/403");
+    }
+    //use req
+    req.session.lastPing = new Date();
     next();
 };
-
 ```
 
 
 **Read the value in the controller or policy**
 
-Controller file: ComplexController.js
+*./api/controllers/bannedCustom.js*
 ```javascript
-
-exports.index = function (req, res) {
-    res.send(' applicationName:  ' + req.globalVar.applicationName);
+exports.getbanned = function(req,res,next) {
+    res.send(' this is a route inside users that has a custom controller, middleware loaded at: '+req.session.lastPing);
 };
-
 ```
 
 Thanks to
@@ -158,5 +292,3 @@ Relevant Changes:
 - remove code not usefull like custom global vars
 - more customizable option
 - better performance
-
-
