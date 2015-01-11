@@ -234,7 +234,7 @@ a basic controller logic
 *./api/controllers/bannedCustom.js*
 ```javascript
 exports.getbanned = function(req,res,next) {
-    res.send(' this is a route inside users that has a custom controller ');
+    res.send(' custom controller name ');
 };
 ```
 this is the controller with custom name
@@ -278,7 +278,7 @@ exports.getbanned = function(req,res,next) {
 *./api/controllers/bannedCustom.js*
 ```javascript
 exports.getbanned = function(req,res,next) {
-    res.send(' this is a route inside users that has a custom controller, middleware loaded at: '+req.session.lastPing);
+    res.send(' custom controller name, middleware loaded at: '+req.session.lastPing);
 };
 ```
 
