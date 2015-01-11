@@ -106,7 +106,7 @@ Pass global var
 -----------------
 We encourage to use standard tecnique for best performance: use middleware.
 
-#Define a route
+###Define a route
 Routes *.json file:
 ```javascript
 {
@@ -118,7 +118,7 @@ Routes *.json file:
 }
 ```
 
-#Define a policy and add a vars, if we need somethink global we can define in "/*"
+###Define a policy and add a vars, if we need somethink global we can define in "/*"
 Policy file: ./../policy/test.js
 ```javascript
 
@@ -133,7 +133,7 @@ module.exports.index = function (req, res,next) {
 ```
 
 
-#Read the value in the controller or policy
+###Read the value in the controller or policy
 Controller file: ComplexController.js
 ```javascript
 
