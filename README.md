@@ -59,7 +59,7 @@ You can configure the routing with 2 type of syntax:
 Router is created using this syntax: `"VERB path" : "action"`
 
 *Example of simple config*
-```json
+```javascript
 {
  "GET /users" : "index",
  "PUT /users/" : "create",
@@ -77,7 +77,7 @@ Router is created using this syntax: `"VERB path" : "action"`
 Router is created using this syntax: `"VERB path" : {}
 
 *Example of extended config*
-```json
+```javascript
 {
   "GET /user/whoiam" : {
         "action"        : "myinfo", // function/method name
@@ -203,13 +203,13 @@ this is the main file, we set routing and add global setting to use ./api as roo
 
 
 *./api/routes/users.json*
-```json
+```javascript
 {
   "GET /users" : "index",
   "POST /users/:id" : "update",
   "GET /users/banned" : {
         "action"        : "getbanned", // function/method name
-        "controller"    : "bannedCustom" // custom controller 
+        "controller"    : "bannedCustom" // custom controller
         "policy"        : "auth:check",
         "regex"         : true | false
     }
