@@ -7,3 +7,10 @@ exports.customaction = function(req,res) {
 
     res.send('ok customaction');
 };
+
+exports.test = function(req,res) {
+
+    res.send('ok customTEST');
+};
+
+

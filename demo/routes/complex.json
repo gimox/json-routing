@@ -1,25 +1,27 @@
 {
   "GET /complex*": {
-    "action": "all"
+    "action": "all",
+    "controller": "test",
+    "controllerPath": "./demo/policy"
   },
-
   "GET /complex": {
     "action": "index"
+
   },
-
   "GET /complex/noparams": {},
-
   "GET /complex/onlyaction": {
-    "action": "onlyaction"
+    "action": "test"
   },
   "GET /complex/custom": {
     "controller": "custom"
   },
-
   "GET /complex/actioncontroller": {
     "controller": "custom",
     "action": "customaction"
+  },
+
+  "GET /complex/policy": {
+    "action":"checkpolicy",
+    "policy": "test:check"
   }
-
-
 }

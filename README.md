@@ -85,7 +85,8 @@ Router is created using this syntax: `"VERB path" : {}
 {
   "GET /user/whoiam" : {
         "action"        : "myinfo", // function/method name
-        "controller"    : "users" // custom controller 
+        "controller"    : "users" // custom controller
+        "controllerPath": "./demo/policy"
         "policy"        : "fileName:functionName",
         "regex"         : true | false
     }
@@ -94,12 +95,15 @@ Router is created using this syntax: `"VERB path" : {}
 ```
 The initial syntax is the same as simple but now the second parameters is not a string but a JSON definition,  let me explain the options:
 
-- `action`: the same as simple config;
-- `controller`: a custom controller name, the standard follows this conventions: jsonroutesname+Controller.js (camel case), but if you need to call a controller named userlogin and not UserController;
-- `policy:` is a modules/function called before the controller (= middleware), by default it call a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName"
-- `regex`:  you can set a regex to validate your route, i discourage use it and i prefer add this logic in the controller for a better code speed.
+- `action`        : the same as simple config;
+- `controller`    : a custom controller name, the standard follows this conventions: jsonroutesname+Controller.js (camel case), but if you need to call a controller named userlogin and not UserController;
+- `controllerPath`: if you need a different path for controller, you can set here. Remember it start to root project folder.
+- `policy`        : is a modules/function called before the controller (= middleware), by default it call a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName"
+- `regex`         :  you can set a regex to validate your route, i discourage use it and i prefer add this logic in the controller for a better code speed.
 
-> **Note:**  you can add simple and extended funtion in the same file as you need
+> **NOTE:**  you can add simple and extended function in the same file as you need
+
+> **TIPS:**  you can set the second parameter as JSON null, it get default parameters:  "GET /user/whoiam" : {}"
 
 
 
@@ -285,6 +289,42 @@ exports.getbanned = function(req,res,next) {
     res.send(' custom controller name, middleware loaded at: '+req.session.lastPing);
 };
 ```
+
+Case: middleware as middleware
+-----------------
+
+A special case: if we want to add an authentication before some route, take a look at this example
+
+```javascript
+{
+  "GET /admin*": {
+    "action": "all",
+    "controller": "test",
+    "controllerPath": "./demo/policy"
+  },
+  "GET /admin": {
+    "action": "index"
+
+  },
+  "GET /admin/noparams": {},
+  "GET /admin/onlyaction": {
+    "action": "test"
+  },
+  "GET /admin/custom": {
+    "controller": "custom"
+  },
+  "GET /admin/actioncontroller": {
+    "controller": "custom",
+    "action": "customaction"
+  }
+}
+```
+all `admin*` route call the controller `test`, so now test is executed before all `admin*` controller, in fact now is a
+policy (=middleware) and i can set a custom  file:function to redirect in `./policy` the logic file (=controller)
+
+
+
+
 
 Thanks to
 -----------------

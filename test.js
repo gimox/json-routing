@@ -47,6 +47,7 @@ describe('simple routing', function() {
 
 describe('extended routing', function() {
 
+
     describe('/complex, action=index ', function() {
 
         it('must respond with 200', function(done) {
@@ -102,6 +103,16 @@ describe('extended routing', function() {
         });
     });
 
+    describe('/complex/policy,  action=checkpolicy, policy:test', function() {
+
+        it('must respond with 200', function(done) {
+            request.get(URL+"/complex/policy", function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(200, 'status code is not 200');
+                done();
+            });
+        });
+    });
 
 });
 

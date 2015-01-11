@@ -1,4 +1,4 @@
 {
-  "GET /": "index",
-  "POST /": "postfunction"
+"GET /": "index",
+"POST /": "postfunction"
 }

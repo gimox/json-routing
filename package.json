@@ -1,7 +1,7 @@
 {
   "name": "json-routing",
   "description": "JSON configurable MVC routing for express 4",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "author": "Giorgio Modoni <modogio@gmail.com>",
   "main": "./lib/route",
   "repository": {
