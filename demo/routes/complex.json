@@ -1,7 +1,25 @@
 {
-  "GET /complex/": {
-    "action": "index",
-    "controller": "ComplexController",
-    "middleware": "test:index"
+  "GET /complex*": {
+    "action": "all"
+  },
+
+  "GET /complex": {
+    "action": "index"
+  },
+
+  "GET /complex/noparams": {},
+
+  "GET /complex/onlyaction": {
+    "action": "onlyaction"
+  },
+  "GET /complex/custom": {
+    "controller": "custom"
+  },
+
+  "GET /complex/actioncontroller": {
+    "controller": "custom",
+    "action": "customaction"
   }
+
+
 }

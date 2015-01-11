@@ -1,7 +1,14 @@
 exports.index = function (req, res) {
+    res.send('OK complex');
+};
 
-    var datetime = new Date();
+exports.onlyaction = function (req, res) {
+    res.send('OK onlyaction');
+};
 
-    res.send(' i m complex! ' + datetime + "req:"+req.policy);
-return false;
+exports.all = function (req, res, next) {
+   //res.send('OK all');
+  req.session= 1;
+
+    next();
 };

@@ -4,8 +4,12 @@ Make routes much easier to use in MVC format.
 I'm searching for time a simple nodejs routing with:
  
  -  simple configuration,
- -  good performance, 
- -  MVC organization
+ -  super performance,
+ -  simple code
+ -  MVC organization,
+ -  manage only routing, no other auto magic api creation
+ -  customizable
+ -  less possible dependency, it has only underscore
 
 this is json-routes.
 

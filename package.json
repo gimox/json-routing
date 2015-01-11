@@ -8,15 +8,21 @@
     "type": "git",
     "url": "https://github.com/gimox/json-routing"
   },
+  "bugs":{
+    "url" : "https://github.com/gimox/json-routing/issues"
+  },
   "dependencies" : {
     "underscore"   :  "*"
   },
   "devDependencies": {
     "express" : "*",
-    "morgan" :"*"
+    "morgan" :"*",
+    "mocha" : "*",
+    "request" : "*",
+    "should" : "*"
   },
   "scripts": {
-    "test": "make test"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "keywords": [
     "express",

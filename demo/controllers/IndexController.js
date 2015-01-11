@@ -1,4 +1,9 @@
-exports.index = function(req,res,next) {
+exports.index = function(req,res) {
 
-    res.send(' routing OK ');
+    res.send('index page get');
+};
+
+exports.postfunction = function(req,res) {
+
+    res.send('index page post');
 };

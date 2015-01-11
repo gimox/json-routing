@@ -1,41 +1,107 @@
-var express = require('express')
-    , app = express()
-    , logger = require('morgan')
-    , port = process.env.PORT || 3000
-    , routing = require('./lib/route');
+var app     = require(process.cwd()+'/app');
+var assert = require("assert");
+var request = require('request');
+var should = require('should');
 
-app.use(logger('dev'));
-/**
- * global options for routing
- *
- * @type {{routesPath: string, controllersPath: string, action: string, vars: null}}
- */
-var routeOptions = {
-    routesPath: "./demo/routes"
-    , controllersPath: "./demo/controllers"
-    , policyPath: './demo/policy'
-};
+const URL   = "http://localhost:3000";
 
-/**
- * init json-routing
- */
-routing(app, routeOptions);
+describe('simple routing', function() {
 
-/**
- * standard express 4 routing
- */
 
-var router = express.Router();
-router.get('/express/:name', function (req, res) {
-    res.send(' This is a express standard routing ');
+
+    describe('index GET', function() {
+
+        it('GET must respond with 200', function(done) {
+            request.get(URL, function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(200, 'status code is not 200');
+                done();
+            });
+        });
+    });
+
+    describe('index GET', function() {
+
+        it('POST must respond with 200', function(done) {
+            request.get(URL, function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(200, 'status code is not 200');
+                done();
+            });
+        });
+    });
+
+    describe('this route can not exist', function() {
+        it('it must return 404', function(done) {
+            request.get(URL + "/notexist", function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(404, 'wrong status code returned from server');
+                done();
+            });
+        });
+
+    });
+
 });
-app.use('/', router);
 
-/**
- * server start
- *
- * @type {http.Server}
- */
-var server = app.listen(port, function () {
-    console.log('Listening on port %d', server.address().port);
+
+describe('extended routing', function() {
+
+    describe('/complex, action=index ', function() {
+
+        it('must respond with 200', function(done) {
+            request.get(URL+"/complex", function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(200, 'status code is not 200');
+                done();
+            });
+        });
+    });
+
+    describe('/complex/noparams  with {} parameters', function() {
+
+        it('must respond with 200', function(done) {
+            request.get(URL+"/complex/noparams", function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(200, 'status code is not 200');
+                done();
+            });
+        });
+    });
+
+    describe('/complex/onlyaction, action=onlyaction', function() {
+
+        it('must respond with 200', function(done) {
+            request.get(URL+"/complex/onlyaction", function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(200, 'status code is not 200');
+                done();
+            });
+        });
+    });
+
+    describe('/complex/custom, controller=custom', function() {
+
+        it('must respond with 200', function(done) {
+            request.get(URL+"/complex/custom", function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(200, 'status code is not 200');
+                done();
+            });
+        });
+    });
+
+    describe('/complex/actioncontroller, controller=custom, action=customaction', function() {
+
+        it('must respond with 200', function(done) {
+            request.get(URL+"/complex/actioncontroller", function(err, res, body){
+                should.not.exist(err);
+                res.statusCode.should.eql(200, 'status code is not 200');
+                done();
+            });
+        });
+    });
+
+
 });
+
