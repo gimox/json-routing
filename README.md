@@ -319,8 +319,8 @@ A special case: if we want to add an authentication before some route, take a lo
   }
 }
 ```
-all `admin*` route call the controller `test`, so now test is executed before all `admin*` controller, in fact now is a
-policy (=middleware) and i can set a custom  file:function to redirect in `./policy` the logic file (=controller)
+All `admin*` route call the controller `test`, so now test is executed before all `admin*` controller, in fact now is a
+policy (=middleware) and for a clear structure i set  `controllerPath` params to redirect in `./policy`.
 
 
 
