@@ -8,7 +8,6 @@ module.exports.index = function (req, res, next) {
 
     if (req.session.isLogged) {
         return res.redirect('http://' + req.hostname + ":3000/403");
-
     }
 
     next();

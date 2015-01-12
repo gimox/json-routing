@@ -1,4 +1,9 @@
 {
-"GET /": "index",
-"POST /": "postfunction"
+  "/": {
+    "verb": "get",
+    "route" :"index.custom"
+  }
+
+
+
 }

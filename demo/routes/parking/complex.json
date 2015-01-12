@@ -9,6 +9,7 @@
 
   },
   "GET /complex/noparams": {},
+
   "GET /complex/onlyaction": {
     "action": "test"
   },
