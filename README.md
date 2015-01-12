@@ -18,7 +18,7 @@ How It Works
 -------------
 
 **The basic concepts.**
-Create a json file with your routing config and add code logic in a externale file creating a MVC style structure.
+Create a json file with your routing config and add code logic in a external file called *controller*  creating a MVC style structure.
 
 I follows the Expressjs 4 routing standards, helping the developer to speedy the routes creation and organization.
 
@@ -103,9 +103,11 @@ The initial syntax is the same as simple but now the second parameters is not a 
 
 > **NOTE:**  you can add simple and extended function in the same file as you need
 
+
 > **TIPS:**  you can set the second parameter as JSON null, it get default parameters:  "GET /user/whoiam" : {}"
 
 
+> **MORE MIDDLEWARE FOR A SINGLE ROUTE:**  you can. Add it as array
 
 
 ### Init Module
