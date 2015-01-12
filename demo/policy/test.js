@@ -27,3 +27,9 @@ exports.check = function (req, res, next) {
     console.log('middleware check loaded');
     next();
 };
+
+
+exports.index2 = function(req,res) {
+
+    res.send('index2 policy test');
+};

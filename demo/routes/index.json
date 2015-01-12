@@ -1,9 +1,30 @@
 {
   "/": {
-    "verb": "get",
-    "route" :"index.custom"
+    "GET": {
+      "route": "custom:index",
+      "policy": [
+        "test:check",
+        "test:all",
+        "subfolder/test2:index"
+      ]
+    },
+    "POST": {
+      "route": "custom:index",
+      "policy": [
+        "test:check",
+        "test:all",
+        "subfolder/test2:index"
+      ]
+    }
+  },
+  "/test": {
+    "GET": {
+      "route": "custom:index",
+      "policy": [
+        "test:check",
+        "test:all",
+        "subfolder/test2:index"
+      ]
+    }
   }
-
-
-
 }
