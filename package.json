@@ -1,25 +1,26 @@
 {
   "name": "json-routing",
   "description": "JSON configurable MVC routing for express 4",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "author": "Giorgio Modoni <modogio@gmail.com>",
   "main": "./lib/route",
   "repository": {
     "type": "git",
     "url": "https://github.com/gimox/json-routing"
   },
-  "bugs":{
-    "url" : "https://github.com/gimox/json-routing/issues"
+  "bugs": {
+    "url": "https://github.com/gimox/json-routing/issues"
   },
-  "dependencies" : {
-    "underscore"   :  "*"
+  "dependencies": {
+    "underscore": "*",
+    "latest-version": "~1.0.0"
   },
   "devDependencies": {
-    "express" : "*",
-    "morgan" :"*",
-    "mocha" : "*",
-    "request" : "*",
-    "should" : "*"
+    "express": "*",
+    "morgan": "*",
+    "mocha": "*",
+    "request": "*",
+    "should": "*"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
