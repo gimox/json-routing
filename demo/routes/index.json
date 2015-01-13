@@ -1,17 +1,14 @@
 {
+  "GLOBAL": {
+    "controllerPath": "./demo/customdir",
+    "controller": "test",
+    "policyPath":""
+  },
   "/": {
     "GET": {
-      "route": "custom:index",
+      "route": "index",
       "policy": [
-        "test:check",
-        "test:all",
-        "subfolder/test2:index"
-      ]
-    },
-    "POST": {
-      "route": "custom:index",
-      "policy": [
-        "test:check",
+        "./demo/policycustom/test:check",
         "test:all",
         "subfolder/test2:index"
       ]
@@ -19,9 +16,9 @@
   },
   "/test": {
     "GET": {
-      "route": "custom:index",
+      "route": "index",
       "policy": [
-        "test:check",
+        "./demo/policycustom/test:check",
         "test:all",
         "subfolder/test2:index"
       ]
