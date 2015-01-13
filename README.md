@@ -13,9 +13,9 @@ I'm searching for time a simple nodejs routing with:
 
 this is json-routes.
 
-Changelog from version 0.12
+Changelog from version 0.13
 -------------
-- It break compatibility with <0.11 version
+- It break compatibility with <0.12 version
 - new json syntax
 
 
@@ -25,7 +25,7 @@ How It Works
 **The basic concepts.**
 Create a json file with your routing config and add code logic in a external file called *controller*  creating a MVC style structure.
 
-I follows the Expressjs 4 routing standards, helping the developer to speedy the routes creation and organization.
+I follows the Expressjs 4 routing standards, helping the developer to speedy the routes creation and project organization.
 
 
 Proposed Structure
@@ -51,7 +51,12 @@ project root
 ```
 - **Controller**: contains the logic code
 - **Policy**: contain function called before controller = middleware
-- **Routes**: this folder contain all `*.json` routing configuration. You can create many *.json file as you need. by default all routes inside a file search for a logic code (= modules = controllers) inside `./controller`, named as *.json + suffix  "Controller.js (the first letter must be capitalized)".
+- **Routes**: contain all `*.json` routing configuration. You can create many *.json file as you need. by default all routes inside a file search for a logic file (= modules = controllers) inside `./controller`, named as *.json + suffix  "Controller.js (the first letter must be capitalized)".
+
+> **EXAMPLE:**
+> If you have a definition file called `users.json`, by default the route search the controller `UsersControllers.json`.
+For routes *auth.json* all routes call the controller `AuthController.js` ecc.. ecc..
+
 
 
 > **NOTE:**  this is a proposed structure but you can configure the module for your structure, you can chagne dir structure or add all routes in a single file.
@@ -138,8 +143,9 @@ Rappresent the call verb and can assume any valid https verbs like GET, POST, PU
 
 Rappresent `file:method` to call for a route address.
 
-By default the routing search file inside the default controller directory: `./controlles`,
+By default the routing search controller file inside the default controller directory: `./controlles`,
 you can change it using global option explained in this documents.
+
 If controller is not set it search a file called with the same name of json file with "Controller" suffix.
 
 > **Example:**
@@ -150,7 +156,7 @@ For routes *auth.json* all routes call the controller `AuthController.js` ecc.. 
 **Summarize route params**
 
 
-if you omit route params, system assume you have a default route cotroller path/name and a method called "index".
+if you omit route params, system assume you have a default route controller path/name and a method called "index".
 
 if you add only a parameter, it assume that controller is in default directory with standard name `nameController.js`. example route: "testall"
 
