@@ -2,7 +2,7 @@ Express JSON Routes
 ===================
 Make routes much easier to use in MVC format.
 I'm searching for time a simple nodejs routing with:
- 
+
  -  simple configuration,
  -  super performance,
  -  simple code
@@ -12,6 +12,11 @@ I'm searching for time a simple nodejs routing with:
  -  less possible dependency, it has only underscore
 
 this is json-routes.
+
+Changelog from version 0.12
+-------------
+- It break compatibility with <0.11 version
+- new json syntax
 
 
 How It Works
@@ -44,75 +49,139 @@ project root
 ├── package.json/
 ├── README.md/
 ```
+- **Controller**: contains the logic code
+- **Policy**: contain function called before controller = middleware
+- **Routes**: this folder contain all `*.json` routing configuration. You can create many *.json file as you need. by default all routes inside a file search for a logic code (= modules = controllers) inside `./controller`, named as *.json + suffix  "Controller.js (the first letter must be capitalized)".
 
-- routes: this folder contain all `*.json` routing configuration. You can create many *.json file as you need. by default all routes inside a file search for a logic code (= modules = controllers) inside `./controller`, named as *.json + suffix  "Controller.js (the first letter must be capitalized)". 
 
-> **Example:** 
-> If you have a definition file called `users.json`, by default the route search the controller `UsersControllers.json`. 
+> **NOTE:**  this is a proposed structure but you can configure the module for your structure, you can chagne dir structure or add all routes in a single file.
+
+
+### Creating JSON Configuration file
+Routing file is encoded in JSON format and by **default is in `./routes.`**
+
+Router is created using this syntax:
+
+`"RoutePath" : {"verb": {options}`
+
+
+*Example of extended config*
+
+```javascript
+{
+   "routePath": {
+    "VERB": {
+      "route": "controller:method",
+      "policy": [
+        "controller:method",
+      ]
+    }
+  },
+
+  "/admin": {
+    "GET": {
+      "route": "action",
+      "policy": [
+        "./demo/policycustom/test:check",
+        "test:all",
+        "subfolder/test2:index"
+      ]
+    },
+    "POST": {
+      "route": "index",
+      "policy": [
+        "./demo/policycustom/test:check",
+        "test:all",
+        "subfolder/test2:index"
+      ]
+    }
+  },
+
+
+ ...
+  more routes
+}
+```
+
+
+###RoutePath
+Is the routing path and follow the express4 standard routing, you can use jolly caracter and other type syntax `/admin*,` `/admin/:name` ecc. ecc.;
+
+
+###Verb
+Rappresent the call verb and can assume any valid https verbs like GET, POST, PUT, DELETE ecc ecc. You can add more verbs for a single routePath:
+
+```javascript
+{
+"/admin": {
+    "GET": {
+      "route": "action",
+      "policy": [
+        "./demo/policycustom/test:check",
+        "test:all",
+        "subfolder/test2:index"
+      ]
+    },
+    "POST": {
+      "route": "action",
+      "policy": [
+        "test:all",
+      ]
+    }
+
+}
+```
+
+`/admin` has GET and POST  verbs.
+
+###Route
+
+Rappresent `file:method` to call for a route address.
+
+By default the routing search file inside the default controller directory: `./controlles`,
+you can change it using global option explained in this documents.
+If controller is not set it search a file called with the same name of json file with "Controller" suffix.
+
+> **Example:**
+> If you have a definition file called `users.json`, by default the route search the controller `UsersControllers.json`.
 For routes *auth.json* all routes call the controller `AuthController.js` ecc.. ecc..
 
 
-### Configure the routing file 
-Routing file is encoded in JSON format and by default is in ./routes.
-You can configure the routing with 2 type of syntax:
-
-- simple
-- extended
-
-**Simple**
-Router is created using this syntax: `"VERB path" : "action"`
-
-*Example of simple config*
-```javascript
-{
- "GET /users" : "index",
- "PUT /users/" : "create",
- "POST /users/:name" : "update",
- ...
- add more route as you need
-}
-```
-- VERB:  must by uppercase and can be GET, POST, PUT, DELETE ecc ecc;
-- path: is the routing path and follow the express4 standard routing, you can use jolly caracter and other type syntax `/admin*,` `/admin/:name` ecc. ecc.;
-- action: is the function/method to fire when the routes is called. remember that the logic file (=controller) creation is explained in "Proposed Structure" documentation, and you can change it if you need.
+**Summarize route params**
 
 
-**Extended**
-Router is created using this syntax: `"VERB path" : {}
+if you omit route params, system assume you have a default route cotroller path/name and a method called "index".
 
-*Example of extended config*
-```javascript
-{
-  "GET /user/whoiam" : {
-        "action"        : "myinfo", // function/method name
-        "controller"    : "users" // custom controller
-        "controllerPath": "./demo/policy"
-        "policy"        : "fileName:functionName",
-        "regex"         : true | false
-    }
-...
-}
-```
-The initial syntax is the same as simple but now the second parameters is not a string but a JSON definition,  let me explain the options:
+if you add only a parameter, it assume that controller is in default directory with standard name `nameController.js`. example route: "testall"
 
-- `action`        : the same as simple config;
-- `controller`    : a custom controller name, the standard follows this conventions: jsonroutesname+Controller.js (camel case), but if you need to call a controller named userlogin and not UserController;
-- `controllerPath`: if you need a different path for controller, you can set here. Remember it start to root project folder.
-- `policy`        : is a modules/function called before the controller (= middleware), by default it call a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName"
-- `regex`         :  you can set a regex to validate your route, i discourage use it and i prefer add this logic in the controller for a better code speed.
+if route contains the controller params `controllername:method` (user:index) it search the controller inside default directory with controller and method specified. route: "user:index", search a controller called user.js with method index.
 
-> **NOTE:**  you can add simple and extended function in the same file as you need
+if you **need to call a controller in a subfolder**, simply add the path before controleller name. Example route: "/afolder/user:index", fire  ./controller/afolder/user.js with method index.
+
+if you **need to call a controller starting to your project root** simply add `.` before the path. Example ropute: "./lib/user:index", fire  ./lib/user.js with method index.
 
 
-> **TIPS:**  you can set the second parameter as JSON null, it get default parameters:  "GET /user/whoiam" : {}"
+
+###Policy
+
+Is a modules/function called before the controller (= middleware), by default it call a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName".
+
+**The syntax is the same as `route` params**
+
+It can be a string for a single policy or array for more policy file.
 
 
-> **MORE MIDDLEWARE FOR A SINGLE ROUTE:**  you can. Add it as array
+
+
+###Regex
+ you can set a regex to validate your route, i discourage use it and i prefer add this logic in the controller for a better code speed.
+
+
 
 
 ### Init Module
 
-Configure the routing modules in your main js file, as any other nodes modules. 
+Configure the routing modules in your main js file, as any other nodes modules.
 
 ```javascript
 // Includes
@@ -132,7 +201,7 @@ routes(app); //init modules
 ```
 
 
-Change default Options 
+Change default Options
 -----------------
 When you initialize the module, you can specify a few options to customize directory structure.
 All are listed below with the default values.  An explaination follows.
@@ -162,6 +231,36 @@ routes(app, routeOptions);
 -  routesPath      : the path to your routes folder.
 -  controllerPath  : the path to your controller folder.
 -  policyPath      : the path to your policy folder.
+
+
+Change json file Global Options
+-----------------
+if you need to change a option only for all routes inside a *.json file, you can set in your file the key `GLOBAL` as in example:
+
+user.json
+```javascript
+{
+  "GLOBAL": {
+    "controllerPath": "./customdir",
+    "controller": "test",
+    "policyPath":"./lib"
+  },
+   "/user": {
+    "GET": {
+      "route": "index",
+      "policy": [
+        "auth:check",
+        "auth:adduserparams"
+      ]
+    }
+  }
+
+}
+```
+only for user.json routes the default setting are changed as in global.
+Example: route controller is ./customdir/UserController.js
+
+
 
 
 Full example
@@ -212,21 +311,34 @@ var server = app.listen(port, function () {
 this is the main file, we set routing and add global setting to use ./api as root directory
 
 
+
 *./api/routes/users.json*
 ```javascript
 {
-  "GET /users" : "index",
-  "POST /users/:id" : "update",
-  "GET /users/banned" : {
-        "action"        : "getbanned", // function/method name
-        "controller"    : "bannedCustom" // custom controller
-        "policy"        : "auth:check",
-        "regex"         : true | false
+   "/banned": {
+    "GET": {
+      "route": "bannedCustom:index",
+      }
+  },
+   "/user": {
+    "GET": {
+      "route": "find",
+      "policy": [
+        "auth:check",
+        "auth:adduserparams"
+      ]
+    },
+     "PUT": {
+      "route": "create",
+      "policy": [
+        "auth:check",
+      ]
     }
-...
+  }
+
 }
 ```
-define the routes using simple and extended configuration.
+define the routes
 
 
 *./api/controllers/UsersController.js*
@@ -235,8 +347,8 @@ exports.index = function(req,res,next) {
     res.send(' index routes ');
 };
 
-exports.update = function(req,res,next) {
-    res.send(' update routes params:'+req.params.id);
+exports.create = function(req,res,next) {
+    res.send(' create routes params:'+req.params.name);
 };
 ```
 a basic controller logic
@@ -252,7 +364,7 @@ this is the controller with custom name
 
 *./api/policy/auth.js*
 ```javascript
-exports.getbanned = function(req,res,next) {
+exports.check = function(req,res,next) {
     if (!req.session.isLogged){
 	     return  res.redirect('http://'+req.hostname+":3000/403");
     }
@@ -299,42 +411,37 @@ A special case: if we want to add an authentication before some route, take a lo
 
 ```javascript
 {
-  "GET /admin*": {
-    "action": "all",
-    "controller": "test",
-    "controllerPath": "./demo/policy"
-  },
-  "GET /admin": {
-    "action": "index"
 
+ "/admin*": {
+    "GET": {
+      "route": "./policy/auth:check",
+     },
+    "POST": {
+      "route": "auth:check",
+     },
+    "PUT": {
+      "route": "auth:check",
+     },
+    "DELETE": {
+      "route": "auth:check",
+    },
   },
-  "GET /admin/noparams": {},
-  "GET /admin/onlyaction": {
-    "action": "test"
+
+   "/admin/dashboard": {
+    "GET": {
+      "route": "item:get,
+      }
   },
-  "GET /admin/custom": {
-    "controller": "custom"
-  },
-  "GET /admin/actioncontroller": {
-    "controller": "custom",
-    "action": "customaction"
+   "/admin/user
+   ": {
+    "GET": {
+      "route": "find",
+    },
+     "PUT": {
+      "route": "create",
+    }
   }
-}
+
+}}
 ```
-All `admin*` route call the controller `test`, so now test is executed before all `admin*` controller, in fact now is a
-policy (=middleware) and for a clear structure i set  `controllerPath` params to redirect in `./policy`.
-
-
-
-
-
-Thanks to
------------------
-I start using https://github.com/TopTierTech/express-json-routes and after some time a decide to fork and change some code to do the job, thanks to express-json-routes
-
-Relevant Changes:
-
-- MVC, controller, policy
-- remove code not usefull like custom global vars
-- more customizable option
-- better performance
+All `admin*` route call the controller `auth`, so now `auth:check` is executed before all `admin*` controller and it become a policy (=middleware) and for a clear structure i put the file in policy dir.
