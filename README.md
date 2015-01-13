@@ -1,21 +1,21 @@
 Express JSON Routes
 ===================
 Make routes much easier to use in MVC format.
-I'm searching for time a simple nodejs routing with:
+I've been searching for a while for a nodejs routing solution with a:
 
  -  simple configuration,
  -  super performance,
- -  simple code
+ -  simple code,
  -  MVC organization,
  -  manage only routing, no other auto magic api creation
  -  customizable
- -  less possible dependency, it has only underscore
+ -  least possible dependency, which uses only underscore
 
 this is json-routes.
 
 Changelog from version 0.13
 -------------
-- It break compatibility with <0.13 version
+- No longer compatible with <0.13 version
 - new json syntax
 
 
@@ -23,14 +23,14 @@ How It Works
 -------------
 
 **The basic concepts.**
-Create a json file with your routing config and add code logic in a external file called *controller*  creating a MVC style structure.
+Create a json file with your routing config and add code logic in a external file called *controller* , creating an MVC style structure.
 
-I follows the Expressjs 4 routing standards, helping the developer to speedy the routes creation and project organization.
+I followed the Expressjs 4 routing standards, helping the developer to manage the routes creation and project organization faster and in the standard synthax.
 
 
 Proposed Structure
 -------------
-This is an example of default proposed structure, you can customize and change as you preferred.
+This is an example of the default proposed structure, you can customize and change as you prefer.
 
 ```
 project root
@@ -49,21 +49,21 @@ project root
 ├── package.json/
 ├── README.md/
 ```
-- **Controller**: contains the logic code
-- **Policy**: contain function called before controller = middleware
-- **Routes**: contain all `*.json` routing configuration. You can create many *.json file as you need. by default all routes inside a file search for a logic file (= modules = controllers) inside `./controller`, named as *.json + suffix  "Controller.js (the first letter must be capitalized)".
+- **Controller**: contains the code's logic
+- **Policy**: contains the function called before the controller = middleware
+- **Routes**: contains all the `*.json` routing configuration. You can create as many *.json files as you need. By default, all routes within a file look up the corresponding controller (= modules = controllers = middleware) inside the controller's default directory `./controller` (or within the directory specified by the user), which uses the following naming format: Route-name (without .json) + "Controller.js (the first letter must be capitalized)".
 
 > **EXAMPLE:**
-> If you have a definition file called `users.json`, by default the route search the controller `UsersControllers.json`.
+> If you have a definition file called `users.json`, by default the route searches the controller `UsersControllers.js`.
 For routes *auth.json* all routes call the controller `AuthController.js` ecc.. ecc..
 
 
 
-> **NOTE:**  this is a proposed structure but you can configure the module for your structure, you can chagne dir structure or add all routes in a single file.
+> **NOTE:**  this is a proposed structure but you can configure the module for your structure, you can change dir structure or add all routes in a single file.
 
 
 ### Creating JSON Configuration file
-Routing file is encoded in JSON format and by **default is in `./routes.`**
+The routing file is encoded in the JSON format and by **default is in `./routes.`**
 
 Router is created using this syntax:
 
@@ -110,11 +110,11 @@ Router is created using this syntax:
 
 
 ###RoutePath
-Is the routing path and follow the express4 standard routing, you can use jolly caracter and other type syntax `/admin*,` `/admin/:name` ecc. ecc.;
+This is the routing path and it follows the express4 standard routing. You can use jolly character and other type syntax `/admin*,` `/admin/:name` etc. etc.;
 
 
 ###Verb
-Rappresent the call verb and can assume any valid https verbs like GET, POST, PUT, DELETE ecc ecc. You can add more verbs for a single routePath:
+Relates to the call verb and can assume any valid http verbs like GET, POST, PUT, DELETE etc etc. You can add more verbs for a single routePath:
 
 ```javascript
 {
@@ -141,46 +141,64 @@ Rappresent the call verb and can assume any valid https verbs like GET, POST, PU
 
 ###Route
 
-Rappresent `file:method` to call for a route address.
+Relates to `file:method` to call a route address.
 
-By default the routing search controller file inside the default controller directory: `./controlles`,
-you can change it using global option explained in this documents.
+By default, the routing search controller file inside the default controller directory is: `./controlles`, and you can change it using the global options explained in this document.
 
-If controller is not set it search a file called with the same name of json file with "Controller" suffix.
+If the controller is not set, the routing will search a file called with the same name as the json file, with "Controller" as suffix.
 
 > **Example:**
-> If you have a definition file called `users.json`, by default the route search the controller `UsersControllers.json`.
-For routes *auth.json* all routes call the controller `AuthController.js` ecc.. ecc..
+> If you have a definition file called `users.json`, by default the route searches the controller `UsersControllers.json`.
+For routes *auth.json* all routes call the controller `AuthController.js` etc.. etc..
 
 
 **Summarize route params**
 
+If you omit the route params, the system routing assumes you have a default route controller path/name and a method called "index".
 
-if you omit route params, system assume you have a default route controller path/name and a method called "index".
+If you add only a parameter, it assumes that the controller is in the default directory with standard name `nameController.js` , and the parameter is the method that should be called. example route: "testall"
 
-if you add only a parameter, it assume that controller is in default directory with standard name `nameController.js`. example route: "testall"
+If the route params contain both values `controllername:method` (user:index) it will search the controller using the default directory path structured as controller name followed by method. For example, route: "user:index" searches for a controller called user.js with method index.
 
-if route contains the controller params `controllername:method` (user:index) it search the controller inside default directory with controller and method specified. route: "user:index", search a controller called user.js with method index.
+If you **need to call a controller in a subfolder**, simply add the path before the controller name. Example route: "/afolder/user:index", fire ./controller/afolder/user.js with method index.
 
-if you **need to call a controller in a subfolder**, simply add the path before controleller name. Example route: "/afolder/user:index", fire  ./controller/afolder/user.js with method index.
-
-if you **need to call a controller starting to your project root** simply add `.` before the path. Example ropute: "./lib/user:index", fire  ./lib/user.js with method index.
+If you **need to call a controller starting to your project root** simply add `.` before the path. Example route: "./lib/user:index", fire  ./lib/user.js with method index.
 
 
 
 ###Policy
 
-Is a modules/function called before the controller (= middleware), by default it call a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName".
+Is a module/function called before the controller (= middleware), by default it calls a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName".
+
+Example: policy: "auth/index" calls ./policy/auth.js and method index
 
 **The syntax is the same as `route` params**
 
-It can be a string for a single policy or array for more policy file.
+It can be a string for a single policy or an array for multiple policy files.
 
 
 
 
 ###Regex
- you can set a regex to validate your route, i discourage use it and i prefer add this logic in the controller for a better code speed.
+You can set a regex to validate your route, however I discourage using it. Instead, I prefer to add this logic in the controller for better code speed.
+```javascript
+{
+"/admin": {
+    "GET": {
+      "route": "action",
+      "policy": [
+        "./demo/policycustom/test:check",
+        "test:all",
+        "subfolder/test2:index"
+      ],
+      "regex" : true | false
+    }
+
+
+}
+```
+
+
 
 
 
@@ -209,8 +227,8 @@ routes(app); //init modules
 
 Change default Options
 -----------------
-When you initialize the module, you can specify a few options to customize directory structure.
-All are listed below with the default values.  An explaination follows.
+When you initialize the module, you can specify a few options to customize the directory structure.
+All are listed below with the default values.  An explanation follows.
 
 your main.js file
 ```javascript
@@ -241,7 +259,7 @@ routes(app, routeOptions);
 
 Change json file Global Options
 -----------------
-if you need to change a option only for all routes inside a *.json file, you can set in your file the key `GLOBAL` as in example:
+If you need to change options for all routes only for a specific *.json file, you can set in your file the key `GLOBAL` as in the following example:
 
 user.json
 ```javascript
@@ -263,7 +281,6 @@ user.json
 
 }
 ```
-only for user.json routes the default setting are changed as in global.
 Example: route controller is ./customdir/UserController.js
 
 
@@ -314,7 +331,7 @@ var server = app.listen(port, function () {
     console.log('Listening on port %d', server.address().port);
 });
 ```
-this is the main file, we set routing and add global setting to use ./api as root directory
+This is the main file, we set routing and add global setting to use ./api as root directory
 
 
 
@@ -377,7 +394,7 @@ exports.check = function(req,res,next) {
     next();
 };
 ```
-Let me explain this policy: it check if a user is logged, else set a redirect, so we can use the middleware to check ACL, authorization or get/set global vars, and this is very useful.
+Let me explain this policy: it checks if a user is logged, else set a redirect, so we can use the middleware to check ACL, authorization or get/set global vars, and this is very useful.
 
 
 
@@ -386,7 +403,7 @@ Let me explain this policy: it check if a user is logged, else set a redirect, s
 Set global var
 -----------------
 We encourage to use standard tecnique for best performance: use middleware.
-using the full example described above we can change the policy file to attach a global var.
+using the full example described below we can change the policy file to attach a global var.
 
 *./api/policy/auth.js*
 ```javascript
@@ -450,4 +467,5 @@ A special case: if we want to add an authentication before some route, take a lo
 
 }}
 ```
-All `admin*` route call the controller `auth`, so now `auth:check` is executed before all `admin*` controller and it become a policy (=middleware) and for a clear structure i put the file in policy dir.
+All `admin*` route calls the controller `auth`, so now `auth:check` is executed before all `admin*` controller and it becomes
+ a policy (=middleware) and for a clear structure i put the file in policy dir.
