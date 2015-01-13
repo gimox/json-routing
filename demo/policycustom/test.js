@@ -24,7 +24,7 @@ exports.all = function (req, res, next) {
 exports.check = function (req, res, next) {
     req.session = {};
     req.session.check = "ok";
-    console.log('middleware check loaded in absolute');
+    console.log('*********middleware check loaded in absolute');
     next();
 };
 

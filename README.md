@@ -15,7 +15,7 @@ this is json-routes.
 
 Changelog from version 0.13
 -------------
-- It break compatibility with <0.12 version
+- It break compatibility with <0.13 version
 - new json syntax
 
 

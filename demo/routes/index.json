@@ -8,19 +8,8 @@
     "GET": {
       "route": "index",
       "policy": [
-        "./demo/policycustom/test:check",
-        "test:all",
-        "subfolder/test2:index"
-      ]
-    }
-  },
-  "/test": {
-    "GET": {
-      "route": "index",
-      "policy": [
-        "./demo/policycustom/test:check",
-        "test:all",
-        "subfolder/test2:index"
+        "subfolder/test2:index",
+        "test:all"
       ]
     }
   }
