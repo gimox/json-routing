@@ -13,6 +13,14 @@ I've been searching for a while for a nodejs routing solution with a:
 
 this is json-routes.
 
+Changelog 0.19
+-------------
+- add Global base Url
+
+Changelog 0.17
+-------------
+- fix default route
+- add mre error check
 
 Changelog 0.15
 -------------
@@ -274,10 +282,11 @@ user.json
     "controllerPath": "./customdir",
     "controller": "test",
     "policyPath":"./lib",
-    "policy":["config:setall","config:connection"]
+    "policy":["config:setall","config:connection"],
+    "baseUrl":"/user"
   },
-   "/user": {
-    "GET": {
+   "/create": {
+    "PUT": {
       "route": "index",
       "policy": [
         "auth:check",

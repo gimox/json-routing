@@ -2,10 +2,11 @@
   "GLOBAL": {
     "controllerPath": "./demo/customdir",
     "controller": "test",
-    "policyPath":"./demo/policycustom"
+    "policyPath":"./demo/policycustom",
+    "baseUrl":"/test"
 
   },
-  "/": {
+  "/ciao": {
     "GET": {
       "route": "index",
       "policy": [
