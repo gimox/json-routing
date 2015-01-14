@@ -283,6 +283,7 @@ user.json
 ```
 Example: route controller is ./customdir/UserController.js
 
+> **NOTE:**  the key "GLOBAL" must be uppercase.
 
 
 
