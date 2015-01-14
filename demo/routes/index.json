@@ -2,8 +2,8 @@
   "GLOBAL": {
     "controllerPath": "./demo/customdir",
     "controller": "test",
-    "policyPath":"./demo/policycustom",
-    "policy":["test:all"]
+    "policyPath":"./demo/policycustom"
+
   },
   "/": {
     "GET": {

@@ -16,7 +16,7 @@ module.exports.index = function (req, res, next) {
 
 exports.all = function (req, res, next) {
     req.session = 1;
-    console.log('test policy, all action loaded');
+    console.log('POLICYCUSTOM test policy, all action loaded');
     next();
 };
 
