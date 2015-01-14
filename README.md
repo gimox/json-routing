@@ -13,26 +13,6 @@ I've been searching for a while for a nodejs routing solution with a:
 
 this is json-routes.
 
-Changelog 0.19
--------------
-- add Global base Url
-
-Changelog 0.17
--------------
-- fix default route
-- add mre error check
-
-Changelog 0.15
--------------
-- add goblal file policy (=middleware)
-
-
-Changelog from version 0.13
--------------
-- No longer compatible with <0.13 version
-- new json syntax
-
-
 How It Works
 -------------
 
@@ -488,3 +468,27 @@ A special case: if we want to add an authentication before some route, take a lo
 ```
 All `admin*` route calls the controller `auth`, so now `auth:check` is executed before all `admin*` controller and it becomes
  a policy (=middleware) and for a clear structure i put the file in policy dir.
+
+
+Changelog 0.20
+-------------
+- fix policy string is not added if global policy is set
+- working test
+
+Changelog 0.19
+-------------
+- add Global base Url
+
+Changelog 0.17
+-------------
+- fix default route
+- add mre error check
+
+Changelog 0.15
+-------------
+- add goblal file policy (=middleware)
+
+Changelog from version 0.13
+-------------
+- No longer compatible with <0.13 version
+- new json syntax

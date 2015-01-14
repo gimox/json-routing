@@ -1,16 +1,34 @@
 {
-  "GLOBAL": {
-    "controllerPath": "./demo/customdir",
-    "controller": "test",
-    "policyPath":"./demo/policycustom",
-    "baseUrl":"/test"
-
+  "/": {
+    "GET": {
+      "route": "index"
+    },
+    "POST": {
+      "route": "postfunction"
+    }
   },
-  "/ciao": {
+  "/custom": {
+    "GET": {
+      "route": "custom:index"
+    }
+  },
+  "/customdir": {
+    "GET": {
+      "route": "./demo/customdir/customp:customaction"
+    }
+  },
+  "/policy": {
+    "GET": {
+      "route": "index",
+      "policy": "test:index"
+    }
+  },
+  "/policyarray": {
     "GET": {
       "route": "index",
       "policy": [
-        "test:check"
+        "test:index",
+        "test:other"
       ]
     }
   }

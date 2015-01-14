@@ -20,7 +20,8 @@
     "morgan": "*",
     "mocha": "*",
     "request": "*",
-    "should": "*"
+    "should": "*",
+    "describe": "*"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"

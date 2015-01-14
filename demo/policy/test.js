@@ -1,4 +1,27 @@
-module.exports.index = function (req, res, next) {
+exports.index = function (req, res, next) {
+    console.log('policy loaded');
+    next();
+};
+
+exports.other = function (req, res, next) {
+    console.log('second policy loaded');
+    next();
+};
+
+exports.a1 = function (req, res, next) {
+    console.log('global policy 1');
+    next();
+};
+
+exports.a2 = function (req, res, next) {
+    console.log('global policy 2');
+    next();
+};
+
+
+
+
+module.exports.index2 = function (req, res, next) {
 
     var message = "middleware loadeded"; // debug
     req.policy = 'middleware is loaded at ' + new Date(); // debug

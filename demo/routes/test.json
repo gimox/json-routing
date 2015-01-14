@@ -1,0 +1,16 @@
+{
+  "GLOBAL": {
+    "controllerPath": "./demo/customdir",
+    "controller": "customp",
+    "policy": [
+      "test:a1",
+      "test:a2"
+    ]
+  },
+  "/testglobal": {
+    "GET": {
+      "route": "customaction",
+      "policy": "test:index"
+    }
+  }
+}
