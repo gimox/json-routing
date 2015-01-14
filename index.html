@@ -47,36 +47,6 @@ I've been searching for a while for a nodejs routing solution with a:</p>
 <p>this is json-routes.</p>
 
 <h2>
-<a id="changelog-019" class="anchor" href="#changelog-019" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.19</h2>
-
-<ul>
-<li>add Global base Url</li>
-</ul>
-
-<h2>
-<a id="changelog-017" class="anchor" href="#changelog-017" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.17</h2>
-
-<ul>
-<li>fix default route</li>
-<li>add mre error check</li>
-</ul>
-
-<h2>
-<a id="changelog-015" class="anchor" href="#changelog-015" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.15</h2>
-
-<ul>
-<li>add goblal file policy (=middleware)</li>
-</ul>
-
-<h2>
-<a id="changelog-from-version-013" class="anchor" href="#changelog-from-version-013" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog from version 0.13</h2>
-
-<ul>
-<li>No longer compatible with &lt;0.13 version</li>
-<li>new json syntax</li>
-</ul>
-
-<h2>
 <a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How It Works</h2>
 
 <p><strong>The basic concepts.</strong>
@@ -517,6 +487,44 @@ using the full example described below we can change the policy file to attach a
 
 <p>All <code>admin*</code> route calls the controller <code>auth</code>, so now <code>auth:check</code> is executed before all <code>admin*</code> controller and it becomes
  a policy (=middleware) and for a clear structure i put the file in policy dir.</p>
+
+<h2>
+<a id="changelog-020" class="anchor" href="#changelog-020" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.20</h2>
+
+<ul>
+<li>fix policy string is not added if global policy is set</li>
+<li>working test</li>
+</ul>
+
+<h2>
+<a id="changelog-019" class="anchor" href="#changelog-019" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.19</h2>
+
+<ul>
+<li>add Global base Url</li>
+</ul>
+
+<h2>
+<a id="changelog-017" class="anchor" href="#changelog-017" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.17</h2>
+
+<ul>
+<li>fix default route</li>
+<li>add mre error check</li>
+</ul>
+
+<h2>
+<a id="changelog-015" class="anchor" href="#changelog-015" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.15</h2>
+
+<ul>
+<li>add goblal file policy (=middleware)</li>
+</ul>
+
+<h2>
+<a id="changelog-from-version-013" class="anchor" href="#changelog-from-version-013" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog from version 0.13</h2>
+
+<ul>
+<li>No longer compatible with &lt;0.13 version</li>
+<li>new json syntax</li>
+</ul>
         </section>
 
         <aside id="sidebar">
