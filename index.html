@@ -47,6 +47,21 @@ I've been searching for a while for a nodejs routing solution with a:</p>
 <p>this is json-routes.</p>
 
 <h2>
+<a id="changelog-019" class="anchor" href="#changelog-019" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.19</h2>
+
+<ul>
+<li>add Global base Url</li>
+</ul>
+
+<h2>
+<a id="changelog-017" class="anchor" href="#changelog-017" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.17</h2>
+
+<ul>
+<li>fix default route</li>
+<li>add mre error check</li>
+</ul>
+
+<h2>
 <a id="changelog-015" class="anchor" href="#changelog-015" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.15</h2>
 
 <ul>
@@ -307,10 +322,11 @@ routes(app, routeOptions);</pre></div>
     <span class="pl-s1"><span class="pl-pds">"</span>controllerPath<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./customdir<span class="pl-pds">"</span></span>,
     <span class="pl-s1"><span class="pl-pds">"</span>controller<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span>,
     <span class="pl-s1"><span class="pl-pds">"</span>policyPath<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">"</span>./lib<span class="pl-pds">"</span></span>,
-    <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span>[<span class="pl-s1"><span class="pl-pds">"</span>config:setall<span class="pl-pds">"</span></span>,<span class="pl-s1"><span class="pl-pds">"</span>config:connection<span class="pl-pds">"</span></span>]
+    <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span>[<span class="pl-s1"><span class="pl-pds">"</span>config:setall<span class="pl-pds">"</span></span>,<span class="pl-s1"><span class="pl-pds">"</span>config:connection<span class="pl-pds">"</span></span>],
+    <span class="pl-s1"><span class="pl-pds">"</span>baseUrl<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">"</span>/user<span class="pl-pds">"</span></span>
   },
-   <span class="pl-s1"><span class="pl-pds">"</span>/user<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
-    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+   <span class="pl-s1"><span class="pl-pds">"</span>/create<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>PUT<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
       <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>index<span class="pl-pds">"</span></span>,
       <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
         <span class="pl-s1"><span class="pl-pds">"</span>auth:check<span class="pl-pds">"</span></span>,
