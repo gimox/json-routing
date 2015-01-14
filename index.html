@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Json-routing by gimox</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Json-routing</h1>
+        <h2>nodeJs json configuration routing for express</h2>
+        <a href="https://github.com/gimox/json-routing" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="express-json-routes" class="anchor" href="#express-json-routes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Express JSON Routes</h1>
+
+<p>Make routes much easier to use in MVC format.
+I've been searching for a while for a nodejs routing solution with a:</p>
+
+<ul>
+<li> simple configuration,</li>
+<li> super performance,</li>
+<li> simple code,</li>
+<li> MVC organization,</li>
+<li> manage only routing, no other auto magic api creation</li>
+<li> customizable</li>
+<li> least possible dependency, which uses only underscore</li>
+</ul>
+
+<p>this is json-routes.</p>
+
+<h2>
+<a id="changelog-015" class="anchor" href="#changelog-015" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.15</h2>
+
+<ul>
+<li>add goblal file policy (=middleware)</li>
+</ul>
+
+<h2>
+<a id="changelog-from-version-013" class="anchor" href="#changelog-from-version-013" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog from version 0.13</h2>
+
+<ul>
+<li>No longer compatible with &lt;0.13 version</li>
+<li>new json syntax</li>
+</ul>
+
+<h2>
+<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How It Works</h2>
+
+<p><strong>The basic concepts.</strong>
+Create a json file with your routing config and add code logic in a external file called <em>controller</em> , creating an MVC style structure.</p>
+
+<p>I followed the Expressjs 4 routing standards, helping the developer to manage the routes creation and project organization faster and in the standard synthax.</p>
+
+<h2>
+<a id="proposed-structure" class="anchor" href="#proposed-structure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Proposed Structure</h2>
+
+<p>This is an example of the default proposed structure, you can customize and change as you prefer.</p>
+
+<pre><code>project root
+├── controllers/
+│   ├── IndexController.js
+│   ├── AuthController.js
+│   ├── UsersController.js
+├── policy/
+│   │   ├── AuthorizationPolicy.js
+│   │   ├── mymiddleware.js
+├── routes/
+│   │   │   ├── auth.json
+│   │   │   ├── users.json
+│   │   │   ├── index.json
+├── app.js/
+├── package.json/
+├── README.md/
+</code></pre>
+
+<ul>
+<li>
+<strong>Controller</strong>: contains the code's logic</li>
+<li>
+<strong>Policy</strong>: contains the function called before the controller = middleware</li>
+<li>
+<strong>Routes</strong>: contains all the <code>*.json</code> routing configuration. You can create as many *.json files as you need. By default, all routes within a file look up the corresponding controller (= modules = controllers = middleware) inside the controller's default directory <code>./controller</code> (or within the directory specified by the user), which uses the following naming format: Route-name (without .json) + "Controller.js (the first letter must be capitalized)".</li>
+</ul>
+
+<blockquote>
+<p><strong>EXAMPLE:</strong>
+If you have a definition file called <code>users.json</code>, by default the route searches the controller <code>UsersControllers.js</code>.
+For routes <em>auth.json</em> all routes call the controller <code>AuthController.js</code> ecc.. ecc..</p>
+
+<p><strong>NOTE:</strong>  this is a proposed structure but you can configure the module for your structure, you can change dir structure or add all routes in a single file.</p>
+</blockquote>
+
+<h3>
+<a id="creating-json-configuration-file" class="anchor" href="#creating-json-configuration-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating JSON Configuration file</h3>
+
+<p>The routing file is encoded in the JSON format and by <strong>default is in <code>./routes.</code></strong></p>
+
+<p>Router is created using this syntax:</p>
+
+<p><code>"RoutePath" : {"verb": {options}</code></p>
+
+<p><em>Example of extended config</em></p>
+
+<div class="highlight highlight-javascript"><pre>{
+   <span class="pl-s1"><span class="pl-pds">"</span>routePath<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>VERB<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>controller:method<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>controller:method<span class="pl-pds">"</span></span>,
+      ]
+    }
+  },
+
+  <span class="pl-s1"><span class="pl-pds">"</span>/admin<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>action<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>./demo/policycustom/test:check<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>test:all<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>subfolder/test2:index<span class="pl-pds">"</span></span>
+      ]
+    },
+    <span class="pl-s1"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>index<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>./demo/policycustom/test:check<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>test:all<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>subfolder/test2:index<span class="pl-pds">"</span></span>
+      ]
+    }
+  },
+
+
+ ...
+  more routes
+}</pre></div>
+
+<h3>
+<a id="routepath" class="anchor" href="#routepath" aria-hidden="true"><span class="octicon octicon-link"></span></a>RoutePath</h3>
+
+<p>This is the routing path and it follows the express4 standard routing. You can use jolly character and other type syntax <code>/admin*,</code> <code>/admin/:name</code> etc. etc.;</p>
+
+<h3>
+<a id="verb" class="anchor" href="#verb" aria-hidden="true"><span class="octicon octicon-link"></span></a>Verb</h3>
+
+<p>Relates to the call verb and can assume any valid http verbs like GET, POST, PUT, DELETE etc etc. You can add more verbs for a single routePath:</p>
+
+<div class="highlight highlight-javascript"><pre>{
+<span class="pl-s1"><span class="pl-pds">"</span>/admin<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>action<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>./demo/policycustom/test:check<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>test:all<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>subfolder/test2:index<span class="pl-pds">"</span></span>
+      ]
+    },
+    <span class="pl-s1"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>action<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>test:all<span class="pl-pds">"</span></span>,
+      ]
+    }
+
+}</pre></div>
+
+<p><code>/admin</code> has GET and POST  verbs.</p>
+
+<h3>
+<a id="route" class="anchor" href="#route" aria-hidden="true"><span class="octicon octicon-link"></span></a>Route</h3>
+
+<p>Relates to <code>file:method</code> to call a route address.</p>
+
+<p>By default, the routing search controller file inside the default controller directory is: <code>./controlles</code>, and you can change it using the global options explained in this document.</p>
+
+<p>If the controller is not set, the routing will search a file called with the same name as the json file, with "Controller" as suffix.</p>
+
+<blockquote>
+<p><strong>Example:</strong>
+If you have a definition file called <code>users.json</code>, by default the route searches the controller <code>UsersControllers.json</code>.
+For routes <em>auth.json</em> all routes call the controller <code>AuthController.js</code> etc.. etc..</p>
+</blockquote>
+
+<p><strong>Summarize route params</strong></p>
+
+<p>If you omit the route params, the system routing assumes you have a default route controller path/name and a method called "index".</p>
+
+<p>If you add only a parameter, it assumes that the controller is in the default directory with standard name <code>nameController.js</code> , and the parameter is the method that should be called. example route: "testall"</p>
+
+<p>If the route params contain both values <code>controllername:method</code> (user:index) it will search the controller using the default directory path structured as controller name followed by method. For example, route: "user:index" searches for a controller called user.js with method index.</p>
+
+<p>If you <strong>need to call a controller in a subfolder</strong>, simply add the path before the controller name. Example route: "/afolder/user:index", fire ./controller/afolder/user.js with method index.</p>
+
+<p>If you <strong>need to call a controller starting to your project root</strong> simply add <code>.</code> before the path. Example route: "./lib/user:index", fire  ./lib/user.js with method index.</p>
+
+<h3>
+<a id="policy" class="anchor" href="#policy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Policy</h3>
+
+<p>Is a module/function called before the controller (= middleware), by default it calls a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName".</p>
+
+<p>Example: policy: "auth/index" calls ./policy/auth.js and method index</p>
+
+<p><strong>The syntax is the same as <code>route</code> params</strong></p>
+
+<p>It can be a string for a single policy or an array for multiple policy files.</p>
+
+<h3>
+<a id="regex" class="anchor" href="#regex" aria-hidden="true"><span class="octicon octicon-link"></span></a>Regex</h3>
+
+<p>You can set a regex to validate your route, however I discourage using it. Instead, I prefer to add this logic in the controller for better code speed.</p>
+
+<div class="highlight highlight-javascript"><pre>{
+<span class="pl-s1"><span class="pl-pds">"</span>/admin<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>action<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>./demo/policycustom/test:check<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>test:all<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>subfolder/test2:index<span class="pl-pds">"</span></span>
+      ],
+      <span class="pl-s1"><span class="pl-pds">"</span>regex<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-c1">true</span> | <span class="pl-c1">false</span>
+    }
+
+
+}</pre></div>
+
+<h3>
+<a id="init-module" class="anchor" href="#init-module" aria-hidden="true"><span class="octicon octicon-link"></span></a>Init Module</h3>
+
+<p>Configure the routing modules in your main js file, as any other nodes modules.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// Includes</span>
+<span class="pl-s">var</span> express     <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>express<span class="pl-pds">'</span></span>);
+<span class="pl-s">var</span> app         <span class="pl-k">=</span> express();
+<span class="pl-s">var</span> routes      <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>json-routing<span class="pl-pds">'</span></span>); <span class="pl-c">// add module</span>
+
+...
+
+<span class="pl-c">// your code..</span>
+app.set(...);
+app.use(...);
+
+<span class="pl-c">// this is the magic!</span>
+routes(app); <span class="pl-c">//init modules</span>
+</pre></div>
+
+<h2>
+<a id="change-default-options" class="anchor" href="#change-default-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change default Options</h2>
+
+<p>When you initialize the module, you can specify a few options to customize the directory structure.
+All are listed below with the default values.  An explanation follows.</p>
+
+<p>your main.js file</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// Includes</span>
+<span class="pl-s">var</span> express     <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>express<span class="pl-pds">'</span></span>);
+<span class="pl-s">var</span> app         <span class="pl-k">=</span> express();
+<span class="pl-s">var</span> routes      <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>json-routing<span class="pl-pds">'</span></span>); <span class="pl-c">// add module</span>
+
+<span class="pl-c">// your code..</span>
+app.set(...);
+app.use(...);
+
+<span class="pl-c">//define routes default options</span>
+<span class="pl-s">var</span> routeOptions <span class="pl-k">=</span> {
+    routesPath      <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./routes<span class="pl-pds">"</span></span>,
+    controllerPath  <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./controllers<span class="pl-pds">"</span></span>,
+    policyPath      <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./policy<span class="pl-pds">"</span></span>
+}
+
+<span class="pl-c">//init routes</span>
+routes(app, routeOptions);</pre></div>
+
+<ul>
+<li> routesPath      : the path to your routes folder.</li>
+<li> controllerPath  : the path to your controller folder.</li>
+<li> policyPath      : the path to your policy folder.</li>
+</ul>
+
+<h2>
+<a id="change-json-file-global-options" class="anchor" href="#change-json-file-global-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change json file Global Options</h2>
+
+<p>If you need to change options for all routes only for a specific *.json file, you can set in your file the key <code>GLOBAL</code> as in the following example:</p>
+
+<p>user.json</p>
+
+<div class="highlight highlight-javascript"><pre>{
+  <span class="pl-s1"><span class="pl-pds">"</span>GLOBAL<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>controllerPath<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./customdir<span class="pl-pds">"</span></span>,
+    <span class="pl-s1"><span class="pl-pds">"</span>controller<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span>,
+    <span class="pl-s1"><span class="pl-pds">"</span>policyPath<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">"</span>./lib<span class="pl-pds">"</span></span>,
+    <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span>[<span class="pl-s1"><span class="pl-pds">"</span>config:setall<span class="pl-pds">"</span></span>,<span class="pl-s1"><span class="pl-pds">"</span>config:connection<span class="pl-pds">"</span></span>]
+  },
+   <span class="pl-s1"><span class="pl-pds">"</span>/user<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>index<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>auth:check<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>auth:adduserparams<span class="pl-pds">"</span></span>
+      ]
+    }
+  }
+
+}</pre></div>
+
+<p>Example: route controller is ./customdir/UserController.js</p>
+
+<p>Policy on global are add to all routes in json file</p>
+
+<blockquote>
+<p><strong>NOTE:</strong>  the key "GLOBAL" must be uppercase.</p>
+</blockquote>
+
+<h2>
+<a id="full-example" class="anchor" href="#full-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Full example</h2>
+
+<p><em>app.js</em></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> express <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>express<span class="pl-pds">'</span></span>)
+    , app <span class="pl-k">=</span> express()
+    , port <span class="pl-k">=</span> <span class="pl-sv">process</span>.env.PORT <span class="pl-k">||</span> <span class="pl-c1">3000</span>
+    , routing <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>./lib/route<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * global options for routing</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * set all file inside /api/* for a more cleaner code</span>
+<span class="pl-c"> */</span>
+<span class="pl-s">var</span> routeOptions <span class="pl-k">=</span> {
+    routesPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./api/routes<span class="pl-pds">"</span></span>
+    , controllersPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./api/controllers<span class="pl-pds">"</span></span>
+    , policyPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>./api/policy<span class="pl-pds">'</span></span>
+};
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * init json-routing</span>
+<span class="pl-c"> */</span>
+routing(app, routeOptions);
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * standard express 4 routing</span>
+<span class="pl-c"> * yes.. you can use both routing together if you need</span>
+<span class="pl-c"> */</span>
+<span class="pl-s">var</span> router <span class="pl-k">=</span> express.Router();
+router.get(<span class="pl-s1"><span class="pl-pds">'</span>/express/<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> (<span class="pl-vpf">req</span>, <span class="pl-vpf">res</span>) {
+    res.<span class="pl-s3">send</span>(<span class="pl-s1"><span class="pl-pds">'</span> this is a standard routing <span class="pl-pds">'</span></span>);
+});
+app.use(<span class="pl-s1"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>, router);
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * server start</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @type {http.Server}</span>
+<span class="pl-c"> */</span>
+<span class="pl-s">var</span> server <span class="pl-k">=</span> app.listen(port, <span class="pl-st">function</span> () {
+    <span class="pl-en">console</span><span class="pl-s3">.log</span>(<span class="pl-s1"><span class="pl-pds">'</span>Listening on port %d<span class="pl-pds">'</span></span>, server.address().<span class="pl-sc">port</span>);
+});</pre></div>
+
+<p>This is the main file, we set routing and add global setting to use ./api as root directory</p>
+
+<p><em>./api/routes/users.json</em></p>
+
+<div class="highlight highlight-javascript"><pre>{
+   <span class="pl-s1"><span class="pl-pds">"</span>/banned<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>bannedCustom:index<span class="pl-pds">"</span></span>,
+      }
+  },
+   <span class="pl-s1"><span class="pl-pds">"</span>/user<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>find<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>auth:check<span class="pl-pds">"</span></span>,
+        <span class="pl-s1"><span class="pl-pds">"</span>auth:adduserparams<span class="pl-pds">"</span></span>
+      ]
+    },
+     <span class="pl-s1"><span class="pl-pds">"</span>PUT<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>create<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+        <span class="pl-s1"><span class="pl-pds">"</span>auth:check<span class="pl-pds">"</span></span>,
+      ]
+    }
+  }
+
+}</pre></div>
+
+<p>define the routes</p>
+
+<p><em>./api/controllers/UsersController.js</em></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-s3">exports</span>.<span class="pl-en">index</span> <span class="pl-k">=</span> <span class="pl-st">function</span>(<span class="pl-vpf">req</span>,<span class="pl-vpf">res</span>,<span class="pl-vpf">next</span>) {
+    res.<span class="pl-s3">send</span>(<span class="pl-s1"><span class="pl-pds">'</span> index routes <span class="pl-pds">'</span></span>);
+};
+
+<span class="pl-s3">exports</span>.<span class="pl-en">create</span> <span class="pl-k">=</span> <span class="pl-st">function</span>(<span class="pl-vpf">req</span>,<span class="pl-vpf">res</span>,<span class="pl-vpf">next</span>) {
+    res.<span class="pl-s3">send</span>(<span class="pl-s1"><span class="pl-pds">'</span> create routes params:<span class="pl-pds">'</span></span><span class="pl-k">+</span>req.params.<span class="pl-sc">name</span>);
+};</pre></div>
+
+<p>a basic controller logic</p>
+
+<p><em>./api/controllers/bannedCustom.js</em></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-s3">exports</span>.<span class="pl-en">getbanned</span> <span class="pl-k">=</span> <span class="pl-st">function</span>(<span class="pl-vpf">req</span>,<span class="pl-vpf">res</span>,<span class="pl-vpf">next</span>) {
+    res.<span class="pl-s3">send</span>(<span class="pl-s1"><span class="pl-pds">'</span> custom controller name <span class="pl-pds">'</span></span>);
+};</pre></div>
+
+<p>this is the controller with custom name</p>
+
+<p><em>./api/policy/auth.js</em></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-s3">exports</span>.<span class="pl-en">check</span> <span class="pl-k">=</span> <span class="pl-st">function</span>(<span class="pl-vpf">req</span>,<span class="pl-vpf">res</span>,<span class="pl-vpf">next</span>) {
+    <span class="pl-k">if</span> (<span class="pl-k">!</span>req.session.isLogged){
+         <span class="pl-k">return</span>  res.redirect(<span class="pl-s1"><span class="pl-pds">'</span>http://<span class="pl-pds">'</span></span><span class="pl-k">+</span>req.<span class="pl-sc">hostname</span><span class="pl-k">+</span><span class="pl-s1"><span class="pl-pds">"</span>:3000/403<span class="pl-pds">"</span></span>);
+    }
+    next();
+};</pre></div>
+
+<p>Let me explain this policy: it checks if a user is logged, else set a redirect, so we can use the middleware to check ACL, authorization or get/set global vars, and this is very useful.</p>
+
+<h2>
+<a id="set-global-var" class="anchor" href="#set-global-var" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set global var</h2>
+
+<p>We encourage to use standard tecnique for best performance: use middleware.
+using the full example described below we can change the policy file to attach a global var.</p>
+
+<p><em>./api/policy/auth.js</em></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-s3">exports</span>.<span class="pl-en">getbanned</span> <span class="pl-k">=</span> <span class="pl-st">function</span>(<span class="pl-vpf">req</span>,<span class="pl-vpf">res</span>,<span class="pl-vpf">next</span>) {
+    <span class="pl-k">if</span> (<span class="pl-k">!</span>req.session.isLogged){
+         <span class="pl-k">return</span>  res.redirect(<span class="pl-s1"><span class="pl-pds">'</span>http://<span class="pl-pds">'</span></span><span class="pl-k">+</span>req.<span class="pl-sc">hostname</span><span class="pl-k">+</span><span class="pl-s1"><span class="pl-pds">"</span>:3000/403<span class="pl-pds">"</span></span>);
+    }
+    <span class="pl-c">//use req</span>
+    req.session.lastPing <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Date</span>();
+    next();
+};</pre></div>
+
+<p><strong>Read the value in the controller or policy</strong></p>
+
+<p><em>./api/controllers/bannedCustom.js</em></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-s3">exports</span>.<span class="pl-en">getbanned</span> <span class="pl-k">=</span> <span class="pl-st">function</span>(<span class="pl-vpf">req</span>,<span class="pl-vpf">res</span>,<span class="pl-vpf">next</span>) {
+    res.<span class="pl-s3">send</span>(<span class="pl-s1"><span class="pl-pds">'</span> custom controller name, middleware loaded at: <span class="pl-pds">'</span></span><span class="pl-k">+</span>req.session.lastPing);
+};</pre></div>
+
+<h2>
+<a id="case-middleware-as-middleware" class="anchor" href="#case-middleware-as-middleware" aria-hidden="true"><span class="octicon octicon-link"></span></a>Case: middleware as middleware</h2>
+
+<p>A special case: if we want to add an authentication before some route, take a look at this example</p>
+
+<div class="highlight highlight-javascript"><pre>{
+
+ <span class="pl-s1"><span class="pl-pds">"</span>/admin*<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./policy/auth:check<span class="pl-pds">"</span></span>,
+     },
+    <span class="pl-s1"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>auth:check<span class="pl-pds">"</span></span>,
+     },
+    <span class="pl-s1"><span class="pl-pds">"</span>PUT<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>auth:check<span class="pl-pds">"</span></span>,
+     },
+    <span class="pl-s1"><span class="pl-pds">"</span>DELETE<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>auth:check<span class="pl-pds">"</span></span>,
+    },
+  },
+
+   <span class="pl-s1"><span class="pl-pds">"</span>/admin/dashboard<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>item:get,</span>
+<span class="pl-s1">      }</span>
+<span class="pl-s1">  },</span>
+<span class="pl-s1">   <span class="pl-pds">"</span></span>/admin/user
+   <span class="pl-s1"><span class="pl-pds">"</span>: {</span>
+<span class="pl-s1">    <span class="pl-pds">"</span></span>GET<span class="pl-s1"><span class="pl-pds">"</span>: {</span>
+<span class="pl-s1">      <span class="pl-pds">"</span></span>route<span class="pl-s1"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span>find<span class="pl-s1"><span class="pl-pds">"</span>,</span>
+<span class="pl-s1">    },</span>
+<span class="pl-s1">     <span class="pl-pds">"</span></span>PUT<span class="pl-s1"><span class="pl-pds">"</span>: {</span>
+<span class="pl-s1">      <span class="pl-pds">"</span></span>route<span class="pl-s1"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span>create<span class="pl-s1"><span class="pl-pds">"</span>,</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">}}</span></pre></div>
+
+<p>All <code>admin*</code> route calls the controller <code>auth</code>, so now <code>auth:check</code> is executed before all <code>admin*</code> controller and it becomes
+ a policy (=middleware) and for a clear structure i put the file in policy dir.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/gimox/json-routing/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/gimox/json-routing/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/gimox/json-routing"></a> is maintained by <a href="https://github.com/gimox">gimox</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
