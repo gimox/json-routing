@@ -13,6 +13,12 @@ I've been searching for a while for a nodejs routing solution with a:
 
 this is json-routes.
 
+
+Changelog 0.15
+-------------
+- add goblal file policy (=middleware)
+
+
 Changelog from version 0.13
 -------------
 - No longer compatible with <0.13 version
@@ -267,7 +273,8 @@ user.json
   "GLOBAL": {
     "controllerPath": "./customdir",
     "controller": "test",
-    "policyPath":"./lib"
+    "policyPath":"./lib",
+    "policy":["config:setall","config:connection"]
   },
    "/user": {
     "GET": {
@@ -282,6 +289,8 @@ user.json
 }
 ```
 Example: route controller is ./customdir/UserController.js
+
+Policy on global are add to all routes in json file
 
 > **NOTE:**  the key "GLOBAL" must be uppercase.
 
