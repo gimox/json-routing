@@ -5,9 +5,10 @@
     "policy": [
       "test:a1",
       "test:a2"
-    ]
+    ],
+    "baseUrl":"/demo"
   },
-  "/testglobal": {
+  "testglobal": {
     "GET": {
       "route": "customaction",
       "policy": "test:index"
