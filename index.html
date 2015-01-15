@@ -44,7 +44,7 @@ I've been searching for a while for a nodejs routing solution with a:</p>
 <li> least possible dependency, which uses only underscore</li>
 </ul>
 
-<p>this is json-routes.</p>
+<p>This is: json-routes.</p>
 
 <h2>
 <a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How It Works</h2>
@@ -309,14 +309,21 @@ routes(app, routeOptions);</pre></div>
 
 <p>Example: route controller is ./customdir/UserController.js</p>
 
-<p>Policy on global are add to all routes in json file</p>
+<ul>
+<li>controllerPath: set a controller path for all routing file</li>
+<li>controller: set a custom name controller for all routing file</li>
+<li>policyPath: set a custom base policy dir for all rout</li>
+<li>policy: is an array of policy <code>file:action</code> to fire before controller</li>
+<li>baseUrl: is a base path for all url routes in file. Example, inside a file all routes start with <code>/api/*</code>, i can set base url as <code>/api</code>. Now all file routes start with <code>/api</code>. If i have a routes <code>/users</code>, it fired when user called <code>/api/users</code>
+</li>
+</ul>
 
 <blockquote>
 <p><strong>NOTE:</strong>  the key "GLOBAL" must be uppercase.</p>
 </blockquote>
 
 <h2>
-<a id="full-example" class="anchor" href="#full-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Full example</h2>
+<a id="full-extended-example" class="anchor" href="#full-extended-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Full extended example</h2>
 
 <p><em>app.js</em></p>
 
@@ -422,10 +429,10 @@ app.use(<span class="pl-s1"><span class="pl-pds">'</span>/<span class="pl-pds">'
 <p>Let me explain this policy: it checks if a user is logged, else set a redirect, so we can use the middleware to check ACL, authorization or get/set global vars, and this is very useful.</p>
 
 <h2>
-<a id="set-global-var" class="anchor" href="#set-global-var" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set global var</h2>
+<a id="create-a-policy-file-and-pass-vars-to-controller" class="anchor" href="#create-a-policy-file-and-pass-vars-to-controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a Policy File and Pass vars to controller</h2>
 
 <p>We encourage to use standard tecnique for best performance: use middleware.
-using the full example described below we can change the policy file to attach a global var.</p>
+using the full example described below we can create a standard policy file to attach a global var using <code>req</code></p>
 
 <p><em>./api/policy/auth.js</em></p>
 
@@ -447,9 +454,9 @@ using the full example described below we can change the policy file to attach a
 };</pre></div>
 
 <h2>
-<a id="case-middleware-as-middleware" class="anchor" href="#case-middleware-as-middleware" aria-hidden="true"><span class="octicon octicon-link"></span></a>Case: middleware as middleware</h2>
+<a id="case-using-middleware" class="anchor" href="#case-using-middleware" aria-hidden="true"><span class="octicon octicon-link"></span></a>Case: using middleware</h2>
 
-<p>A special case: if we want to add an authentication before some route, take a look at this example</p>
+<p>A special case: if we want to add an authentication before some route, take a look at this example:</p>
 
 <div class="highlight highlight-javascript"><pre>{
 
@@ -487,6 +494,31 @@ using the full example described below we can change the policy file to attach a
 
 <p>All <code>admin*</code> route calls the controller <code>auth</code>, so now <code>auth:check</code> is executed before all <code>admin*</code> controller and it becomes
  a policy (=middleware) and for a clear structure i put the file in policy dir.</p>
+
+<p>An alternative example use the global file option:</p>
+
+<div class="highlight highlight-javascript"><pre>{
+ <span class="pl-s1"><span class="pl-pds">"</span>GLOBAL<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span>[<span class="pl-s1"><span class="pl-pds">"</span>auth:check<span class="pl-pds">"</span></span>],
+    <span class="pl-s1"><span class="pl-pds">"</span>baseUrl<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">"</span>/admin<span class="pl-pds">"</span></span>
+  },
+
+   <span class="pl-s1"><span class="pl-pds">"</span>/dashboard<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>item:get,</span>
+<span class="pl-s1">      }</span>
+<span class="pl-s1">  },</span>
+<span class="pl-s1">   <span class="pl-pds">"</span></span>/user
+   <span class="pl-s1"><span class="pl-pds">"</span>: {</span>
+<span class="pl-s1">    <span class="pl-pds">"</span></span>GET<span class="pl-s1"><span class="pl-pds">"</span>: {</span>
+<span class="pl-s1">      <span class="pl-pds">"</span></span>route<span class="pl-s1"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span>find<span class="pl-s1"><span class="pl-pds">"</span>,</span>
+<span class="pl-s1">    },</span>
+<span class="pl-s1">     <span class="pl-pds">"</span></span>PUT<span class="pl-s1"><span class="pl-pds">"</span>: {</span>
+<span class="pl-s1">      <span class="pl-pds">"</span></span>route<span class="pl-s1"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span>create<span class="pl-s1"><span class="pl-pds">"</span>,</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">  }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">}}</span></pre></div>
 
 <h2>
 <a id="changelog-020" class="anchor" href="#changelog-020" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.20</h2>
