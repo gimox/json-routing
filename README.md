@@ -11,7 +11,7 @@ I've been searching for a while for a nodejs routing solution with a:
  -  customizable
  -  least possible dependency, which uses only underscore
 
-this is json-routes.
+This is: json-routes.
 
 How It Works
 -------------
@@ -279,13 +279,17 @@ user.json
 ```
 Example: route controller is ./customdir/UserController.js
 
-Policy on global are add to all routes in json file
+- controllerPath: set a controller path for all routing file
+- controller: set a custom name controller for all routing file
+- policyPath: set a custom base policy dir for all rout
+- policy: is an array of policy `file:action` to fire before controller
+- baseUrl: is a base path for all url routes in file. Example, inside a file all routes start with `/api/*`, i can set base url as `/api`. Now all file routes start with `/api`. If i have a routes `/users`, it fired when user called `/api/users`
 
 > **NOTE:**  the key "GLOBAL" must be uppercase.
 
 
 
-Full example
+Full extended example
 -----------------
 
 *app.js*
@@ -399,10 +403,10 @@ Let me explain this policy: it checks if a user is logged, else set a redirect, 
 
 
 
-Set global var
+Create a Policy File and Pass vars to controller
 -----------------
 We encourage to use standard tecnique for best performance: use middleware.
-using the full example described below we can change the policy file to attach a global var.
+using the full example described below we can create a standard policy file to attach a global var using `req`
 
 *./api/policy/auth.js*
 ```javascript
@@ -426,10 +430,10 @@ exports.getbanned = function(req,res,next) {
 };
 ```
 
-Case: middleware as middleware
+Case: using middleware
 -----------------
 
-A special case: if we want to add an authentication before some route, take a look at this example
+A special case: if we want to add an authentication before some route, take a look at this example:
 
 ```javascript
 {
@@ -468,6 +472,34 @@ A special case: if we want to add an authentication before some route, take a lo
 ```
 All `admin*` route calls the controller `auth`, so now `auth:check` is executed before all `admin*` controller and it becomes
  a policy (=middleware) and for a clear structure i put the file in policy dir.
+
+
+An alternative example use the global file option:
+
+```javascript
+{
+ "GLOBAL": {
+    "policy":["auth:check"],
+    "baseUrl":"/admin"
+  },
+  
+   "/dashboard": {
+    "GET": {
+      "route": "item:get,
+      }
+  },
+   "/user
+   ": {
+    "GET": {
+      "route": "find",
+    },
+     "PUT": {
+      "route": "create",
+    }
+  }
+
+}}
+```
 
 
 Changelog 0.20
