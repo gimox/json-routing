@@ -1,7 +1,7 @@
-var express = require('express')
-    , app = express()
-    , logger = require('morgan')
-    , port = process.env.PORT || 3000
+var express   = require('express')
+    , app     = express()
+    , logger  = require('morgan')
+    , port    = process.env.PORT || 3000
     , routing = require('./lib/route');
 
 app.use(logger('dev'));
@@ -11,9 +11,10 @@ app.use(logger('dev'));
  * @type {{routesPath: string, controllersPath: string, action: string, vars: null}}
  */
 var routeOptions = {
-    routesPath: "./demo/routes"
+    routesPath       : "./demo/routes"
     , controllersPath: "./demo/controllers"
-    , policyPath: './demo/policy'
+    , policyPath     : './demo/policy'
+    , cors           : true
 };
 
 /**
