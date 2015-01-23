@@ -268,7 +268,8 @@ app.use(...);
 <span class="pl-s">var</span> routeOptions <span class="pl-k">=</span> {
     routesPath      <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./routes<span class="pl-pds">"</span></span>,
     controllerPath  <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./controllers<span class="pl-pds">"</span></span>,
-    policyPath      <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./policy<span class="pl-pds">"</span></span>
+    policyPath      <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./policy<span class="pl-pds">"</span></span>,
+    cors            <span class="pl-k">:</span> <span class="pl-c1">false</span>
 }
 
 <span class="pl-c">//init routes</span>
@@ -278,6 +279,7 @@ routes(app, routeOptions);</pre></div>
 <li> routesPath      : the path to your routes folder.</li>
 <li> controllerPath  : the path to your controller folder.</li>
 <li> policyPath      : the path to your policy folder.</li>
+<li> cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..)</li>
 </ul>
 
 <h2>
@@ -519,6 +521,20 @@ using the full example described below we can create a standard policy file to a
 <span class="pl-s1">  }</span>
 <span class="pl-s1"></span>
 <span class="pl-s1">}}</span></pre></div>
+
+<h2>
+<a id="changelog-024" class="anchor" href="#changelog-024" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.24</h2>
+
+<ul>
+<li>initial CORS support (look at "Change default Options"), more CORS options coming soon...</li>
+</ul>
+
+<h2>
+<a id="changelog-023" class="anchor" href="#changelog-023" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.23</h2>
+
+<ul>
+<li>fix url union in windows platform</li>
+</ul>
 
 <h2>
 <a id="changelog-020" class="anchor" href="#changelog-020" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.20</h2>
