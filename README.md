@@ -239,7 +239,8 @@ app.use(...);
 var routeOptions = {
     routesPath      : "./routes",
     controllerPath  : "./controllers",
-    policyPath      : "./policy"
+    policyPath      : "./policy",
+    cors            : false
 }
 
 //init routes
@@ -249,7 +250,7 @@ routes(app, routeOptions);
 -  routesPath      : the path to your routes folder.
 -  controllerPath  : the path to your controller folder.
 -  policyPath      : the path to your policy folder.
-
+-  cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..)
 
 Change json file Global Options
 -----------------
@@ -500,7 +501,13 @@ An alternative example use the global file option:
 
 }}
 ```
+Changelog 0.24
+-------------
+- initial CORS support (look at "Change default Options"), more CORS options coming soon...
 
+Changelog 0.23
+-------------
+- fix url union in windows platform
 
 Changelog 0.20
 -------------
