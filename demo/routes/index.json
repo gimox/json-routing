@@ -14,7 +14,8 @@
   },
   "/customdir": {
     "GET": {
-      "route": "./demo/customdir/customp:customaction"
+      "route": "./demo/customdir/customp:customaction",
+      "cors":true
     }
   },
   "/policy": {

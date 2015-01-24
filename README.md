@@ -73,7 +73,8 @@ Router is created using this syntax:
       "route": "controller:method",
       "policy": [
         "controller:method",
-      ]
+      ],
+      "cors":false
     }
   },
 
@@ -92,7 +93,8 @@ Router is created using this syntax:
         "./demo/policycustom/test:check",
         "test:all",
         "subfolder/test2:index"
-      ]
+      ],
+      "cors":true
     }
   },
 
@@ -171,6 +173,8 @@ Example: policy: "auth/index" calls ./policy/auth.js and method index
 It can be a string for a single policy or an array for multiple policy files.
 
 
+###CORS
+Enable or disable Cross-origin resource sharing. default is false and disabled.
 
 
 ###Regex
@@ -241,18 +245,22 @@ var routeOptions = {
     controllerPath  : "./controllers",
     policyPath      : "./policy",
     cors            : false,
-    displayRoute    : true
+    displayRoute    : true,
+    defaultAction   : "index"
 }
 
 //init routes
 routes(app, routeOptions);
 ```
 
--  routesPath      : the path to your routes folder.
--  controllerPath  : the path to your controller folder.
--  policyPath      : the path to your policy folder.
--  cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..)
--  displayRoute    : display in console loading route info, default true.
+-  routesPath      : the path to your routes folder. `Default ./routes`
+-  controllerPath  : the path to your controller folder. `Default ./controllers`
+-  policyPath      : the path to your policy folder. `Default ./policy`
+-  cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..). `Default false`
+-  displayRoute    : display in console loading route info, `default true`.
+-  defaultAction   : the function called in route if not specified. It's not so useful, but it's here!.`Default index`
+
+If you omit routeOptions or some params it use defaults values.
 
 Change json file Global Options
 -----------------
@@ -266,7 +274,8 @@ user.json
     "controller": "test",
     "policyPath":"./lib",
     "policy":["config:setall","config:connection"],
-    "baseUrl":"/user"
+    "baseUrl":"/user",
+    "cors":true
   },
    "/create": {
     "PUT": {
@@ -287,6 +296,7 @@ Example: route controller is ./customdir/UserController.js
 - policyPath: set a custom base policy dir for all rout
 - policy: is an array of policy `file:action` to fire before controller
 - baseUrl: is a base path for all url routes in file. Example, inside a file all routes start with `/api/*`, i can set base url as `/api`. Now all file routes start with `/api`. If i have a routes `/users`, it fired when user called `/api/users`
+- cors: enable Cross-origin resource sharing for all file routes.
 
 > **NOTE:**  the key "GLOBAL" must be uppercase.
 
@@ -503,6 +513,15 @@ An alternative example use the global file option:
 
 }}
 ```
+
+Changelog 0.26
+-------------
+- add `defaultAction`, not so usefull, but it's here!.
+- start cleaning code
+- add `cors` Global file options, to enable cors only in specific *.json routes
+- add `cors` for specific routes.
+- display cors status console, on load in route info.
+
 Changelog 0.25
 -------------
 - improve route info on load, it can disabled with global options "displayRoute:false"

@@ -6,12 +6,13 @@
       "test:a1",
       "test:a2"
     ],
-    "baseUrl":"/demo"
+    "baseUrl":"/demo",
+    "cors":true
   },
   "testglobal": {
     "GET": {
       "route": "customaction",
-      "policy": "test:indexe"
+      "policy": "test:index"
     }
   }
 }

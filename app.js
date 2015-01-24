@@ -14,7 +14,7 @@ var routeOptions = {
     routesPath       : "./demo/routes"
     , controllersPath: "./demo/controllers"
     , policyPath     : './demo/policy'
-    , cors           : true
+    , cors           : false
 };
 
 /**
