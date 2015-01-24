@@ -240,7 +240,8 @@ var routeOptions = {
     routesPath      : "./routes",
     controllerPath  : "./controllers",
     policyPath      : "./policy",
-    cors            : false
+    cors            : false,
+    displayRoute    : true
 }
 
 //init routes
@@ -251,6 +252,7 @@ routes(app, routeOptions);
 -  controllerPath  : the path to your controller folder.
 -  policyPath      : the path to your policy folder.
 -  cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..)
+-  displayRoute    : display in console loading route info, default true.
 
 Change json file Global Options
 -----------------

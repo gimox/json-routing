@@ -11,7 +11,7 @@
   "testglobal": {
     "GET": {
       "route": "customaction",
-      "policy": "test:index"
+      "policy": "test:indexe"
     }
   }
 }
