@@ -503,6 +503,10 @@ An alternative example use the global file option:
 
 }}
 ```
+Changelog 0.25
+-------------
+- improve route info on load, it can disabled with global options "displayRoute:false"
+
 Changelog 0.24
 -------------
 - initial CORS support (look at "Change default Options"), more CORS options coming soon...
