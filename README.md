@@ -88,7 +88,7 @@ Router is created using this syntax:
       ]
     },
     "POST": {
-      "route": "index",
+      "route": "./mycustomfolder/controllername:index",
       "policy": [
         "./demo/policycustom/test:check",
         "test:all",
@@ -514,13 +514,17 @@ An alternative example use the global file option:
 }}
 ```
 
+Changelog 0.27
+-------------
+- improve log info
+
 Changelog 0.26
 -------------
-- add `defaultAction`, not so usefull, but it's here!.
+- add `defaultAction`, not so useful, but it's here!.
 - start cleaning code
-- add `cors` Global file options, to enable cors only in specific *.json routes
-- add `cors` for specific routes.
-- display cors status console, on load in route info.
+- add `CORS` Global file options, to enable CORS only in specific *.json routes
+- add `CORS` for specific routes.
+- route log info display CORS status
 
 Changelog 0.25
 -------------
@@ -532,7 +536,7 @@ Changelog 0.24
 
 Changelog 0.23
 -------------
-- fix url union in windows platform
+- fix url union for windows platform
 
 Changelog 0.20
 -------------
