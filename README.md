@@ -73,8 +73,7 @@ Router is created using this syntax:
       "route": "controller:method",
       "policy": [
         "controller:method",
-      ],
-      "cors":false
+      ]
     }
   },
 
@@ -274,8 +273,7 @@ user.json
     "controller": "test",
     "policyPath":"./lib",
     "policy":["config:setall","config:connection"],
-    "baseUrl":"/user",
-    "cors":true
+    "baseUrl":"/user"
   },
    "/create": {
     "PUT": {
@@ -296,7 +294,7 @@ Example: route controller is ./customdir/UserController.js
 - policyPath: set a custom base policy dir for all rout
 - policy: is an array of policy `file:action` to fire before controller
 - baseUrl: is a base path for all url routes in file. Example, inside a file all routes start with `/api/*`, i can set base url as `/api`. Now all file routes start with `/api`. If i have a routes `/users`, it fired when user called `/api/users`
-- cors: enable Cross-origin resource sharing for all file routes.
+
 
 > **NOTE:**  the key "GLOBAL" must be uppercase.
 
@@ -321,6 +319,7 @@ var routeOptions = {
     routesPath: "./api/routes"
     , controllersPath: "./api/controllers"
     , policyPath: './api/policy'
+    , cors: false
 };
 
 /**
@@ -514,11 +513,15 @@ An alternative example use the global file option:
 }}
 ```
 
-Changelog 0.27
+Changelog 0.1.0
+-------------
+- removed not working cors features for file definition and route... working on it.. cors for global setting work good.
+
+Changelog 0.0.27
 -------------
 - improve log info
 
-Changelog 0.26
+Changelog 0.0.26
 -------------
 - add `defaultAction`, not so useful, but it's here!.
 - start cleaning code
@@ -526,11 +529,11 @@ Changelog 0.26
 - add `CORS` for specific routes.
 - route log info display CORS status
 
-Changelog 0.25
+Changelog 0.0.25
 -------------
 - improve route info on load, it can disabled with global options "displayRoute:false"
 
-Changelog 0.24
+Changelog 0.0.24
 -------------
 - initial CORS support (look at "Change default Options"), more CORS options coming soon...
 
@@ -538,25 +541,25 @@ Changelog 0.23
 -------------
 - fix url union for windows platform
 
-Changelog 0.20
+Changelog 0.0.20
 -------------
 - fix policy string is not added if global policy is set
 - working test
 
-Changelog 0.19
+Changelog 0.0.19
 -------------
 - add Global base Url
 
-Changelog 0.17
+Changelog 0.0.17
 -------------
 - fix default route
 - add mre error check
 
-Changelog 0.15
+Changelog 0.0.15
 -------------
 - add goblal file policy (=middleware)
 
-Changelog from version 0.13
+Changelog from version 0.0.13
 -------------
 - No longer compatible with <0.13 version
 - new json syntax
