@@ -20,7 +20,7 @@
     <header>
       <div class="inner">
         <h1>Json-routing</h1>
-        <h2>nodeJs json configuration routing for express</h2>
+        <h2>json-routing, json-route, nodeJs, json, configuration, routing for express</h2>
         <a href="https://github.com/gimox/json-routing" class="button"><small>View project on</small> GitHub</a>
       </div>
     </header>
@@ -124,12 +124,13 @@ For routes <em>auth.json</em> all routes call the controller <code>AuthControlle
       ]
     },
     <span class="pl-s1"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
-      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>index<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>route<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./mycustomfolder/controllername:index<span class="pl-pds">"</span></span>,
       <span class="pl-s1"><span class="pl-pds">"</span>policy<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
         <span class="pl-s1"><span class="pl-pds">"</span>./demo/policycustom/test:check<span class="pl-pds">"</span></span>,
         <span class="pl-s1"><span class="pl-pds">"</span>test:all<span class="pl-pds">"</span></span>,
         <span class="pl-s1"><span class="pl-pds">"</span>subfolder/test2:index<span class="pl-pds">"</span></span>
-      ]
+      ],
+      <span class="pl-s1"><span class="pl-pds">"</span>cors<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-c1">true</span>
     }
   },
 
@@ -208,6 +209,11 @@ For routes <em>auth.json</em> all routes call the controller <code>AuthControlle
 <p>It can be a string for a single policy or an array for multiple policy files.</p>
 
 <h3>
+<a id="cors" class="anchor" href="#cors" aria-hidden="true"><span class="octicon octicon-link"></span></a>CORS</h3>
+
+<p>Enable or disable Cross-origin resource sharing. default is false and disabled.</p>
+
+<h3>
 <a id="regex" class="anchor" href="#regex" aria-hidden="true"><span class="octicon octicon-link"></span></a>Regex</h3>
 
 <p>You can set a regex to validate your route, however I discourage using it. Instead, I prefer to add this logic in the controller for better code speed.</p>
@@ -269,18 +275,29 @@ app.use(...);
     routesPath      <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./routes<span class="pl-pds">"</span></span>,
     controllerPath  <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./controllers<span class="pl-pds">"</span></span>,
     policyPath      <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./policy<span class="pl-pds">"</span></span>,
-    cors            <span class="pl-k">:</span> <span class="pl-c1">false</span>
+    cors            <span class="pl-k">:</span> <span class="pl-c1">false</span>,
+    displayRoute    <span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    defaultAction   <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>index<span class="pl-pds">"</span></span>
 }
 
 <span class="pl-c">//init routes</span>
 routes(app, routeOptions);</pre></div>
 
 <ul>
-<li> routesPath      : the path to your routes folder.</li>
-<li> controllerPath  : the path to your controller folder.</li>
-<li> policyPath      : the path to your policy folder.</li>
-<li> cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..)</li>
+<li> routesPath      : the path to your routes folder. <code>Default ./routes</code>
+</li>
+<li> controllerPath  : the path to your controller folder. <code>Default ./controllers</code>
+</li>
+<li> policyPath      : the path to your policy folder. <code>Default ./policy</code>
+</li>
+<li> cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..). <code>Default false</code>
+</li>
+<li> displayRoute    : display in console loading route info, <code>default true</code>.</li>
+<li> defaultAction   : the function called in route if not specified. It's not so useful, but it's here!.<code>Default index</code>
+</li>
 </ul>
+
+<p>If you omit routeOptions or some params it use defaults values.</p>
 
 <h2>
 <a id="change-json-file-global-options" class="anchor" href="#change-json-file-global-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change json file Global Options</h2>
@@ -343,6 +360,7 @@ routes(app, routeOptions);</pre></div>
     routesPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./api/routes<span class="pl-pds">"</span></span>
     , controllersPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>./api/controllers<span class="pl-pds">"</span></span>
     , policyPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>./api/policy<span class="pl-pds">'</span></span>
+    , cors<span class="pl-k">:</span> <span class="pl-c1">false</span>
 };
 
 <span class="pl-c">/**</span>
@@ -523,7 +541,39 @@ using the full example described below we can create a standard policy file to a
 <span class="pl-s1">}}</span></pre></div>
 
 <h2>
-<a id="changelog-024" class="anchor" href="#changelog-024" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.24</h2>
+<a id="changelog-010" class="anchor" href="#changelog-010" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.1.0</h2>
+
+<ul>
+<li>removed not working cors features for file definition and route... working on it.. cors for global setting work good.</li>
+</ul>
+
+<h2>
+<a id="changelog-0027" class="anchor" href="#changelog-0027" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.0.27</h2>
+
+<ul>
+<li>improve log info</li>
+</ul>
+
+<h2>
+<a id="changelog-0026" class="anchor" href="#changelog-0026" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.0.26</h2>
+
+<ul>
+<li>add <code>defaultAction</code>, not so useful, but it's here!.</li>
+<li>start cleaning code</li>
+<li>add <code>CORS</code> Global file options, to enable CORS only in specific *.json routes</li>
+<li>add <code>CORS</code> for specific routes.</li>
+<li>route log info display CORS status</li>
+</ul>
+
+<h2>
+<a id="changelog-0025" class="anchor" href="#changelog-0025" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.0.25</h2>
+
+<ul>
+<li>improve route info on load, it can disabled with global options "displayRoute:false"</li>
+</ul>
+
+<h2>
+<a id="changelog-0024" class="anchor" href="#changelog-0024" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.0.24</h2>
 
 <ul>
 <li>initial CORS support (look at "Change default Options"), more CORS options coming soon...</li>
@@ -533,11 +583,11 @@ using the full example described below we can create a standard policy file to a
 <a id="changelog-023" class="anchor" href="#changelog-023" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.23</h2>
 
 <ul>
-<li>fix url union in windows platform</li>
+<li>fix url union for windows platform</li>
 </ul>
 
 <h2>
-<a id="changelog-020" class="anchor" href="#changelog-020" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.20</h2>
+<a id="changelog-0020" class="anchor" href="#changelog-0020" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.0.20</h2>
 
 <ul>
 <li>fix policy string is not added if global policy is set</li>
@@ -545,14 +595,14 @@ using the full example described below we can create a standard policy file to a
 </ul>
 
 <h2>
-<a id="changelog-019" class="anchor" href="#changelog-019" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.19</h2>
+<a id="changelog-0019" class="anchor" href="#changelog-0019" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.0.19</h2>
 
 <ul>
 <li>add Global base Url</li>
 </ul>
 
 <h2>
-<a id="changelog-017" class="anchor" href="#changelog-017" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.17</h2>
+<a id="changelog-0017" class="anchor" href="#changelog-0017" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.0.17</h2>
 
 <ul>
 <li>fix default route</li>
@@ -560,14 +610,14 @@ using the full example described below we can create a standard policy file to a
 </ul>
 
 <h2>
-<a id="changelog-015" class="anchor" href="#changelog-015" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.15</h2>
+<a id="changelog-0015" class="anchor" href="#changelog-0015" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog 0.0.15</h2>
 
 <ul>
 <li>add goblal file policy (=middleware)</li>
 </ul>
 
 <h2>
-<a id="changelog-from-version-013" class="anchor" href="#changelog-from-version-013" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog from version 0.13</h2>
+<a id="changelog-from-version-0013" class="anchor" href="#changelog-from-version-0013" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog from version 0.0.13</h2>
 
 <ul>
 <li>No longer compatible with &lt;0.13 version</li>
