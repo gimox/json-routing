@@ -104,11 +104,11 @@ Router is created using this syntax:
 ```
 
 
-###RoutePath
+### RoutePath
 This is the routing path and it follows the express4 standard routing. You can use jolly character and other type syntax `/admin*,` `/admin/:name` etc. etc.;
 
 
-###Verb
+### Verb
 Relates to the call verb and can assume any valid http verbs like GET, POST, PUT, DELETE etc etc. You can add more verbs for a single routePath:
 
 ```javascript
@@ -134,7 +134,7 @@ Relates to the call verb and can assume any valid http verbs like GET, POST, PUT
 
 `/admin` has GET and POST  verbs.
 
-###Route
+### Route
 
 Relates to `file:method` to call a route address.
 
@@ -161,7 +161,7 @@ If you **need to call a controller starting to your project root** simply add `.
 
 
 
-###Policy
+### Policy
 
 Is a module/function called before the controller (= middleware), by default it calls a file in ./policy named as you set in parameters "fileName" and a function named as you set in "functionName".
 
@@ -172,11 +172,11 @@ Example: policy: "auth/index" calls ./policy/auth.js and method index
 It can be a string for a single policy or an array for multiple policy files.
 
 
-###CORS
+### CORS
 Enable or disable Cross-origin resource sharing. default is false and disabled.
 
 
-###Regex
+### Regex
 You can set a regex to validate your route, however I discourage using it. Instead, I prefer to add this logic in the controller for better code speed.
 ```javascript
 {
