@@ -61,7 +61,7 @@ The routing file is encoded in the JSON format and by **default is in `./routes.
 
 Router is created using this syntax:
 
-`"RoutePath" : {"verb": {options}`
+`{ "RoutePath" : {"verb": {options} } }`
 
 
 *Example of extended config*
