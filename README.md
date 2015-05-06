@@ -512,6 +512,9 @@ An alternative example use the global file option:
 
 }}
 ```
+Changelog 0.1.0
+-------------
+- minor fix
 
 Changelog 0.1.0
 -------------
