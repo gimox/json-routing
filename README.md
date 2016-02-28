@@ -467,7 +467,7 @@ A special case: if we want to add an authentication before some route, take a lo
 
    "/admin/dashboard": {
     "GET": {
-      "route": "item:get,
+      "route": "getItem",
       }
   },
    "/admin/user
@@ -497,7 +497,7 @@ An alternative example use the global file option:
   
    "/dashboard": {
     "GET": {
-      "route": "item:get,
+      "route": "getItem",
       }
   },
    "/user
