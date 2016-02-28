@@ -470,7 +470,7 @@ A special case: if we want to add an authentication before some route, take a lo
       "route": "getItem",
       }
   },
-   "/admin/user
+   "/admin/user"
    ": {
     "GET": {
       "route": "find",
