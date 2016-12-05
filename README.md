@@ -510,6 +510,10 @@ An alternative example use the global file option:
 
 }}
 ```
+Changelog 0.1.5
+-------------
+- Preparing for typescript... es6 and node > 6.4 rewrite, removed underscore. No esternal modules deps!!
+
 Changelog 0.1.0
 -------------
 - minor fix

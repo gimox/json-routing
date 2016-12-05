@@ -9,7 +9,7 @@
     "baseUrl":"/demo",
     "cors":true
   },
-  "testglobal": {
+  "/testglobal": {
     "GET": {
       "route": "customaction",
       "policy": "test:index"

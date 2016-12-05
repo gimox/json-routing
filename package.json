@@ -1,9 +1,9 @@
 {
   "name": "json-routing",
   "description": "JSON configurable MVC routing for express 4",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Giorgio Modoni <modogio@gmail.com>",
-  "homepage":"http://gimox.github.io/json-routing",
+  "homepage": "http://gimox.github.io/json-routing",
   "main": "./lib/route",
   "repository": {
     "type": "git",
@@ -12,9 +12,7 @@
   "bugs": {
     "url": "https://github.com/gimox/json-routing/issues"
   },
-  "dependencies": {
-    "underscore": "*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "express": "*",
     "morgan": "*",
@@ -36,5 +34,8 @@
     "express",
     "route-config"
   ],
+  "engines": {
+    "node": ">=6.4.0"
+  },
   "license": "MIT"
 }

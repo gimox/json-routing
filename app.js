@@ -1,4 +1,4 @@
-var express   = require('express')
+let express   = require('express')
     , app     = express()
     , logger  = require('morgan')
     , port    = process.env.PORT || 3000
@@ -10,7 +10,7 @@ app.use(logger('dev'));
  *
  * @type {{routesPath: string, controllersPath: string, action: string, vars: null}}
  */
-var routeOptions = {
+let routeOptions = {
     routesPath       : "./demo/routes"
     , controllersPath: "./demo/controllers"
     , policyPath     : './demo/policy'
@@ -26,7 +26,7 @@ routing(app, routeOptions);
  * standard express 4 routing
  */
 
-var router = express.Router();
+let router = express.Router();
 router.get('/express/:name', function (req, res) {
     res.send(' This is a express standard routing ');
 });
@@ -37,6 +37,6 @@ app.use('/', router);
  *
  * @type {http.Server}
  */
-var server = app.listen(port, function () {
+let server = app.listen(port, function () {
     console.log('Listening on port %d', server.address().port);
 });
