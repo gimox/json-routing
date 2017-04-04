@@ -2,7 +2,7 @@
 # NB THIS IS A BETA VERSION 2alpha1, use version 1 for stable.
 This doc's is not updated for version 2 
 
-
+[![Build Status](https://travis-ci.org/gimox/json-routing.svg?branch=2.0)](https://travis-ci.org/gimox/json-routing)
 
 
 Express JSON Routes
