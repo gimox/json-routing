@@ -13,7 +13,7 @@
     "url": "https://github.com/gimox/json-routing/issues"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": " $(npm bin)/mocha --compilers $(npm bin)/ts:ts-node/register ./test.ts",
     "start": "npm run live",
     "build:release": "npm run build && npm run doc",
     "live": "$(npm bin)/nodemon --exec $(npm bin)/ts-node -- ./demo/server.ts",
@@ -21,9 +21,14 @@
     "lint": "$(npm bin)/tslint --config ./tslint.json ./demo/server.ts",
     "doc": "$(npm bin)/typedoc --out ./doc ./src/json-routing.ts"
   },
-
   "license": "MIT",
   "devDependencies": {
+    "@types/chai": "^3.4.35",
+    "@types/chai-http": "0.0.30",
+    "@types/mocha": "^2.2.40",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "ts-node": "^3.0.2",
     "tslint": "^4.3.1",

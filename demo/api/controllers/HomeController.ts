@@ -1,14 +1,25 @@
-exports.index = function(req,res) {
+exports.index = function (req, res) {
+
+    res.json({message: 'get index'});
+
+};
+
+exports.postfunction = function (req, res) {
+
+    res.json({message: 'post index'});
+};
+
+exports.index2 = function (req, res) {
 
     res.send('index page get');
 };
 
-exports.postfunction = function(req,res) {
+exports.hasmiddleware = function (req, res) {
 
-    res.send('index page post');
+    res.json({message: 'middleware array', "mdlw": res.mdlw});
 };
 
-exports.index2 = function(req,res) {
+exports.hasmiddlewareString = function (req, res) {
 
-    res.send('index page get');
+    res.json({message: 'middleware string', "mdlw": res.mdlw});
 };

@@ -7,9 +7,21 @@
       "route": "postfunction"
     }
   },
-  "/ciccio": {
-    "POST": {
-      "route": "index2"
+  "/noroute": {
+    "GET": {}
+  },
+  "/hasmiddleware": {
+    "GET": {
+      "route": "hasmiddleware",
+      "policy": [
+        "mdlwtest:mdlw_a"
+      ]
+    }
+  },
+  "/hasmiddlewareString": {
+    "GET": {
+      "route": "hasmiddleware",
+      "policy": "mdlwtest:mdlw_a"
     }
   }
 }
