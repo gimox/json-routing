@@ -1,27 +1,36 @@
 import {IOptions} from "./interfaces/IOptions";
 import {IRouteInfo} from "./interfaces/IRouteInfo";
 import {IHandler} from "./interfaces/IHandler";
+import {IJsonRoute} from "./interfaces/IJsonRoute";
+import {IControllerGlobal} from "./interfaces/IControllerGlobal";
 
 import {RouteMiddleware} from "./route-middleware";
 import {RouteController} from "./route-controller";
 
-
+/**
+ * Prepare controller, middleware handler
+ */
 export class JrouteHandler {
     app: any;
-    route: any;
+    route: IJsonRoute;
     options: IOptions;
     json: any;
     baseUrl: string = "";
     routeController: RouteController;
-    globalOptions: any;
+    globalOptions: IControllerGlobal;
 
-    constructor(route: string, options: IOptions, app: any) {
+    constructor(route: IJsonRoute, options: IOptions, app: any) {
         this.route = route;
         this.options = options;
         this.routeController = new RouteController(this.route.name, this.options);
         this.app = app;
     }
 
+    /**
+     * Create a Route from json definition
+     *
+     * @returns {Array<IRouteInfo>} - a info definition for this json data
+     */
     set(): Array<IRouteInfo> {
 
         this.json = this.loadRoute();
@@ -34,18 +43,29 @@ export class JrouteHandler {
         let routeInfo: Array<IRouteInfo> = [];
 
         for (let uri in this.json) {
-            let info = this.parseRoutes(uri, this.json);
+            let info: Array<IRouteInfo> = this.parseRoutes(uri, this.json);
             routeInfo = [...routeInfo, ...info];
         }
 
         return routeInfo;
     }
 
-    setBaseUrl(globalBaseUrl: string = "") {
+    /**
+     * Set base url for all route inside json definition.
+     * Add global.baseUrl to route url
+     *
+     * @param {string} globalBaseUrl - global url string
+     * @returns {string} - baseurl string
+     */
+    setBaseUrl(globalBaseUrl: string = ""): string {
         return globalBaseUrl + this.baseUrl;
-
     }
 
+    /**
+     * Load a json definition file
+     *
+     * @returns {any} json data or false
+     */
     loadRoute(): any | boolean {
         try {
             return require(this.route.path);
@@ -56,7 +76,14 @@ export class JrouteHandler {
         }
     }
 
-    parseRoutes(uri, json) {
+    /**
+     * Create a route
+     *
+     * @param {object} uri - single url object
+     * @param {object} json - all route
+     * @returns {Array<IRouteInfo>} routes info definition for uri
+     */
+    parseRoutes(uri, json): Array<IRouteInfo> {
         let routeInfo: Array<IRouteInfo> = [];
 
         for (let verb in json[uri]) {
@@ -74,6 +101,16 @@ export class JrouteHandler {
         return routeInfo;
     }
 
+    /**
+     * Add route
+     *
+     * @param verb - route verb
+     * @param pattern - route uri
+     * @param middleware - string or array of middleware
+     * @param handler - controller function
+     * @param controllerName - controller name
+     * @returns {{verb: string, url: string, controllerName: string, status: string}} route definition info
+     */
     add(verb: string, pattern: string, middleware: any, handler: any, controllerName: string): IRouteInfo {
 
         verb = verb.toLowerCase();

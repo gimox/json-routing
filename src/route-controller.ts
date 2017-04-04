@@ -3,6 +3,10 @@ import {IHandler} from "./interfaces/IHandler";
 
 import * as path from "path";
 
+
+/**
+ * Get controller method as handler
+ */
 export class RouteController {
 
     controllerName?: string;
@@ -13,10 +17,24 @@ export class RouteController {
         this.controllerName = this._getName(routeName);
     }
 
+    /**
+     * Get controller name
+     *
+     * @param name - base name, declared in json definition
+     * @returns {string} - controller name
+     * @private
+     */
     _getName(name: string): string {
         return name.charAt(0).toUpperCase() + name.slice(1) + "Controller";
     }
 
+    /**
+     * Parse route string
+     * @param controller - controller
+     * @param routeParams
+     * @returns {Array} array with postion 0 - controller path, 1 - controller function
+     * @private
+     */
     _parse(controller: string, routeParams?: string): Array<string> {
 
         let result = [];
@@ -43,6 +61,13 @@ export class RouteController {
         return arrayParams;
     }
 
+    /**
+     * Get controller called function
+     *
+     * @param routeParams
+     * @param globalController
+     * @returns {{fnc: any, name: string}} object with function a name
+     */
     getHandler(routeParams?: string, globalController?: string): IHandler {
         let route = this._parse(this.controllerName, routeParams);
 
@@ -70,10 +95,16 @@ export class RouteController {
             controllerName = this.controllerName;
         }
 
-
         return {"fnc": controller[route[1]], "name": controllerName};
     }
 
+    /**
+     * check if a string start with a string
+     *
+     * @param {string} value - string value to check
+     * @param {string} char - check term
+     * @returns {boolean} - true if strat with char
+     */
     startWith(value, char): boolean {
         return (value.substring(0, 1) === char) ? true : false;
     }

@@ -9,11 +9,11 @@ class JsonRoute {
     constructor(app, options) {
         this.app = app;
         this.options = new IOptions_1.Options().get(options);
-        this.start();
     }
     start() {
         let routes = this.getJsonRoute();
-        this.setCors();
+        if (this.options.cors)
+            this.setCors();
         let routesInfo = [];
         for (let route of routes) {
             let info = new jroute_handler_1.JrouteHandler(route, this.options, this.app).set();
@@ -21,6 +21,7 @@ class JsonRoute {
         }
         if (this.options.displayRoute)
             this.displayinfo(routesInfo);
+        return routesInfo;
     }
     getJsonRoute() {
         let files = [];

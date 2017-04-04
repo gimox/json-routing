@@ -1,3 +1,6 @@
+/**
+ * Interface for route info
+ */
 export interface IRouteInfo {
     verb: string
     , url: string

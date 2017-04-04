@@ -1,5 +1,6 @@
 import {IOptions, Options} from "./interfaces/IOptions";
 import {IRouteInfo} from "./interfaces/IRouteInfo";
+import {IJsonRoute} from "./interfaces/IJsonRoute";
 
 import {JrouteHandler} from "./jroute-handler";
 import {RoutesDisplay} from "./routes-display";
@@ -8,6 +9,10 @@ import * as fs from "fs";
 import * as path from "path";
 
 
+/**
+ * Main file
+ * Json-route create a express like route using a json definition file without extra code
+ */
 export class JsonRoute {
     app: any;
     options: IOptions;
@@ -15,13 +20,17 @@ export class JsonRoute {
     constructor(app: any, options: IOptions) {
         this.app = app;
         this.options = new Options().get(options);
-
-        this.start();
     }
 
-    start() {
+    /**
+     * This is the main fnc
+     * @returns {Array<IRouteInfo>} - a list of routes parsed
+     */
+    start(): Array<IRouteInfo> {
         let routes = this.getJsonRoute();
-        this.setCors();
+
+        if (this.options.cors)
+            this.setCors();
 
         let routesInfo: Array<IRouteInfo> = [];
 
@@ -35,11 +44,18 @@ export class JsonRoute {
         if (this.options.displayRoute)
             this.displayinfo(routesInfo);
 
+        return routesInfo;
     }
 
-    getJsonRoute() {
+
+    /**
+     * Get a list of json routes definition file
+     *
+     * @returns {Array<IJsonRoute>} - json route path definition file
+     */
+    getJsonRoute(): Array<IJsonRoute> {
         let files: Array<string> = [];
-        let routes: Array<any> = [];
+        let routes: Array<IJsonRoute> = [];
         let filesFiltered: Array<string>;
 
         try {
@@ -60,6 +76,9 @@ export class JsonRoute {
         return routes;
     }
 
+    /**
+     * Enable cors for all routes
+     */
     setCors() {
         this.app.use((req, res, next) => {
 
@@ -78,6 +97,11 @@ export class JsonRoute {
         });
     }
 
+    /**
+     * Display routes info table at startup
+     *
+     * @params {Array<IRouteInfo>} route info definition
+     */
     displayinfo(routesInfo: Array<IRouteInfo>) {
         new RoutesDisplay(routesInfo);
     }

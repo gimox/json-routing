@@ -1,15 +1,18 @@
 import * as express from "express";
 import {JsonRoute} from "../src/json-route";
+import {IRouteInfo} from "../src/interfaces/IRouteInfo";
 
-
-let port = process.env.PORT || 3000;
+let port: number = process.env.PORT || 3000;
 let app = express();
 
 
-let route = new JsonRoute(app, {
+let routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
     "routesPath": "./api/routes",
     "processdir": __dirname
-});
+}).start();
+
+
+console.log("Total routes:", routeInfo.length);
 
 
 /**
@@ -17,6 +20,6 @@ let route = new JsonRoute(app, {
  *
  * @type {http.Server}
  */
-let server = app.listen(port, function () {
+let server = app.listen(port,  () => {
     console.log("Listening on port %d", server.address().port);
 });

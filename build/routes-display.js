@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const cliTable = require("cli-table");
+const CliTable = require("cli-table");
 class RoutesDisplay {
     constructor(routesInfo) {
         this.routesInfo = routesInfo;
@@ -16,7 +16,7 @@ class RoutesDisplay {
         console.log(" Routes:");
     }
     content() {
-        let table = new cliTable({
+        let table = new CliTable({
             head: ["Url", "Verb", "Controller", "Check"],
             colWidths: [40, 7, 25, 7]
         });

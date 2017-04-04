@@ -1,5 +1,8 @@
 import * as path from 'path';
 
+/**
+ * Interface for json-route option
+ */
 export interface IOptions {
     routesPath?: string
     , controllersPath?: string
@@ -10,6 +13,9 @@ export interface IOptions {
     , defaultAction?: string
 }
 
+/**
+ * Set default options for IOption interface
+ */
 export class Options {
     get(options: IOptions): IOptions {
         options.routesPath = options.routesPath || './api/routes';
