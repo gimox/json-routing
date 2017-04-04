@@ -1,9 +1,3 @@
-exports.index = function(req,res) {
-
-    res.send('index page other');
-};
-
-exports.postfunction = function(req,res) {
-
-    res.send('index page post');
+exports.index = (req,res) => {
+    res.json({message: 'index other'});
 };

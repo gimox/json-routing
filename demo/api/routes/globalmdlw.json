@@ -1,0 +1,20 @@
+{
+  "GLOBAL": {
+    "baseUrl": "/globalmdlw",
+    "policy": [
+      "test:a1",
+      "test:a2"
+    ]
+  },
+  "/": {
+    "GET": {
+      "route": "index"
+    }
+  },
+  "/plusone": {
+    "GET": {
+      "route": "index",
+      "policy":"test:a3"
+    }
+  }
+}

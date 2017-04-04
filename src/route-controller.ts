@@ -71,31 +71,30 @@ export class RouteController {
     getHandler(routeParams?: string, globalController?: string): IHandler {
         let route = this._parse(this.controllerName, routeParams);
 
-        let basePath: string = this.options.controllersPath;
+        /*
 
-        let isGlobal: boolean = false;
+         */
+        let basePath: string = this.options.controllersPath;
+        let ctrlNamePath: string = this.controllerName;
+        let ctrlName: string = this.controllerName;
+
+
         if (this.startWith(route[0], ".")) {
 
             basePath = path.join(this.options.processdir, route[0]);
+            ctrlNamePath = "";
+            ctrlName = route[0];
 
         } else if (globalController) {  // use global if exist
 
             basePath = path.join(this.options.processdir, globalController);
-            isGlobal = true;
+            ctrlNamePath = "";
+            ctrlName = globalController;
         }
 
-        let controller: any;
-        let controllerName: string;
+        let controller: any = require(path.join(basePath, ctrlNamePath));
 
-        if (isGlobal) {
-            controller = require(basePath);
-            controllerName = globalController;
-        } else {
-            controller = require(path.join(basePath, this.controllerName));
-            controllerName = this.controllerName;
-        }
-
-        return {"fnc": controller[route[1]], "name": controllerName};
+        return {"fnc": controller[route[1]], "name": ctrlName};
     }
 
     /**

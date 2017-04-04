@@ -27,7 +27,7 @@ export class RouteMiddleware {
         if (!Array.isArray(globalDef))
             globalDef = [globalDef];
 
-        let mdlw = [...middlewareDef, ...globalDef];
+        let mdlw = [...globalDef, ...middlewareDef];
 
         if (!mdlw.length)
             return [];

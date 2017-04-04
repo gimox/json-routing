@@ -19,8 +19,8 @@ chai.use(chaiHttp);
 //let server = require('../demo/server');
 
 describe('Server is Up: ', () => {
-    it('Has 9 routes', () => {
-        routeInfo.length.should.be.eql(9);
+    it('Has 12 routes', () => {
+        routeInfo.length.should.be.eql(12);
     });
 
     it('/GET return 200', (done) => {
@@ -89,9 +89,9 @@ describe('Middleware: ', () => {
             });
     });
 
-    it('/hasmiddleware GET - as string - has property "mdlw"', (done) => {
+    it('/hasmiddleware POST - as string - has property "mdlw"', (done) => {
         chai.request(URL)
-            .get("/hasmiddlewareString")
+            .post("/hasmiddleware")
             .end((err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
@@ -101,5 +101,87 @@ describe('Middleware: ', () => {
             });
     });
 
+    it('/customMiddlewarePath GET - has custom path middleware - has property "mdlw"', (done) => {
+        chai.request(URL)
+            .get("/customMiddlewarePath")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("mdlw").eql(true);
+                done();
+            });
+    });
+
+
+});
+
+describe('Controller custom name: ', () => {
+
+    it('/customControllerPath GET - has custom controller path', (done) => {
+        chai.request(URL)
+            .get("/customControllerPath")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("message").eql("custom controller");
+                done();
+            });
+    });
+
+});
+
+describe('Global params: ', () => {
+    it('/other/hasbaseUrl GET - BASEURL has "/other"', (done) => {
+        chai.request(URL)
+            .get("/other/hasbaseUrl")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("message").eql("index other");
+                done();
+            });
+    });
+
+    it('/globalctrl GET - CTRL PATH custom', (done) => {
+        chai.request(URL)
+            .get("/globalctrl")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("message").eql("custom controller");
+                done();
+            });
+    });
+
+    it('/customctrlroute GET - use ROUTE NOT GLOBAL', (done) => {
+        chai.request(URL)
+            .get("/globalctrl/customctrlroute")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("message").eql("get index");
+                done();
+            });
+    });
+
+
+    it('/globalmdlw/plusone GET - MERGE MDLW global with route, has 3 mdlw', (done) => {
+        chai.request(URL)
+            .get("/globalmdlw/plusone")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("ma").eql(true);
+                res.body.should.have.property("mb").eql(true);
+                res.body.should.have.property("mc").eql(true);
+                done();
+            });
+    });
 
 });

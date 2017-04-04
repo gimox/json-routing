@@ -1,0 +1,16 @@
+{
+  "GLOBAL": {
+    "baseUrl": "/globalctrl",
+    "controller": "./api/controllers/custom"
+  },
+  "/": {
+    "GET": {
+      "route": "customMethod"
+    }
+  },
+  "/customctrlroute": {
+    "GET": {
+      "route": "./api/controllers/HomeController:index"
+    }
+  }
+}

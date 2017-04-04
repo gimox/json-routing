@@ -16,12 +16,22 @@
       "policy": [
         "mdlwtest:mdlw_a"
       ]
-    }
-  },
-  "/hasmiddlewareString": {
-    "GET": {
+    },
+    "POST": {
       "route": "hasmiddleware",
       "policy": "mdlwtest:mdlw_a"
+    }
+  },
+  "/customMiddlewarePath": {
+    "GET": {
+      "route": "hasmiddleware",
+      "policy": "./api/policycustom/custom:customMdlw"
+    }
+  },
+  "/customControllerPath": {
+    "GET": {
+      "route": "hasmiddleware",
+      "policy": "./api/controllers/custom:customMethod"
     }
   }
 }

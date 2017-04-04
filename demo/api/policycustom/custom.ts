@@ -1,6 +1,4 @@
-exports.customMdlw = function (req, res, next) {
-
-    console.log("custom middleware");
-
+exports.customMdlw = (req, res, next) => {
+    res.mdlw = true;
     next();
 };

@@ -2,12 +2,13 @@ JSON Routes
 ===================
 
 [![Build Status](https://travis-ci.org/gimox/json-routing.svg?branch=2.0)](https://travis-ci.org/gimox/json-routing)
+[![npm version](https://badge.fury.io/js/json-routing.svg)](https://badge.fury.io/js/json-routing)
 
 
 
 ### THIS IS A BETA VERSION for v2.0 version
 
-v2.0alpha1
+v2.0beta1
 
 
 Do not use this branch for production, check for v1.x for stable.
