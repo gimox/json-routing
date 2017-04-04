@@ -1,12 +1,56 @@
-
-# NB THIS IS A BETA VERSION 2alpha1, use version 1 for stable.
-This doc's is not updated for version 2 
+JSON Routes
+===================
 
 [![Build Status](https://travis-ci.org/gimox/json-routing.svg?branch=2.0)](https://travis-ci.org/gimox/json-routing)
 
 
-Express JSON Routes
-===================
+
+### THIS IS A BETA VERSION for v2.0 version
+
+v2.0alpha1
+
+
+Do not use this branch for production, check for v1.x for stable.
+
+Version 2.x is a completly rewrite.  
+
+- typescript code, more optimized
+- more speed
+- remove some unused option
+- make code more extensible and simple
+- prepare it for something more...... 
+
+
+**Typescript**
+
+```javascript
+import {JsonRoute} from "json-route";
+
+let routeInfo:Array<any> = new JsonRoute(app, {
+    "routesPath": "./api/routes",
+    "processdir": __dirname
+}).start();
+
+```
+
+**JS ES6**
+
+```javascript
+let jsonRoute = require("json-route")
+
+let routeInfo = new JsonRoute(app, {
+    "routesPath": "./api/routes",
+    "processdir": __dirname
+}).start();
+
+```
+
+
+This doc's is not updated for version 2 (yet)
+
+
+DOC VERSION 1 - not updated for 2!!!
+-------------
 Make routes much easier to use in MVC format.
 I've been searching for a while for a nodejs routing solution with a:
 
