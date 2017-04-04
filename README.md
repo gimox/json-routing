@@ -8,7 +8,7 @@ JSON Routes
 
 ### THIS IS A BETA VERSION for v2.0 version
 
-v2.0beta1
+v2.0alpha1
 
 
 Do not use this branch for production, check for v1.x for stable.
@@ -46,6 +46,19 @@ let routeInfo = new JsonRoute(app, {
 
 ```
 
+Routig with pure regular expression, add prefix "RE " before uri:
+
+```json
+{
+  "RE /.*fly$/": {
+    "GET": {
+      "route": "index"
+    }
+  }
+}
+```
+
+TODO: better routing with "pure regular expression" (it not concatenate global url), express route with params and regex work.
 
 This doc's is not updated for version 2 (yet)
 

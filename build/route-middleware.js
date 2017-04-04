@@ -10,7 +10,7 @@ class RouteMiddleware {
             middlewareDef = [middlewareDef];
         if (!Array.isArray(globalDef))
             globalDef = [globalDef];
-        let mdlw = [...middlewareDef, ...globalDef];
+        let mdlw = [...globalDef, ...middlewareDef];
         if (!mdlw.length)
             return [];
         return this.parse(mdlw);

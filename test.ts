@@ -19,8 +19,8 @@ chai.use(chaiHttp);
 //let server = require('../demo/server');
 
 describe('Server is Up: ', () => {
-    it('Has 12 routes', () => {
-        routeInfo.length.should.be.eql(12);
+    it('Has 13 routes', () => {
+        routeInfo.length.should.be.eql(13);
     });
 
     it('/GET return 200', (done) => {
@@ -184,4 +184,27 @@ describe('Global params: ', () => {
             });
     });
 
+});
+
+
+describe('Regex route: ', () => {
+    it('/dragonfly GET - PURE REGEX, RE /.*fly$/', (done) => {
+        chai.request(URL)
+            .get("/dragonfly")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("message").eql("regex done");
+                done();
+            });
+    });
+    it('/dragonflyno GET - must return 404, RE /.*fly$/', (done) => {
+        chai.request(URL)
+            .get("/dragonflyno")
+            .end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+    });
 });

@@ -39,10 +39,9 @@ class JrouteHandler {
         let routeInfo = [];
         for (let verb in json[uri]) {
             let params = json[uri][verb];
-            let pattern = this.baseUrl + uri;
             let handlers = this.routeController.getHandler(params.route, this.globalOptions.controller);
             let middleware = new route_middleware_1.RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy);
-            let info = this.add(verb, pattern, middleware, handlers.fnc, handlers.name);
+            let info = this.add(verb, uri, middleware, handlers.fnc, handlers.name);
             routeInfo.push(info);
         }
         return routeInfo;
@@ -50,14 +49,30 @@ class JrouteHandler {
     add(verb, pattern, middleware, handler, controllerName) {
         verb = verb.toLowerCase();
         let status = "\x1b[31mFail\x1b[0m";
+        let uriEndpoint = pattern;
+        let basePath = this.baseUrl;
+        if (pattern.startsWith("RE ")) {
+            pattern = pattern.substring(3);
+            if (pattern.startsWith("/")) {
+                pattern = pattern.substring(1);
+            }
+            if (pattern.startsWith("/", pattern.length - 1)) {
+                pattern = pattern.substring(0, pattern.length - 1);
+            }
+            uriEndpoint = new RegExp(pattern);
+            basePath = "";
+        }
+        else {
+            uriEndpoint = this.baseUrl + pattern;
+        }
         try {
-            this.app[verb](pattern, middleware, handler);
+            this.app[verb](uriEndpoint, middleware, handler);
             status = "OK";
         }
         catch (ex) {
             status = "\x1b[31mFail\x1b[0m";
         }
-        return { "verb": verb, "url": pattern, "controllerName": controllerName, "status": status };
+        return { "verb": verb, "url": basePath + pattern, "controllerName": controllerName, "status": status };
     }
 }
 exports.JrouteHandler = JrouteHandler;
