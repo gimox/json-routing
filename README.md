@@ -1,3 +1,10 @@
+
+# NB THIS IS A BETA VERSION 2alpha1, use version 1 for stable.
+This doc's is not updated for version 2 
+
+
+
+
 Express JSON Routes
 ===================
 Make routes much easier to use in MVC format.

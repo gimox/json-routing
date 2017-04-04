@@ -1,0 +1,15 @@
+{
+  "/": {
+    "GET": {
+      "route": "index"
+    },
+    "POST": {
+      "route": "postfunction"
+    }
+  },
+  "/ciccio": {
+    "POST": {
+      "route": "index2"
+    }
+  }
+}

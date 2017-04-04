@@ -1,10 +1,10 @@
 {
   "name": "json-routing",
   "description": "JSON configurable MVC routing for express 4",
-  "version": "0.1.5",
+  "version": "2.0.0b1",
   "author": "Giorgio Modoni <modogio@gmail.com>",
   "homepage": "http://gimox.github.io/json-routing",
-  "main": "./lib/route",
+  "main": "./build/json-route.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/gimox/json-routing"
@@ -12,17 +12,32 @@
   "bugs": {
     "url": "https://github.com/gimox/json-routing/issues"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "express": "*",
-    "morgan": "*",
-    "mocha": "*",
-    "request": "*",
-    "should": "*",
-    "describe": "*"
-  },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run live",
+    "build:release": "npm run build && npm run doc",
+    "live": "$(npm bin)/nodemon --exec $(npm bin)/ts-node -- ./demo/server.ts",
+    "build": "rm -rf ./build && npm run lint && $(npm bin)/tsc -p tsconfig.json",
+    "lint": "$(npm bin)/tslint --config ./tslint.json ./demo/server.ts",
+    "doc": "$(npm bin)/typedoc --out ./doc ./src/json-routing.ts"
+  },
+
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "ts-node": "^3.0.2",
+    "tslint": "^4.3.1",
+    "typedoc": "^0.5.5",
+    "typescript": "^2.2.2"
+  },
+  "engines": {
+    "node": ">=6.9.1"
+  },
+  "dependencies": {
+    "@types/express": "^4.0.35",
+    "@types/node": "^7.0.0",
+    "cli-table": "^0.3.1",
+    "express": "^4.15.2"
   },
   "keywords": [
     "routes",
@@ -33,9 +48,5 @@
     "route-config",
     "express",
     "route-config"
-  ],
-  "engines": {
-    "node": ">=6.4.0"
-  },
-  "license": "MIT"
+  ]
 }
