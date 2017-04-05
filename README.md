@@ -6,21 +6,21 @@ JSON Routes
 [![Coverage Status](https://coveralls.io/repos/github/gimox/json-routing/badge.svg?branch=2.0)](https://coveralls.io/github/gimox/json-routing?branch=2.0)
 
 
-### THIS IS A BETA VERSION for v2.0 version
-
-v2.0alpha1
-
+### THIS IS A BETA VERSION for v2.0 BETA version
 
 Do not use this branch for production, check for v1.x for stable.
 
-Version 2.x is a completly rewrite.  
-
-- typescript code, more optimized
+- Typescript code, more optimized
 - more speed
 - remove some unused option
 - make code more extensible and simple
 - prepare it for something more...... 
 
+
+MAKE ME THE CODE
+-------------
+
+####1 init module
 
 **Typescript**
 
@@ -43,8 +43,39 @@ let routeInfo = new JsonRoute(app, {
     "routesPath": "./api/routes",
     "processdir": __dirname
 }).start();
-
 ```
+
+####2 create routes
+
+**Create a route file definition**
+
+```json
+{
+"/admin": {
+    "GET": {
+      "route": "action",
+      "policy": [
+        "test:check",
+        "test:all",
+        "./subfolder/test2:index"
+      ]
+    },
+    "POST": {
+      "route": "action",
+      "policy": [
+        "test:all",
+      ]
+    }
+ },
+  "/dashboard": {
+    "GET": {
+      "route": "dashboard",
+      }
+  }
+
+}
+```
+
 
 Routig with pure regular expression, add prefix "RE " before uri:
 
@@ -58,12 +89,8 @@ Routig with pure regular expression, add prefix "RE " before uri:
 }
 ```
 
-TODO: better routing with "pure regular expression" (it not concatenate global url), express route with params and regex work.
 
-This doc's is not updated for version 2 (yet)
-
-
-DOC VERSION 1 - not updated for 2!!!
+WHAT IS IT?
 -------------
 Make routes much easier to use in MVC format.
 I've been searching for a while for a nodejs routing solution with a:
@@ -183,7 +210,7 @@ Relates to the call verb and can assume any valid http verbs like GET, POST, PUT
       "policy": [
         "./demo/policycustom/test:check",
         "test:all",
-        "subfolder/test2:index"
+        "./subfolder/test2:index"
       ]
     },
     "POST": {
@@ -217,9 +244,9 @@ If you omit the route params, the system routing assumes you have a default rout
 
 If you add only a parameter, it assumes that the controller is in the default directory with standard name `nameController.js` , and the parameter is the method that should be called. example route: "testall"
 
-If the route params contain both values `controllername:method` (user:index) it will search the controller using the default directory path structured as controller name followed by method. For example, route: "user:index" searches for a controller called user.js with method index.
+If the route params contain both values `./path/controllername:method` (user:index) it will search the controller using the default directory path structured as controller name followed by method. For example, route: "./test/user:index" searches for a controller called ./test/user with method index.
 
-If you **need to call a controller in a subfolder**, simply add the path before the controller name. Example route: "./afolder/user:index", fire ./controller/afolder/user.js with method index.
+If you **need to call a controller in a subfolder**, simply add the path before the controller name. Example route: "./afolder/user:index", fire ./controller/afolder/user with method index.
 
 If you **need to call a controller starting to your project root** simply add `.` before the path. Example route: "./lib/user:index", fire  ./lib/user.js with method index.
 
@@ -237,7 +264,7 @@ It can be a string for a single policy or an array for multiple policy files.
 
 
 ### CORS
-Enable or disable Cross-origin resource sharing. default is false and disabled.
+Enable or disable Cross-origin resource sharing. default is true, look at global options for more info.
 
 
 ### Regex
@@ -584,6 +611,12 @@ An alternative example use the global file option:
 
 }}
 ```
+
+Example
+-----------------
+Look at ./demo for a fully working example.
+
+
 Changelog 2.0.0b1
 -------------
 - completely rewrite in typecript (build transpiled in es6)
