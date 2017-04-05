@@ -21,9 +21,10 @@
     "build": "rm -rf ./build && npm run lint && $(npm bin)/tsc -p tsconfig.json",
     "lint": "$(npm bin)/tslint --config ./tslint.json ./demo/server.ts",
     "doc": "$(npm bin)/typedoc --out ./doc ./src/json-routing.ts",
-    "test:coverage": "nyc $(npm bin)/mocha --compilers $(npm bin)/ts:ts-node/register ./test.ts",
+    "test:coverage": "nyc  $(npm bin)/mocha --compilers $(npm bin)/ts:ts-node/register ./test.ts",
     "test:coverage:check": "nyc check-coverage --lines 75 --functions 75 --branches 75",
-    "test:coverate:report": "nyc report"
+    "test:coverage:report": "nyc report",
+    "test:coverage:coveralls": "nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
   },
   "license": "MIT",
   "devDependencies": {
