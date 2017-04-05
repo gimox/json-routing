@@ -74,7 +74,7 @@ I've been searching for a while for a nodejs routing solution with a:
  -  MVC organization,
  -  manage only routing, no other auto magic api creation
  -  customizable
- -  least possible dependency, which uses only underscore
+ -  least possible dependency
 
 This is: json-routes.
 
@@ -84,8 +84,8 @@ How It Works
 **The basic concepts.**
 Create a json file with your routing config and add code logic in a external file called *controller* , creating an MVC style structure.
 
-I followed the Expressjs 4 routing standards, helping the developer to manage the routes creation and project organization faster and in the standard synthax.
-
+I followed the Expressjs 4 routing standards, helping the developer to manage the routes creation and project organization faster and in the standard synthax. Look at [express routing guide](http://expressjs.com/en/guide/routing.html)
+ for a complet route pattern syntax 
 
 Proposed Structure
 -------------
@@ -148,7 +148,7 @@ Router is created using this syntax:
       "policy": [
         "./demo/policycustom/test:check",
         "test:all",
-        "subfolder/test2:index"
+        "./subfolder/test2:index"
       ]
     },
     "POST": {
@@ -156,9 +156,8 @@ Router is created using this syntax:
       "policy": [
         "./demo/policycustom/test:check",
         "test:all",
-        "subfolder/test2:index"
-      ],
-      "cors":true
+        "./subfolder/test2:index"
+      ]
     }
   },
 
@@ -220,7 +219,7 @@ If you add only a parameter, it assumes that the controller is in the default di
 
 If the route params contain both values `controllername:method` (user:index) it will search the controller using the default directory path structured as controller name followed by method. For example, route: "user:index" searches for a controller called user.js with method index.
 
-If you **need to call a controller in a subfolder**, simply add the path before the controller name. Example route: "/afolder/user:index", fire ./controller/afolder/user.js with method index.
+If you **need to call a controller in a subfolder**, simply add the path before the controller name. Example route: "./afolder/user:index", fire ./controller/afolder/user.js with method index.
 
 If you **need to call a controller starting to your project root** simply add `.` before the path. Example route: "./lib/user:index", fire  ./lib/user.js with method index.
 
@@ -242,21 +241,19 @@ Enable or disable Cross-origin resource sharing. default is false and disabled.
 
 
 ### Regex
-You can set a regex to validate your route, however I discourage using it. Instead, I prefer to add this logic in the controller for better code speed.
+You can set a regex to validate your route, however I discourage using it. Instead, I prefer to add this logic in the controller for better code speed. **To set a rexeg route, use the prefix "RE " before pattern.**. 
+
 ```javascript
 {
-"/admin": {
+"RE /.*fly$/": {
     "GET": {
       "route": "action",
       "policy": [
         "./demo/policycustom/test:check",
         "test:all",
-        "subfolder/test2:index"
-      ],
-      "regex" : true | false
+        "./subfolder/test2:index"
+      ]
     }
-
-
 }
 ```
 
@@ -268,6 +265,13 @@ You can set a regex to validate your route, however I discourage using it. Inste
 ### Init Module
 
 Configure the routing modules in your main js file, as any other nodes modules.
+
+```javascript
+var routes = require('json-routing');
+new routes(expressApp, options).start();
+```
+
+Example:  
 
 ```javascript
 // Includes
@@ -282,9 +286,13 @@ app.set(...);
 app.use(...);
 
 // this is the magic!
-routes(app); //init modules
+new routes(app, {
+     "processdir": __dirname
+}).start();
 
 ```
+
+**IT'S VERY IMPORTANT TO SET `processdir": __dirname` if your project is in a subfolder of root. (example ./src/)**
 
 
 Change default Options
@@ -292,7 +300,8 @@ Change default Options
 When you initialize the module, you can specify a few options to customize the directory structure.
 All are listed below with the default values.  An explanation follows.
 
-your main.js file
+your main.js file. 
+
 ```javascript
 // Includes
 var express     = require('express');
@@ -305,16 +314,17 @@ app.use(...);
 
 //define routes default options
 var routeOptions = {
-    routesPath      : "./routes",
-    controllerPath  : "./controllers",
-    policyPath      : "./policy",
-    cors            : false,
+    routesPath      : "./api/routes",
+    controllerPath  : "./api/controllers",
+    policyPath      : "./api/policy",
+    cors            : true,
     displayRoute    : true,
-    defaultAction   : "index"
+    defaultAction   : "index",
+    processDir		: process.cwd()
 }
 
 //init routes
-routes(app, routeOptions);
+var routeInfo = new routes(app, routeOptions);
 ```
 
 -  routesPath      : the path to your routes folder. `Default ./routes`
@@ -323,6 +333,7 @@ routes(app, routeOptions);
 -  cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..). `Default false`
 -  displayRoute    : display in console loading route info, `default true`.
 -  defaultAction   : the function called in route if not specified. It's not so useful, but it's here!.`Default index`
+-  processDir		  : The root base path of the project, default `process.cwd()` set as `__dirname` if you need to start in a subfolder or complex project.
 
 If you omit routeOptions or some params it use defaults values.
 
@@ -334,9 +345,7 @@ user.json
 ```javascript
 {
   "GLOBAL": {
-    "controllerPath": "./customdir",
-    "controller": "test",
-    "policyPath":"./lib",
+    "controller": "./customdir/customControllerName",
     "policy":["config:setall","config:connection"],
     "baseUrl":"/user"
   },
@@ -354,9 +363,8 @@ user.json
 ```
 Example: route controller is ./customdir/UserController.js
 
-- controllerPath: set a controller path for all routing file
-- controller: set a custom name controller for all routing file
-- policyPath: set a custom base policy dir for all rout
+
+- controller: set a custom controller path for all routing file
 - policy: is an array of policy `file:action` to fire before controller
 - baseUrl: is a base path for all url routes in file. Example, inside a file all routes start with `/api/*`, i can set base url as `/api`. Now all file routes start with `/api`. If i have a routes `/users`, it fired when user called `/api/users`
 
@@ -385,12 +393,13 @@ var routeOptions = {
     , controllersPath: "./api/controllers"
     , policyPath: './api/policy'
     , cors: false
+    , processDir: __dirname
 };
 
 /**
  * init json-routing
  */
-routing(app, routeOptions);
+new routing(app, routeOptions);
 
 /**
  * standard express 4 routing
@@ -420,7 +429,7 @@ This is the main file, we set routing and add global setting to use ./api as roo
 {
    "/banned": {
     "GET": {
-      "route": "bannedCustom:index",
+      "route": "./lib/bannedCustom:index",
       }
   },
    "/user": {
@@ -575,6 +584,16 @@ An alternative example use the global file option:
 
 }}
 ```
+Changelog 2.0.0b1
+-------------
+- completely rewrite in typecript (build transpiled in es6)
+- remove global policy options 
+- global now has "controller" option
+- make more simple
+- regex now work good!
+- more speed
+- add test and coverage
+
 Changelog 0.1.5
 -------------
 - Preparing for typescript... es6 and node > 6.4 rewrite, removed underscore. No esternal modules deps!!

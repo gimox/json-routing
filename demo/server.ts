@@ -9,7 +9,6 @@ let app = express();
 
 
 export let routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
-    "routesPath": "./api/routes",
     "processdir": __dirname
 }).start();
 
