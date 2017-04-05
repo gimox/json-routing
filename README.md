@@ -3,7 +3,7 @@ JSON Routes
 
 [![Build Status](https://travis-ci.org/gimox/json-routing.svg?branch=2.0)](https://travis-ci.org/gimox/json-routing)
 [![npm version](https://badge.fury.io/js/json-routing.svg)](https://badge.fury.io/js/json-routing)
-
+[![Coverage Status](https://coveralls.io/repos/github/gimox/json-routing/badge.svg?branch=2.0)](https://coveralls.io/github/gimox/json-routing?branch=2.0)
 
 
 ### THIS IS A BETA VERSION for v2.0 version
