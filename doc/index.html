@@ -66,18 +66,19 @@
 			<div class="tsd-panel tsd-typography">
 				<h1 id="json-routes">JSON Routes</h1>
 				<p><a href="https://travis-ci.org/gimox/json-routing"><img src="https://travis-ci.org/gimox/json-routing.svg?branch=2.0" alt="Build Status"></a>
-				<a href="https://badge.fury.io/js/json-routing"><img src="https://badge.fury.io/js/json-routing.svg" alt="npm version"></a></p>
-				<h3 id="this-is-a-beta-version-for-v2-0-version">THIS IS A BETA VERSION for v2.0 version</h3>
-				<p>v2.0alpha1</p>
+					<a href="https://badge.fury.io/js/json-routing"><img src="https://badge.fury.io/js/json-routing.svg" alt="npm version"></a>
+				<a href="https://coveralls.io/github/gimox/json-routing?branch=2.0"><img src="https://coveralls.io/repos/github/gimox/json-routing/badge.svg?branch=2.0" alt="Coverage Status"></a></p>
+				<h3 id="this-is-a-beta-version-for-v2-0-release">THIS IS A BETA VERSION for v2.0 release</h3>
 				<p>Do not use this branch for production, check for v1.x for stable.</p>
-				<p>Version 2.x is a completly rewrite.  </p>
 				<ul>
-					<li>typescript code, more optimized</li>
+					<li>Typescript code, more optimized</li>
 					<li>more speed</li>
 					<li>remove some unused option</li>
 					<li>make code more extensible and simple</li>
 					<li>prepare it for something more...... </li>
 				</ul>
+				<h2 id="make-me-the-code">MAKE ME THE CODE</h2>
+				<p>####1 init module</p>
 				<p><strong>Typescript</strong></p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {JsonRoute} <span class="hljs-keyword">from</span> <span class="hljs-string">"json-route"</span>;
 
@@ -94,6 +95,33 @@
     <span class="hljs-string">"processdir"</span>: __dirname
 }).start();
 </code></pre>
+				<p>####2 create routes</p>
+				<p><strong>Create a route file definition</strong></p>
+				<pre><code class="lang-json">{
+<span class="hljs-attr">"/admin"</span>: {
+    <span class="hljs-attr">"GET"</span>: {
+      <span class="hljs-attr">"route"</span>: <span class="hljs-string">"action"</span>,
+      <span class="hljs-attr">"policy"</span>: [
+        <span class="hljs-string">"test:check"</span>,
+        <span class="hljs-string">"test:all"</span>,
+        <span class="hljs-string">"./subfolder/test2:index"</span>
+      ]
+    },
+    <span class="hljs-attr">"POST"</span>: {
+      <span class="hljs-attr">"route"</span>: <span class="hljs-string">"action"</span>,
+      <span class="hljs-attr">"policy"</span>: [
+        <span class="hljs-string">"test:all"</span>,
+      ]
+    }
+ },
+  <span class="hljs-attr">"/dashboard"</span>: {
+    <span class="hljs-attr">"GET"</span>: {
+      <span class="hljs-attr">"route"</span>: <span class="hljs-string">"dashboard"</span>,
+      }
+  }
+
+}
+</code></pre>
 				<p>Routig with pure regular expression, add prefix &quot;RE &quot; before uri:</p>
 				<pre><code class="lang-json">{
   <span class="hljs-attr">"RE /.*fly$/"</span>: {
@@ -103,9 +131,7 @@
   }
 }
 </code></pre>
-				<p>TODO: better routing with &quot;pure regular expression&quot; (it not concatenate global url), express route with params and regex work.</p>
-				<p>This doc&#39;s is not updated for version 2 (yet)</p>
-				<h2 id="doc-version-1-not-updated-for-2-">DOC VERSION 1 - not updated for 2!!!</h2>
+				<h2 id="what-is-it-">WHAT IS IT?</h2>
 				<p>Make routes much easier to use in MVC format.
 				I&#39;ve been searching for a while for a nodejs routing solution with a:</p>
 				<ul>
@@ -115,13 +141,14 @@
 					<li>MVC organization,</li>
 					<li>manage only routing, no other auto magic api creation</li>
 					<li>customizable</li>
-					<li>least possible dependency, which uses only underscore</li>
+					<li>least possible dependency</li>
 				</ul>
 				<p>This is: json-routes.</p>
 				<h2 id="how-it-works">How It Works</h2>
 				<p><strong>The basic concepts.</strong>
 				Create a json file with your routing config and add code logic in a external file called <em>controller</em> , creating an MVC style structure.</p>
-				<p>I followed the Expressjs 4 routing standards, helping the developer to manage the routes creation and project organization faster and in the standard synthax.</p>
+				<p>I followed the Expressjs 4 routing standards, helping the developer to manage the routes creation and project organization faster and in the standard synthax. Look at <a href="http://expressjs.com/en/guide/routing.html">express routing guide</a>
+				for a complet route pattern syntax </p>
 				<h2 id="proposed-structure">Proposed Structure</h2>
 				<p>This is an example of the default proposed structure, you can customize and change as you prefer.</p>
 				<pre><code>project root
@@ -171,7 +198,7 @@
       <span class="hljs-string">"policy"</span>: [
         <span class="hljs-string">"./demo/policycustom/test:check"</span>,
         <span class="hljs-string">"test:all"</span>,
-        <span class="hljs-string">"subfolder/test2:index"</span>
+        <span class="hljs-string">"./subfolder/test2:index"</span>
       ]
     },
     <span class="hljs-string">"POST"</span>: {
@@ -179,9 +206,8 @@
       <span class="hljs-string">"policy"</span>: [
         <span class="hljs-string">"./demo/policycustom/test:check"</span>,
         <span class="hljs-string">"test:all"</span>,
-        <span class="hljs-string">"subfolder/test2:index"</span>
-      ],
-      <span class="hljs-string">"cors"</span>:<span class="hljs-literal">true</span>
+        <span class="hljs-string">"./subfolder/test2:index"</span>
+      ]
     }
   },
 
@@ -201,7 +227,7 @@
       <span class="hljs-string">"policy"</span>: [
         <span class="hljs-string">"./demo/policycustom/test:check"</span>,
         <span class="hljs-string">"test:all"</span>,
-        <span class="hljs-string">"subfolder/test2:index"</span>
+        <span class="hljs-string">"./subfolder/test2:index"</span>
       ]
     },
     <span class="hljs-string">"POST"</span>: {
@@ -226,8 +252,8 @@
 				<p><strong>Summarize route params</strong></p>
 				<p>If you omit the route params, the system routing assumes you have a default route controller path/name and a method called &quot;index&quot;.</p>
 				<p>If you add only a parameter, it assumes that the controller is in the default directory with standard name <code>nameController.js</code> , and the parameter is the method that should be called. example route: &quot;testall&quot;</p>
-				<p>If the route params contain both values <code>controllername:method</code> (user:index) it will search the controller using the default directory path structured as controller name followed by method. For example, route: &quot;user:index&quot; searches for a controller called user.js with method index.</p>
-				<p>If you <strong>need to call a controller in a subfolder</strong>, simply add the path before the controller name. Example route: &quot;/afolder/user:index&quot;, fire ./controller/afolder/user.js with method index.</p>
+				<p>If the route params contain both values <code>./path/controllername:method</code> (user:index) it will search the controller using the default directory path structured as controller name followed by method. For example, route: &quot;./test/user:index&quot; searches for a controller called ./test/user with method index.</p>
+				<p>If you <strong>need to call a controller in a subfolder</strong>, simply add the path before the controller name. Example route: &quot;./afolder/user:index&quot;, fire ./controller/afolder/user with method index.</p>
 				<p>If you <strong>need to call a controller starting to your project root</strong> simply add <code>.</code> before the path. Example route: &quot;./lib/user:index&quot;, fire  ./lib/user.js with method index.</p>
 				<h3 id="policy">Policy</h3>
 				<p>Is a module/function called before the controller (= middleware), by default it calls a file in ./policy named as you set in parameters &quot;fileName&quot; and a function named as you set in &quot;functionName&quot;.</p>
@@ -235,26 +261,27 @@
 				<p><strong>The syntax is the same as <code>route</code> params</strong></p>
 				<p>It can be a string for a single policy or an array for multiple policy files.</p>
 				<h3 id="cors">CORS</h3>
-				<p>Enable or disable Cross-origin resource sharing. default is false and disabled.</p>
+				<p>Enable or disable Cross-origin resource sharing. default is true, look at global options for more info.</p>
 				<h3 id="regex">Regex</h3>
-				<p>You can set a regex to validate your route, however I discourage using it. Instead, I prefer to add this logic in the controller for better code speed.</p>
+				<p>You can set a regex to validate your route, however I discourage using it. Instead, I prefer to add this logic in the controller for better code speed. <strong>To set a rexeg route, use the prefix &quot;RE &quot; before pattern.</strong>. </p>
 				<pre><code class="lang-javascript">{
-<span class="hljs-string">"/admin"</span>: {
+<span class="hljs-string">"RE /.*fly$/"</span>: {
     <span class="hljs-string">"GET"</span>: {
       <span class="hljs-string">"route"</span>: <span class="hljs-string">"action"</span>,
       <span class="hljs-string">"policy"</span>: [
         <span class="hljs-string">"./demo/policycustom/test:check"</span>,
         <span class="hljs-string">"test:all"</span>,
-        <span class="hljs-string">"subfolder/test2:index"</span>
-      ],
-      <span class="hljs-string">"regex"</span> : <span class="hljs-literal">true</span> | <span class="hljs-literal">false</span>
+        <span class="hljs-string">"./subfolder/test2:index"</span>
+      ]
     }
-
-
 }
 </code></pre>
 				<h3 id="init-module">Init Module</h3>
 				<p>Configure the routing modules in your main js file, as any other nodes modules.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> routes = <span class="hljs-built_in">require</span>(<span class="hljs-string">'json-routing'</span>);
+<span class="hljs-keyword">new</span> routes(expressApp, options).start();
+</code></pre>
+				<p>Example:  </p>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Includes</span>
 <span class="hljs-keyword">var</span> express     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
 <span class="hljs-keyword">var</span> app         = express();
@@ -267,12 +294,15 @@ app.set(...);
 app.use(...);
 
 <span class="hljs-comment">// this is the magic!</span>
-routes(app); <span class="hljs-comment">//init modules</span>
+<span class="hljs-keyword">new</span> routes(app, {
+     <span class="hljs-string">"processdir"</span>: __dirname
+}).start();
 </code></pre>
+				<p><strong>IT&#39;S VERY IMPORTANT TO SET <code>processdir&quot;: __dirname</code> if your project is in a subfolder of root. (example ./src/)</strong></p>
 				<h2 id="change-default-options">Change default Options</h2>
 				<p>When you initialize the module, you can specify a few options to customize the directory structure.
 				All are listed below with the default values.  An explanation follows.</p>
-				<p>your main.js file</p>
+				<p>your main.js file. </p>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Includes</span>
 <span class="hljs-keyword">var</span> express     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
 <span class="hljs-keyword">var</span> app         = express();
@@ -284,16 +314,17 @@ app.use(...);
 
 <span class="hljs-comment">//define routes default options</span>
 <span class="hljs-keyword">var</span> routeOptions = {
-    <span class="hljs-attr">routesPath</span>      : <span class="hljs-string">"./routes"</span>,
-    <span class="hljs-attr">controllerPath</span>  : <span class="hljs-string">"./controllers"</span>,
-    <span class="hljs-attr">policyPath</span>      : <span class="hljs-string">"./policy"</span>,
-    <span class="hljs-attr">cors</span>            : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">routesPath</span>      : <span class="hljs-string">"./api/routes"</span>,
+    <span class="hljs-attr">controllerPath</span>  : <span class="hljs-string">"./api/controllers"</span>,
+    <span class="hljs-attr">policyPath</span>      : <span class="hljs-string">"./api/policy"</span>,
+    <span class="hljs-attr">cors</span>            : <span class="hljs-literal">true</span>,
     <span class="hljs-attr">displayRoute</span>    : <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">defaultAction</span>   : <span class="hljs-string">"index"</span>
+    <span class="hljs-attr">defaultAction</span>   : <span class="hljs-string">"index"</span>,
+    <span class="hljs-attr">processDir</span>        : process.cwd()
 }
 
 <span class="hljs-comment">//init routes</span>
-routes(app, routeOptions);
+<span class="hljs-keyword">var</span> routeInfo = <span class="hljs-keyword">new</span> routes(app, routeOptions);
 </code></pre>
 				<ul>
 					<li>routesPath      : the path to your routes folder. <code>Default ./routes</code></li>
@@ -302,6 +333,7 @@ routes(app, routeOptions);
 					<li>cors            : enable cross origin resource sharing for all routes. (more cors options coming soon..). <code>Default false</code></li>
 					<li>displayRoute    : display in console loading route info, <code>default true</code>.</li>
 					<li>defaultAction   : the function called in route if not specified. It&#39;s not so useful, but it&#39;s here!.<code>Default index</code></li>
+					<li>processDir          : The root base path of the project, default <code>process.cwd()</code> set as <code>__dirname</code> if you need to start in a subfolder or complex project.</li>
 				</ul>
 				<p>If you omit routeOptions or some params it use defaults values.</p>
 				<h2 id="change-json-file-global-options">Change json file Global Options</h2>
@@ -309,9 +341,7 @@ routes(app, routeOptions);
 				<p>user.json</p>
 				<pre><code class="lang-javascript">{
   <span class="hljs-string">"GLOBAL"</span>: {
-    <span class="hljs-string">"controllerPath"</span>: <span class="hljs-string">"./customdir"</span>,
-    <span class="hljs-string">"controller"</span>: <span class="hljs-string">"test"</span>,
-    <span class="hljs-string">"policyPath"</span>:<span class="hljs-string">"./lib"</span>,
+    <span class="hljs-string">"controller"</span>: <span class="hljs-string">"./customdir/customControllerName"</span>,
     <span class="hljs-string">"policy"</span>:[<span class="hljs-string">"config:setall"</span>,<span class="hljs-string">"config:connection"</span>],
     <span class="hljs-string">"baseUrl"</span>:<span class="hljs-string">"/user"</span>
   },
@@ -329,9 +359,7 @@ routes(app, routeOptions);
 </code></pre>
 				<p>Example: route controller is ./customdir/UserController.js</p>
 				<ul>
-					<li>controllerPath: set a controller path for all routing file</li>
-					<li>controller: set a custom name controller for all routing file</li>
-					<li>policyPath: set a custom base policy dir for all rout</li>
+					<li>controller: set a custom controller path for all routing file</li>
 					<li>policy: is an array of policy <code>file:action</code> to fire before controller</li>
 					<li>baseUrl: is a base path for all url routes in file. Example, inside a file all routes start with <code>/api/*</code>, i can set base url as <code>/api</code>. Now all file routes start with <code>/api</code>. If i have a routes <code>/users</code>, it fired when user called <code>/api/users</code></li>
 				</ul>
@@ -355,12 +383,13 @@ routes(app, routeOptions);
     , <span class="hljs-attr">controllersPath</span>: <span class="hljs-string">"./api/controllers"</span>
     , <span class="hljs-attr">policyPath</span>: <span class="hljs-string">'./api/policy'</span>
     , <span class="hljs-attr">cors</span>: <span class="hljs-literal">false</span>
+    , <span class="hljs-attr">processDir</span>: __dirname
 };
 
 <span class="hljs-comment">/**
  * init json-routing
  */</span>
-routing(app, routeOptions);
+<span class="hljs-keyword">new</span> routing(app, routeOptions);
 
 <span class="hljs-comment">/**
  * standard express 4 routing
@@ -386,7 +415,7 @@ app.use(<span class="hljs-string">'/'</span>, router);
 				<pre><code class="lang-javascript">{
    <span class="hljs-string">"/banned"</span>: {
     <span class="hljs-string">"GET"</span>: {
-      <span class="hljs-string">"route"</span>: <span class="hljs-string">"bannedCustom:index"</span>,
+      <span class="hljs-string">"route"</span>: <span class="hljs-string">"./lib/bannedCustom:index"</span>,
       }
   },
    <span class="hljs-string">"/user"</span>: {
@@ -512,6 +541,18 @@ exports.create = <span class="hljs-function"><span class="hljs-keyword">function
 
 }}
 </code></pre>
+				<h2 id="example">Example</h2>
+				<p>Look at ./demo for a fully working example.</p>
+				<h2 id="changelog-2-0-0b1">Changelog 2.0.0b1</h2>
+				<ul>
+					<li>completely rewrite in typecript (build transpiled in es6)</li>
+					<li>remove global policy options </li>
+					<li>global now has &quot;controller&quot; option</li>
+					<li>make more simple</li>
+					<li>regex now work good!</li>
+					<li>more speed</li>
+					<li>add test and coverage</li>
+				</ul>
 				<h2 id="changelog-0-1-5">Changelog 0.1.5</h2>
 				<ul>
 					<li>Preparing for typescript... es6 and node &gt; 6.4 rewrite, removed underscore. No esternal modules deps!!</li>
