@@ -17,7 +17,7 @@ export class JsonRoute {
     app: any;
     options: IOptions;
 
-    constructor(app: any, options: IOptions) {
+    constructor(app, options: IOptions) {
         this.app = app;
         this.options = new Options().get(options);
     }
