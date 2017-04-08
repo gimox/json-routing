@@ -17,7 +17,7 @@ export interface IOptions {
  * Set default options for IOption interface
  */
 export class Options {
-    get(options: IOptions): IOptions {
+    get(options: IOptions = {}): IOptions {
         options.routesPath = options.routesPath || './api/routes';
         options.controllersPath = options.controllersPath || './api/controllers';
         options.policyPath = options.policyPath || './api/policy';

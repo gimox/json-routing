@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 class Options {
-    get(options) {
+    get(options = {}) {
         options.routesPath = options.routesPath || './api/routes';
         options.controllersPath = options.controllersPath || './api/controllers';
         options.policyPath = options.policyPath || './api/policy';
