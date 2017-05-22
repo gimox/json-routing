@@ -1,22 +1,13 @@
-//let app = require(process.cwd() + '/demo/server'); // start server
-
 import {routeInfo} from "./demo/server";
-
 import  * as chai from "chai";
 
 const chaiHttp = require("chai-http");
 const should = chai.should();
 const expect = chai.expect;
-
 const URL = "http://localhost:3000";
-
-
-//import {server} from "./demo/server";
 
 chai.use(chaiHttp);
 
-
-//let server = require('../demo/server');
 
 describe('Server is Up: ', () => {
     it('Has 13 routes', () => {
@@ -76,6 +67,7 @@ describe('Basic routes: ', () => {
 
 });
 
+
 describe('Middleware: ', () => {
     it('/hasmiddleware GET - as array - has property "mdlw"', (done) => {
         chai.request(URL)
@@ -116,6 +108,7 @@ describe('Middleware: ', () => {
 
 });
 
+
 describe('Controller custom name: ', () => {
 
     it('/customControllerPath GET - has custom controller path', (done) => {
@@ -131,6 +124,7 @@ describe('Controller custom name: ', () => {
     });
 
 });
+
 
 describe('Global params: ', () => {
     it('/other/hasbaseUrl GET - BASEURL has "/other"', (done) => {
