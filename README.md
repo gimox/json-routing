@@ -616,6 +616,10 @@ Example
 -----------------
 Look at ./demo for a fully working example.
 
+Changelog 2.0.0Rc1
+-------------
+- minor fix
+- route with regular expression
 
 Changelog 2.0.0b1
 -------------
