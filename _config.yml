@@ -2,7 +2,7 @@ title: Json-routing
 description: json-routing, json-route, nodeJs, json, configuration, routing for express
 google_analytics: UA-58576055-1
 show_downloads: true
-theme: jekyll-theme-cayman
+theme: jekyll-theme-slate
 
 gems:
   - jekyll-mentions
