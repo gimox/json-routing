@@ -6,9 +6,9 @@ JSON Routes
 [![Coverage Status](https://coveralls.io/repos/github/gimox/json-routing/badge.svg?branch=2.0)](https://coveralls.io/github/gimox/json-routing?branch=2.0)
 
 
-### THIS IS A BETA VERSION for v2.0 release
+### THIS IS A RC VERSION for v2.0 release
 
-Do not use this branch for production, check for v1.x for stable.
+Look at [v1.x](https://github.com/gimox/json-routing/tree/1.x) for more stable version.
 
 - Typescript code, more optimized
 - more speed
