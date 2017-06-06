@@ -1,4 +1,4 @@
-import * as path from 'path';
+import * as path from "path";
 
 /**
  * Interface for json-route option
@@ -11,6 +11,7 @@ export interface IOptions {
     , cors?: boolean
     , displayRoute?: boolean
     , defaultAction?: string
+    , urlPrefix?: string
 }
 
 /**
@@ -18,13 +19,14 @@ export interface IOptions {
  */
 export class Options {
     get(options: IOptions = {}): IOptions {
-        options.routesPath = options.routesPath || './api/routes';
-        options.controllersPath = options.controllersPath || './api/controllers';
-        options.policyPath = options.policyPath || './api/policy';
+        options.routesPath = options.routesPath || "./api/routes";
+        options.controllersPath = options.controllersPath || "./api/controllers";
+        options.policyPath = options.policyPath || "./api/policy";
         options.processdir = options.processdir || process.cwd();
         options.cors = options.cors || true;
         options.displayRoute = options.displayRoute || true;
-        options.defaultAction = options.defaultAction || 'index';
+        options.defaultAction = options.defaultAction || "index";
+        options.urlPrefix = options.urlPrefix || "";
 
         options.routesPath = path.join(options.processdir, options.routesPath);
         options.controllersPath = path.join(options.processdir, options.controllersPath);

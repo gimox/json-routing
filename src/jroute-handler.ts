@@ -115,6 +115,7 @@ export class JrouteHandler {
         let status: string = "\x1b[31mFail\x1b[0m";
         let uriEndpoint: any = pattern;
         let basePath: string = this.baseUrl;
+        let prefix: string = this.options.urlPrefix;
 
         // regex normalization
         if (pattern.startsWith("RE ")) {
@@ -130,10 +131,11 @@ export class JrouteHandler {
 
             uriEndpoint = new RegExp(pattern);
             basePath = "";
+            prefix = "";
 
         } else {
 
-            uriEndpoint = this.baseUrl + pattern;
+            uriEndpoint = prefix +  this.baseUrl + pattern;
         }
 
 
@@ -145,7 +147,7 @@ export class JrouteHandler {
             status = "\x1b[31mFail\x1b[0m";
         }
 
-        return {"verb": verb, "url": basePath + pattern, "controllerName": controllerName, "status": status};
+        return {"verb": verb, "url": prefix + basePath + pattern, "controllerName": controllerName, "status": status};
     }
 
 

@@ -51,6 +51,7 @@ class JrouteHandler {
         let status = "\x1b[31mFail\x1b[0m";
         let uriEndpoint = pattern;
         let basePath = this.baseUrl;
+        let prefix = this.options.urlPrefix;
         if (pattern.startsWith("RE ")) {
             pattern = pattern.substring(3);
             if (pattern.startsWith("/")) {
@@ -61,9 +62,10 @@ class JrouteHandler {
             }
             uriEndpoint = new RegExp(pattern);
             basePath = "";
+            prefix = "";
         }
         else {
-            uriEndpoint = this.baseUrl + pattern;
+            uriEndpoint = prefix + this.baseUrl + pattern;
         }
         try {
             this.app[verb](uriEndpoint, middleware, handler);
@@ -72,7 +74,7 @@ class JrouteHandler {
         catch (ex) {
             status = "\x1b[31mFail\x1b[0m";
         }
-        return { "verb": verb, "url": basePath + pattern, "controllerName": controllerName, "status": status };
+        return { "verb": verb, "url": prefix + basePath + pattern, "controllerName": controllerName, "status": status };
     }
 }
 exports.JrouteHandler = JrouteHandler;
