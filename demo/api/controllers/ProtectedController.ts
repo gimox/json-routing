@@ -3,5 +3,5 @@ exports.index = (req, res) => {
 };
 
 exports.indexnot = (req, res) => {
-    res.json({message: 'NOT protected bny jwt'});
+    res.json({message: 'NOT protected by jwt'});
 };

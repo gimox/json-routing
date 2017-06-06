@@ -673,10 +673,12 @@ export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
 }).start();
 
 
-app.use((err: any, req: express.Request, res: express.Response) => {
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err.name === 'UnauthorizedError') {
         res.status(401).json({"message": "invalid token..."});
     }
+
+    next();
 });
 
 ```

@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 describe('Server is Up: ', () => {
     it('Has 13 routes', () => {
-        routeInfo.length.should.be.eql(13);
+        routeInfo.length.should.be.eql(15);
     });
 
     it('/GET return 200', (done) => {
@@ -198,6 +198,29 @@ describe('Regex route: ', () => {
             .get("/dragonflyno")
             .end((err, res) => {
                 expect(res).to.have.status(404);
+                done();
+            });
+    });
+});
+
+
+describe('JWT route: ', () => {
+    it('/protected GET - must return 401', (done) => {
+        chai.request(URL)
+            .get("/protected")
+            .end((err, res) => {
+                expect(res).to.have.status(401);
+                done();
+            });
+    });
+    it('/notprotected GET - must return 200', (done) => {
+        chai.request(URL)
+            .get("/notprotected")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("message").eql("NOT protected by jwt");
                 done();
             });
     });
