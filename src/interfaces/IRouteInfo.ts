@@ -6,4 +6,5 @@ export interface IRouteInfo {
     , url: string
     , controllerName: string
     , status: string
+    , protected: boolean
 }

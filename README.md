@@ -20,7 +20,7 @@ Look at [v1.x](https://github.com/gimox/json-routing/tree/1.x) for more stable v
 MAKE ME THE CODE
 -------------
 
-####1 init module
+#### 1 init module
 
 **Typescript**
 
@@ -45,7 +45,7 @@ let routeInfo = new JsonRoute(app, {
 }).start();
 ```
 
-####2 create routes
+#### 2 create routes
 
 **Create a route file definition**
 

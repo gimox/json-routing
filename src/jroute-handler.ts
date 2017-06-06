@@ -88,9 +88,10 @@ export class JrouteHandler {
 
         for (let verb in json[uri]) {
             let params = json[uri][verb];
+            const hasJwt = params.jwt || false;
             let handlers: IHandler = this.routeController.getHandler(params.route, this.globalOptions.controller);
-            let middleware = new RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy);
-            let info = this.add(verb, uri, middleware, handlers.fnc, handlers.name);
+            let middleware: Array<any> = new RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy);
+            let info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt);
 
             routeInfo.push(info);
         }
@@ -106,9 +107,10 @@ export class JrouteHandler {
      * @param middleware - string or array of middleware
      * @param handler - controller function
      * @param controllerName - controller name
+     * @param hasJwt - true if route is jwt protected
      * @returns {{verb: string, url: string, controllerName: string, status: string}} route definition info
      */
-    add(verb: string, pattern: string, middleware: any, handler: any, controllerName: string): IRouteInfo {
+    add(verb: string, pattern: string, middleware: Array<any>, handler: any, controllerName: string, hasJwt: boolean = false): IRouteInfo {
 
         verb = verb.toLowerCase();
 
@@ -135,7 +137,7 @@ export class JrouteHandler {
 
         } else {
 
-            uriEndpoint = prefix +  this.baseUrl + pattern;
+            uriEndpoint = prefix + this.baseUrl + pattern;
         }
 
 
@@ -147,7 +149,13 @@ export class JrouteHandler {
             status = "\x1b[31mFail\x1b[0m";
         }
 
-        return {"verb": verb, "url": prefix + basePath + pattern, "controllerName": controllerName, "status": status};
+        return {
+            "verb": verb,
+            "url": prefix + basePath + pattern,
+            "controllerName": controllerName,
+            "status": status,
+            "protected": hasJwt
+        };
     }
 
 

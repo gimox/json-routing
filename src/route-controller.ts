@@ -71,9 +71,7 @@ export class RouteController {
     getHandler(routeParams?: string, globalController?: string): IHandler {
         let route = this._parse(this.controllerName, routeParams);
 
-        /*
 
-         */
         let basePath: string = this.options.controllersPath;
         let ctrlNamePath: string = this.controllerName;
         let ctrlName: string = this.controllerName;

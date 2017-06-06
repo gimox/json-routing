@@ -35,12 +35,12 @@ export class RoutesDisplay {
      */
     content() {
         let table: any = new CliTable({
-            head: ["Url", "Verb", "Controller", "Check"]
-            , colWidths: [40, 7, 25, 7]
+            head: ["Url", "Verb", "Controller", "JWT", "Check"]
+            , colWidths: [40, 7, 25, 7, 7]
         });
 
         for (let info of this.routesInfo) {
-            table.push([info.url, info.verb.toUpperCase(), info.controllerName.replace("Controller", ""), info.status])
+            table.push([info.url, info.verb.toUpperCase(), info.controllerName.replace("Controller", ""), (info.protected ?  "Yes" : "NO"), info.status])
         }
 
         console.log(table.toString());
