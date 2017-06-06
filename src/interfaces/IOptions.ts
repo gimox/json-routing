@@ -12,6 +12,9 @@ export interface IOptions {
     , displayRoute?: boolean
     , defaultAction?: string
     , urlPrefix?: string
+    , jwt?: {
+    secret: any
+    }
 }
 
 /**

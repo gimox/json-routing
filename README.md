@@ -612,9 +612,102 @@ An alternative example use the global file option:
 }}
 ```
 
+Protected route with JWT
+-----------------
+You can protect a routes using [jwt](https://jwt.io/). Json-routing use [auth0/express-jwt](https://github.com/auth0/express-jwt).
+To protect a route add a property `jwt:true` and set the global options for jwt as example.
+
+**Before using jwt you need to install express-jwt manually: `npm install --save express-jwt`**
+
+
+*Route file: protected.json* 
+ 
+```  
+{
+  "/protected": {
+    "GET": {
+      "route": "index",
+      "jwt": true
+    }
+  },
+  "/notprotected": {
+    "GET": {
+      "route": "indexnot",
+      "jwt": false
+    }
+  }
+}
+  
+```
+NB note to pretect a route we need to set `jwt:true`
+
+In main file: server.ts/js
+
+```  
+...
+
+export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
+    "processdir": __dirname,
+    "jwt": {
+        "secret": "12345678910abc"
+    }
+}).start();
+
+...
+
+```
+NB in json-routing init we need to set jwt object with secret
+
+
+DONE!!!!!
+
+### jwt extra route for error
+to make a better jwt unauthorized response we can add a specific route like this:
+
+```
+export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
+    "processdir": __dirname,
+    "jwt": {
+        "secret": "12345678910abc"
+    }
+}).start();
+
+
+app.use((err: any, req: express.Request, res: express.Response) => {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({"message": "invalid token..."});
+    }
+});
+
+```
+
+Add a global route prefix
+-----------------
+You can add a global prefix path for all routes set options.urlPrefix
+
+
+```
+export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
+    "processdir": __dirname,
+    "urlPrefix":"/api/v1"
+   
+}).start();
+
+```
+All routes now start with `/api/vi`
+
+
 Example
 -----------------
 Look at ./demo for a fully working example.
+
+Changelog 2.0.1
+-------------
+- add protected route with JWT
+
+Changelog 2.0.0
+-------------
+- add urlPrefix for all routes
 
 Changelog 2.0.0Rc1
 -------------

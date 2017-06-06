@@ -2,24 +2,32 @@ import * as express from "express";
 import {JsonRoute} from "../src/json-route";
 import {IRouteInfo} from "../src/interfaces/IRouteInfo";
 
-let port: number = process.env.PORT || 3000;
+const port: number = process.env.PORT || 3000;
 let app: express.Application = express();
 
 
-export let routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
-    "processdir": __dirname
+export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
+    "processdir": __dirname,
+    "jwt": {
+        "secret": "12345678910abc"
+    }
 }).start();
 
 
 console.log("Total routes:", routeInfo.length);
 
+app.use((err: any, req: express.Request, res: express.Response) => {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({"message": "invalid token..."});
+    }
+});
 
 /**
  * server start
  *
  * @type {http.Server}
  */
-let server = app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log("Listening on port %d", server.address().port);
 });
 

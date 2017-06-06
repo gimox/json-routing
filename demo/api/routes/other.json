@@ -5,7 +5,7 @@
   "/hasbaseUrl": {
     "GET": {
       "route": "index",
-      "jwt":true
+      "jwt":false
     }
   }
 }

@@ -1,0 +1,14 @@
+{
+  "/protected": {
+    "GET": {
+      "route": "index",
+      "jwt": true
+    }
+  },
+  "/notprotected": {
+    "GET": {
+      "route": "indexnot",
+      "jwt": false
+    }
+  }
+}
