@@ -1,7 +1,7 @@
 {
   "name": "json-routing",
   "description": "JSON configurable MVC routing for express 4",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "author": "Giorgio Modoni <modogio@gmail.com>",
   "homepage": "http://gimox.github.io/json-routing",
   "main": "./build/json-route.js",
@@ -47,12 +47,16 @@
     "node": ">=6.9.1"
   },
   "dependencies": {
+    "@types/body-parser": "^1.16.3",
     "@types/express": "^4.0.35",
     "@types/express-jwt": "0.0.35",
+    "@types/express-validator": "^3.0.0",
     "@types/node": "^7.0.0",
+    "body-parser": "^1.17.2",
     "cli-table": "^0.3.1",
     "express": "^4.15.2",
-    "express-jwt": "^5.3.0"
+    "express-jwt": "^5.3.0",
+    "express-validator": "^3.2.0"
   },
   "keywords": [
     "routes",

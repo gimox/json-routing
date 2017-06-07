@@ -1,5 +1,6 @@
 import {IOptions} from "./interfaces/IOptions";
 import * as path from "path";
+import {RouteValidator} from "./route-validator";
 
 /**
  * Create a array with middleware for route
@@ -20,7 +21,7 @@ export class RouteMiddleware {
      * @param hasJwt - true if route is jwt protected
      * @returns {Array} array of middleware
      */
-    get(middlewareDef: Array<string> | string = [], globalDef: Array<string> | string = [], hasJwt: boolean = false): Array<string> {
+    get(middlewareDef: Array<string> | string = [], globalDef: Array<string> | string = [], hasJwt: boolean = false, validators): Array<string> {
 
         if (!Array.isArray(middlewareDef))
             middlewareDef = [middlewareDef];
@@ -36,7 +37,7 @@ export class RouteMiddleware {
             try {
                 const jwt = require("express-jwt");
                 mdlwFnc.unshift(jwt(this.options.jwt));
-            }catch(e) {
+            } catch (e) {
                 console.log("\x1b[31m");
                 console.log("************************************ WARNING!!!! ******************************************");
                 console.log("*                                                                                         *");
@@ -47,8 +48,24 @@ export class RouteMiddleware {
             }
         }
 
-        return mdlwFnc;
+        /**
+         * add validator
+         */
+        if (validators.body || validators.params || validators.query) {
+            const validatorMdw = RouteValidator.get(validators);
 
+            /**
+             * insert validator after jwt if is present
+             */
+            if (hasJwt && this.options.jwt) {
+                mdlwFnc.splice(1, 0, validatorMdw);
+            } else {
+                mdlwFnc.unshift(validatorMdw);
+            }
+
+        }
+
+        return mdlwFnc;
     }
 
     /**

@@ -699,6 +699,45 @@ export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
 All routes now start with `/api/vi`
 
 
+Route validation params
+-----------------
+It can be done thanks to express-validator using schema. add `validators` object with: params, query or boby according
+to (express-validator)[https://github.com/ctavan/express-validator] "validation by Schema"
+
+route file.json
+
+```
+{
+  "/validateparam/:id": {
+    "GET": {
+      "route": "validateparam",
+      "jwt": false,
+      "validators": {
+        "params": {
+          "id": {
+            "notEmpty": true,
+            "isLength": {
+              "options": [
+                {
+                  "min": 5,
+                  "max": 10
+                }
+              ],
+              "errorMessage": "Must be between 2 and 10 chars long"
+            },
+            "errorMessage": "id is required"
+          }
+        }
+      }
+    }
+  }
+}
+
+NB body-parser middleware is injected by json-routing, you can pass params in global params
+
+```
+
+
 Example
 -----------------
 Look at ./demo for a fully working example.

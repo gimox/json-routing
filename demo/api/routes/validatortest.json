@@ -1,0 +1,25 @@
+{
+  "/validateparam/:id": {
+    "GET": {
+      "route": "validateparam",
+      "jwt": false,
+      "validators": {
+        "params": {
+          "id": {
+            "notEmpty": true,
+            "isLength": {
+              "options": [
+                {
+                  "min": 5,
+                  "max": 10
+                }
+              ],
+              "errorMessage": "Must be between 2 and 10 chars long"
+            },
+            "errorMessage": "id is required"
+          }
+        }
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 describe('Server is Up: ', () => {
     it('Has 13 routes', () => {
-        routeInfo.length.should.be.eql(15);
+        routeInfo.length.should.be.eql(16);
     });
 
     it('/GET return 200', (done) => {
@@ -224,4 +224,31 @@ describe('JWT route: ', () => {
                 done();
             });
     });
+});
+
+
+describe('Validation: ', () => {
+    it('/validateparam/23 GET - must return 400', (done) => {
+        chai.request(URL)
+            .get("/validateparam/23")
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                res.body.should.be.a("object");
+                res.body.should.have.property("message").eql("Validation error - id Must be between 2 and 10 chars long");
+                done();
+            });
+    });
+
+    it('/validateparam/232323 GET - must return 200', (done) => {
+        chai.request(URL)
+            .get("/validateparam/232323")
+            .end((err, res) => {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                res.body.should.be.a("object");
+                res.body.should.have.property("message").eql("validate params");
+                done();
+            });
+    });
+
 });

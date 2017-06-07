@@ -4,9 +4,11 @@ import {IJsonRoute} from "./interfaces/IJsonRoute";
 
 import {JrouteHandler} from "./jroute-handler";
 import {RoutesDisplay} from "./routes-display";
+import {RouteValidator} from "./route-validator";
 
 import * as fs from "fs";
 import * as path from "path";
+import * as bodyParser from "body-parser";
 
 
 /**
@@ -20,6 +22,18 @@ export class JsonRoute {
     constructor(app, options: IOptions) {
         this.app = app;
         this.options = new Options().get(options);
+
+        this.setDefaultMdlw();
+    }
+
+    setDefaultMdlw() {
+        if (this.options.cors) {
+            this.setCors();
+        }
+
+        this.app.use(bodyParser.urlencoded(this.options.bodyParserUrlEncoded));
+        this.app.use(bodyParser.json());
+        RouteValidator.init(this.app);
     }
 
     /**
@@ -29,8 +43,6 @@ export class JsonRoute {
     start(): Array<IRouteInfo> {
         let routes = this.getJsonRoute();
 
-        if (this.options.cors)
-            this.setCors();
 
         let routesInfo: Array<IRouteInfo> = [];
 
