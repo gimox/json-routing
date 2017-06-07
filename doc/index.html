@@ -562,16 +562,16 @@ exports.create = <span class="hljs-function"><span class="hljs-keyword">function
 }
 </code></pre><p>NB note to pretect a route we need to set <code>jwt:true</code></p>
 				<p>In main file: server.ts/js</p>
-				<pre><code><span class="hljs-params">...</span>
+				<pre><code>...
 
-export const routeInfo: <span class="hljs-built_in">Array</span>&lt;IRouteInfo&gt; = <span class="hljs-literal">new</span> JsonRoute(app, {
+export <span class="hljs-keyword">const</span> routeInfo: Array&lt;IRouteInfo&gt; = <span class="hljs-keyword">new</span> JsonRoute(app, {
     <span class="hljs-string">"processdir"</span>: __dirname,
     <span class="hljs-string">"jwt"</span>: {
         <span class="hljs-string">"secret"</span>: <span class="hljs-string">"12345678910abc"</span>
     }
 }).start();
 
-<span class="hljs-params">...</span>
+...
 </code></pre><p>NB in json-routing init we need to set jwt object with secret</p>
 				<p>DONE!!!!!</p>
 				<h3 id="jwt-extra-route-for-error">jwt extra route for error</h3>
@@ -593,7 +593,7 @@ app.use((<span class="hljs-built_in">err</span>: any, req: express.<span class="
 });
 </code></pre><h2 id="add-a-global-route-prefix">Add a global route prefix</h2>
 				<p>You can add a global prefix path for all routes set options.urlPrefix</p>
-				<pre><code><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> routeInfo: <span class="hljs-built_in">Array</span>&lt;IRouteInfo&gt; = <span class="hljs-keyword">new</span> JsonRoute(app, {
+				<pre><code>export <span class="hljs-keyword">const</span> routeInfo: Array&lt;IRouteInfo&gt; = <span class="hljs-keyword">new</span> JsonRoute(app, {
     <span class="hljs-string">"processdir"</span>: __dirname,
     <span class="hljs-string">"urlPrefix"</span>:<span class="hljs-string">"/api/v1"</span>
 
