@@ -13,7 +13,7 @@ export interface IOptions {
     , defaultAction?: string
     , urlPrefix?: string
     , jwt?: {
-    secret: any
+        secret: any
     }
 }
 

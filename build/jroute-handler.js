@@ -39,14 +39,15 @@ class JrouteHandler {
         let routeInfo = [];
         for (let verb in json[uri]) {
             let params = json[uri][verb];
+            let hasJwt = params.jwt || false;
             let handlers = this.routeController.getHandler(params.route, this.globalOptions.controller);
-            let middleware = new route_middleware_1.RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy);
-            let info = this.add(verb, uri, middleware, handlers.fnc, handlers.name);
+            let middleware = new route_middleware_1.RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy, hasJwt);
+            let info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt);
             routeInfo.push(info);
         }
         return routeInfo;
     }
-    add(verb, pattern, middleware, handler, controllerName) {
+    add(verb, pattern, middleware, handler, controllerName, hasJwt = false) {
         verb = verb.toLowerCase();
         let status = "\x1b[31mFail\x1b[0m";
         let uriEndpoint = pattern;
@@ -74,7 +75,13 @@ class JrouteHandler {
         catch (ex) {
             status = "\x1b[31mFail\x1b[0m";
         }
-        return { "verb": verb, "url": prefix + basePath + pattern, "controllerName": controllerName, "status": status };
+        return {
+            "verb": verb,
+            "url": prefix + basePath + pattern,
+            "controllerName": controllerName,
+            "status": status,
+            "protected": hasJwt
+        };
     }
 }
 exports.JrouteHandler = JrouteHandler;
