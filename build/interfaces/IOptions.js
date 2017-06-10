@@ -11,6 +11,7 @@ class Options {
         options.displayRoute = options.displayRoute || true;
         options.defaultAction = options.defaultAction || "index";
         options.urlPrefix = options.urlPrefix || "";
+        options.bodyParserUrlEncoded = options.bodyParserUrlEncoded || { extended: true };
         options.routesPath = path.join(options.processdir, options.routesPath);
         options.controllersPath = path.join(options.processdir, options.controllersPath);
         options.policyPath = path.join(options.processdir, options.policyPath);

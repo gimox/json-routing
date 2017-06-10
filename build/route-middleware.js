@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
+const route_validator_1 = require("./route-validator");
 class RouteMiddleware {
     constructor(options) {
         this.options = options;
     }
-    get(middlewareDef = [], globalDef = [], hasJwt = false) {
+    get(middlewareDef = [], globalDef = [], hasJwt = false, validators) {
         if (!Array.isArray(middlewareDef))
             middlewareDef = [middlewareDef];
         if (!Array.isArray(globalDef))
@@ -25,6 +26,15 @@ class RouteMiddleware {
                 console.log("*                                                                                         *");
                 console.log("*******************************************************************************************");
                 console.log("\x1b[0m");
+            }
+        }
+        if (validators.body || validators.params || validators.query) {
+            const validatorMdw = route_validator_1.RouteValidator.get(validators);
+            if (hasJwt && this.options.jwt) {
+                mdlwFnc.splice(1, 0, validatorMdw);
+            }
+            else {
+                mdlwFnc.unshift(validatorMdw);
             }
         }
         return mdlwFnc;

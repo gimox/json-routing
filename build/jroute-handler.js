@@ -40,8 +40,9 @@ class JrouteHandler {
         for (let verb in json[uri]) {
             let params = json[uri][verb];
             let hasJwt = params.jwt || false;
+            let validators = params.validators || {};
             let handlers = this.routeController.getHandler(params.route, this.globalOptions.controller);
-            let middleware = new route_middleware_1.RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy, hasJwt);
+            let middleware = new route_middleware_1.RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy, hasJwt, validators);
             let info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt);
             routeInfo.push(info);
         }

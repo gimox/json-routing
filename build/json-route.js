@@ -3,17 +3,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const IOptions_1 = require("./interfaces/IOptions");
 const jroute_handler_1 = require("./jroute-handler");
 const routes_display_1 = require("./routes-display");
+const route_validator_1 = require("./route-validator");
 const fs = require("fs");
 const path = require("path");
+const bodyParser = require("body-parser");
 class JsonRoute {
     constructor(app, options) {
         this.app = app;
         this.options = new IOptions_1.Options().get(options);
+        this.setDefaultMdlw();
+    }
+    setDefaultMdlw() {
+        if (this.options.cors) {
+            this.setCors();
+        }
+        this.app.use(bodyParser.urlencoded(this.options.bodyParserUrlEncoded));
+        this.app.use(bodyParser.json());
+        route_validator_1.RouteValidator.init(this.app);
     }
     start() {
         let routes = this.getJsonRoute();
-        if (this.options.cors)
-            this.setCors();
         let routesInfo = [];
         for (let route of routes) {
             let info = new jroute_handler_1.JrouteHandler(route, this.options, this.app).set();
