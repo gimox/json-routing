@@ -742,6 +742,10 @@ Example
 -----------------
 Look at ./demo for a fully working example.
 
+Changelog 2.0.4
+-------------
+- add validator
+
 Changelog 2.0.1
 -------------
 - add protected route with JWT
