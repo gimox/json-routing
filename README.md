@@ -6,14 +6,15 @@ JSON Routes
 [![Coverage Status](https://coveralls.io/repos/github/gimox/json-routing/badge.svg?branch=2.0)](https://coveralls.io/github/gimox/json-routing?branch=2.0)
 
 
-### THIS IS A RC VERSION for v2.0 release
 
-Look at [v1.x](https://github.com/gimox/json-routing/tree/1.x) for more stable version.
+Look at branch [v1.x](https://github.com/gimox/json-routing/tree/1.x) for older release.
 
 - Typescript code, more optimized
 - more speed
 - remove some unused option
 - make code more extensible and simple
+- add automatic JWT route protection with auth0/express-jwt
+- add route validator with express-validator
 - prepare it for something more...... 
 
 
@@ -701,8 +702,13 @@ All routes now start with `/api/vi`
 
 Route validation params
 -----------------
-It can be done thanks to express-validator using schema. add `validators` object with: params, query or boby according
-to (express-validator)[https://github.com/ctavan/express-validator] "validation by Schema"
+It can be done by express-validator using schema. Add `validators` object with: 
+
+- params -> route params es /home/:id
+- query  -> query params es -> /home?id=124
+- boby   -> body params es post params like {"id":"1233"}
+
+according [express-validator](https://github.com/ctavan/express-validator) "validation by Schema"
 
 route file.json
 
@@ -733,9 +739,42 @@ route file.json
   }
 }
 
-NB body-parser middleware is injected by json-routing, you can pass params in global params
+```
+**NB body-parser middleware is injected by json-routing, you can pass params in global params**
+
+
+
+ALL OPTIONS
+-----------------
+```javascript
+export interface IOptions {
+    routesPath?: string
+    , controllersPath?: string
+    , policyPath?: string
+    , processdir?: string
+    , cors?: boolean
+    , displayRoute?: boolean
+    , defaultAction?: string
+    , urlPrefix?: string
+    , jwt?: {
+        secret: any
+    }
+    , bodyParserUrlEncoded?: any
+}
+
+... 
+
+let options: IOptions;
+
+...
+// add params to optins object
+
+
+let routeInfo:Array<any> = new JsonRoute(app, options}).start();
 
 ```
+
+
 
 
 Example
