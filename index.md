@@ -6,21 +6,22 @@ JSON Routes
 [![Coverage Status](https://coveralls.io/repos/github/gimox/json-routing/badge.svg?branch=2.0)](https://coveralls.io/github/gimox/json-routing?branch=2.0)
 
 
-### THIS IS A RC VERSION for v2.0 release
 
-Look at [v1.x](https://github.com/gimox/json-routing/tree/1.x) for more stable version.
+Look at branch [v1.x](https://github.com/gimox/json-routing/tree/1.x) for older release.
 
 - Typescript code, more optimized
 - more speed
 - remove some unused option
 - make code more extensible and simple
+- add automatic JWT route protection with auth0/express-jwt
+- add route validator with express-validator
 - prepare it for something more...... 
 
 
 MAKE ME THE CODE
 -------------
 
-####1 init module
+#### 1 init module
 
 **Typescript**
 
@@ -45,7 +46,7 @@ let routeInfo = new JsonRoute(app, {
 }).start();
 ```
 
-####2 create routes
+#### 2 create routes
 
 **Create a route file definition**
 
@@ -612,9 +613,191 @@ An alternative example use the global file option:
 }}
 ```
 
+Protected route with JWT
+-----------------
+You can protect a routes using [jwt](https://jwt.io/). Json-routing use [auth0/express-jwt](https://github.com/auth0/express-jwt).
+To protect a route add a property `jwt:true` and set the global options for jwt as example.
+
+**Before using jwt you need to install express-jwt manually: `npm install --save express-jwt`**
+
+
+*Route file: protected.json* 
+ 
+```  
+{
+  "/protected": {
+    "GET": {
+      "route": "index",
+      "jwt": true
+    }
+  },
+  "/notprotected": {
+    "GET": {
+      "route": "indexnot",
+      "jwt": false
+    }
+  }
+}
+  
+```
+NB note to pretect a route we need to set `jwt:true`
+
+In main file: server.ts/js
+
+```  
+...
+
+export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
+    "processdir": __dirname,
+    "jwt": {
+        "secret": "12345678910abc"
+    }
+}).start();
+
+...
+
+```
+NB in json-routing init we need to set jwt object with secret
+
+
+DONE!!!!!
+
+### jwt extra route for error
+to make a better jwt unauthorized response we can add a specific route like this:
+
+```
+export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
+    "processdir": __dirname,
+    "jwt": {
+        "secret": "12345678910abc"
+    }
+}).start();
+
+
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({"message": "invalid token..."});
+    }
+
+    next();
+});
+
+```
+
+Add a global route prefix
+-----------------
+You can add a global prefix path for all routes set options.urlPrefix
+
+
+```
+export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
+    "processdir": __dirname,
+    "urlPrefix":"/api/v1"
+   
+}).start();
+
+```
+All routes now start with `/api/vi`
+
+
+Route validation params
+-----------------
+It can be done by express-validator using schema. Add `validators` object with: 
+
+- params -> route params es /home/:id
+- query  -> query params es -> /home?id=124
+- boby   -> body params es post params like {"id":"1233"}
+
+according [express-validator](https://github.com/ctavan/express-validator) "validation by Schema"
+
+route file.json
+
+```
+{
+  "/validateparam/:id": {
+    "GET": {
+      "route": "validateparam",
+      "jwt": false,
+      "validators": {
+        "params": {
+          "id": {
+            "notEmpty": true,
+            "isLength": {
+              "options": [
+                {
+                  "min": 5,
+                  "max": 10
+                }
+              ],
+              "errorMessage": "Must be between 2 and 10 chars long"
+            },
+            "errorMessage": "id is required"
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+**NB body-parser middleware is injected by json-routing, you can pass params in global params**
+
+
+
+ALL OPTIONS
+-----------------
+```javascript
+export interface IOptions {
+    routesPath?: string
+    , controllersPath?: string
+    , policyPath?: string
+    , processdir?: string
+    , cors?: boolean
+    , displayRoute?: boolean
+    , defaultAction?: string
+    , urlPrefix?: string
+    , jwt?: {
+        secret: any
+    }
+    , bodyParserUrlEncoded?: any
+}
+
+... 
+
+let options: IOptions;
+
+...
+// add params to optins object
+
+
+let routeInfo:Array<any> = new JsonRoute(app, options}).start();
+
+```
+
+
+
+
 Example
 -----------------
 Look at ./demo for a fully working example.
+
+Changelog 2.0.5
+-------------
+- better cors support
+- can be enable/disable cors for single routes
+- better console output
+
+Changelog 2.0.4
+-------------
+- add validator
+
+Changelog 2.0.1
+-------------
+- add protected route with JWT
+
+Changelog 2.0.0
+-------------
+- add urlPrefix for all routes
 
 Changelog 2.0.0Rc1
 -------------
