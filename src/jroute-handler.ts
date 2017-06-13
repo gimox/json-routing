@@ -87,13 +87,17 @@ export class JrouteHandler {
         let routeInfo: Array<IRouteInfo> = [];
 
         for (let verb in json[uri]) {
-            let params = json[uri][verb];
-            let hasJwt = params.jwt || false;
-            let validators: any = params.validators || {};
+            const params = json[uri][verb];
+            const hasJwt = params.jwt || false;
+            const validators: any = params.validators || {};
 
-            let handlers: IHandler = this.routeController.getHandler(params.route, this.globalOptions.controller);
-            let middleware: Array<any> = new RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy, hasJwt, validators);
-            let info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt);
+            // get deafault cors and override with local route options if present
+            const defaultCors = this.options.cors;
+            const hasCors = params.cors || ( (params.hasOwnProperty("cors") && !params.cors) ? false : defaultCors);
+
+            const handlers: IHandler = this.routeController.getHandler(params.route, this.globalOptions.controller);
+            const middleware: Array<any> = new RouteMiddleware(this.app, this.options).get(params.policy, this.globalOptions.policy, hasJwt, validators, hasCors, uri);
+            const info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt, hasCors);
 
             routeInfo.push(info);
         }
@@ -110,9 +114,10 @@ export class JrouteHandler {
      * @param handler - controller function
      * @param controllerName - controller name
      * @param hasJwt - true if route is jwt protected
+     * @param hasCors - true if enabled
      * @returns {{verb: string, url: string, controllerName: string, status: string}} route definition info
      */
-    add(verb: string, pattern: string, middleware: Array<any>, handler: any, controllerName: string, hasJwt: boolean = false): IRouteInfo {
+    add(verb: string, pattern: string, middleware: Array<any>, handler: any, controllerName: string, hasJwt: boolean = false, hasCors: boolean): IRouteInfo {
 
         verb = verb.toLowerCase();
 
@@ -156,7 +161,8 @@ export class JrouteHandler {
             "url": prefix + basePath + pattern,
             "controllerName": controllerName,
             "status": status,
-            "protected": hasJwt
+            "protected": hasJwt,
+            "cors": hasCors
         };
     }
 

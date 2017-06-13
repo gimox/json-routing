@@ -97,6 +97,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_route_middleware_.routemiddleware.html#app" class="tsd-kind-icon">app</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_route_middleware_.routemiddleware.html#options" class="tsd-kind-icon">options</a></li>
 							</ul>
 						</section>
@@ -117,17 +118,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Route<wbr>Middleware<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_ioptions_.ioptions.html" class="tsd-signature-type">IOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_route_middleware_.routemiddleware.html" class="tsd-signature-type">RouteMiddleware</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Route<wbr>Middleware<span class="tsd-signature-symbol">(</span>app<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_ioptions_.ioptions.html" class="tsd-signature-type">IOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_route_middleware_.routemiddleware.html" class="tsd-signature-type">RouteMiddleware</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/gimox/json-routing/blob/589b8e3/src/route-middleware.ts#L9">route-middleware.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/gimox/json-routing/blob/d3e3d8d/src/route-middleware.ts#L14">route-middleware.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>app: <span class="tsd-signature-type">any</span></h5>
+								</li>
 								<li>
 									<h5>options: <a href="../interfaces/_interfaces_ioptions_.ioptions.html" class="tsd-signature-type">IOptions</a></h5>
 								</li>
@@ -140,12 +144,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="app" class="tsd-anchor"></a>
+					<h3>app</h3>
+					<div class="tsd-signature tsd-kind-icon">app<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/gimox/json-routing/blob/d3e3d8d/src/route-middleware.ts#L14">route-middleware.ts:14</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="options" class="tsd-anchor"></a>
 					<h3>options</h3>
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_interfaces_ioptions_.ioptions.html" class="tsd-signature-type">IOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/gimox/json-routing/blob/589b8e3/src/route-middleware.ts#L9">route-middleware.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/gimox/json-routing/blob/d3e3d8d/src/route-middleware.ts#L13">route-middleware.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -156,19 +170,24 @@
 					<a name="get" class="tsd-anchor"></a>
 					<h3>get</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>middlewareDef<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, globalDef<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, hasJwt<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>middlewareDef<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, globalDef<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, hasJwt<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, validators<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, hasCors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, uri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/gimox/json-routing/blob/589b8e3/src/route-middleware.ts#L23">route-middleware.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/gimox/json-routing/blob/d3e3d8d/src/route-middleware.ts#L31">route-middleware.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Get a array of middleware for route</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>params</dt>
+									<dd><p>cors - true if enabled in route</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -190,6 +209,18 @@
 										<p>true if route is jwt protected</p>
 									</div>
 								</li>
+								<li>
+									<h5>validators: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>express validators object</p>
+									</div>
+								</li>
+								<li>
+									<h5>hasCors: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>uri: <span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>array of middleware</p>
@@ -206,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/gimox/json-routing/blob/589b8e3/src/route-middleware.ts#L59">route-middleware.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/gimox/json-routing/blob/d3e3d8d/src/route-middleware.ts#L90">route-middleware.ts:90</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,7 +269,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/gimox/json-routing/blob/589b8e3/src/route-middleware.ts#L87">route-middleware.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/gimox/json-routing/blob/d3e3d8d/src/route-middleware.ts#L118">route-middleware.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -276,6 +307,9 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
+					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_interfaces_icontrollerglobal_.html">"interfaces/IController<wbr>Global"</a>
 					</li>
@@ -284,9 +318,6 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_interfaces_ijsonroute_.html">"interfaces/IJson<wbr>Route"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_interfaces_ioptions_.html">"interfaces/IOptions"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_interfaces_irouteinfo_.html">"interfaces/IRoute<wbr>Info"</a>
@@ -304,7 +335,16 @@
 						<a href="../modules/_route_middleware_.html">"route-<wbr>middleware"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_route_validator_.html">"route-<wbr>validator"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_routes_display_.html">"routes-<wbr>display"</a>
+					</li>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_interfaces_ioptions_.html">"interfaces/IOptions"</a>
 					</li>
 				</ul>
 			</nav>
@@ -317,6 +357,9 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="_route_middleware_.routemiddleware.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_route_middleware_.routemiddleware.html#app" class="tsd-kind-icon">app</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_route_middleware_.routemiddleware.html#options" class="tsd-kind-icon">options</a>

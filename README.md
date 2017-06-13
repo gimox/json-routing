@@ -781,6 +781,12 @@ Example
 -----------------
 Look at ./demo for a fully working example.
 
+Changelog 2.0.5
+-------------
+- better cors support
+- can be enable/disable cors for single routes
+- better console output
+
 Changelog 2.0.4
 -------------
 - add validator

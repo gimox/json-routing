@@ -13,15 +13,29 @@ class RoutesDisplay {
     }
     startTag() {
         console.log("");
-        console.log(" Routes:");
+        console.log(" Routes: " + this.routesInfo.length);
     }
     content() {
         let table = new CliTable({
-            head: ["Url", "Verb", "Controller", "JWT", "Check"],
-            colWidths: [40, 7, 25, 7, 7]
+            head: [
+                "\x1b[32m\x1b[1mUrl\x1b[0m",
+                "\x1b[32m\x1b[1mVerb\x1b[0m",
+                "\x1b[32m\x1b[1mController\x1b[0m",
+                "\x1b[32m\x1b[1mJWT\x1b[0m",
+                "\x1b[32m\x1b[1mCors\x1b[0m",
+                "\x1b[32m\x1b[1mCheck\x1b[0m"
+            ],
+            colWidths: [40, 7, 25, 7, 7, 7]
         });
         for (let info of this.routesInfo) {
-            table.push([info.url, info.verb.toUpperCase(), info.controllerName.replace("Controller", ""), (info.protected ? "Yes" : "NO"), info.status]);
+            table.push([
+                info.url,
+                info.verb.toUpperCase(),
+                info.controllerName.replace("Controller", ""),
+                (info.protected ? "Yes" : "\x1b[31mNO\x1b[0m"),
+                (info.cors ? "\x1b[36mYes\x1b[0m" : "NO"),
+                (info.status ? "\u2713" : "\x1b[31mX\x1b[0m")
+            ]);
         }
         console.log(table.toString());
     }

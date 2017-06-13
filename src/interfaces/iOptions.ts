@@ -1,3 +1,6 @@
+/**
+ * Created by gimox on 10/06/17.
+ */
 import * as path from "path";
 
 /**
@@ -9,6 +12,7 @@ export interface IOptions {
     , policyPath?: string
     , processdir?: string
     , cors?: boolean
+    , corsOptions?: any
     , displayRoute?: boolean
     , defaultAction?: string
     , urlPrefix?: string
@@ -27,11 +31,12 @@ export class Options {
         options.controllersPath = options.controllersPath || "./api/controllers";
         options.policyPath = options.policyPath || "./api/policy";
         options.processdir = options.processdir || process.cwd();
-        options.cors = options.cors || true;
+        options.cors = options.cors || (options.hasOwnProperty("cors") ? options.cors : true);
+        options.corsOptions = options.corsOptions || {};
         options.displayRoute = options.displayRoute || true;
         options.defaultAction = options.defaultAction || "index";
         options.urlPrefix = options.urlPrefix || "";
-        options.bodyParserUrlEncoded = options.bodyParserUrlEncoded || { extended: true}
+        options.bodyParserUrlEncoded = options.bodyParserUrlEncoded || {extended: true};
 
         options.routesPath = path.join(options.processdir, options.routesPath);
         options.controllersPath = path.join(options.processdir, options.controllersPath);
@@ -40,5 +45,3 @@ export class Options {
         return options;
     }
 }
-
-

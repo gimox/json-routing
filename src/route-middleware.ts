@@ -1,6 +1,9 @@
-import {IOptions} from "./interfaces/IOptions";
 import * as path from "path";
+import * as cors from "cors";
+
 import {RouteValidator} from "./route-validator";
+import {IOptions} from "./interfaces/IOptions";
+
 
 /**
  * Create a array with middleware for route
@@ -8,9 +11,11 @@ import {RouteValidator} from "./route-validator";
 export class RouteMiddleware {
 
     options: IOptions;
+    app: any;
 
-    constructor(options: IOptions) {
+    constructor(app, options: IOptions) {
         this.options = options;
+        this.app = app;
     }
 
     /**
@@ -19,9 +24,11 @@ export class RouteMiddleware {
      * @param middlewareDef - middleware string controller:method
      * @param globalDef - like middlewareDef for all controller inside json definition file
      * @param hasJwt - true if route is jwt protected
+     * @param validators - express validators object
+     * @params cors - true if enabled in route
      * @returns {Array} array of middleware
      */
-    get(middlewareDef: Array<string> | string = [], globalDef: Array<string> | string = [], hasJwt: boolean = false, validators): Array<string> {
+    get(middlewareDef: Array<string> | string = [], globalDef: Array<string> | string = [], hasJwt: boolean = false, validators: any, hasCors: boolean, uri: string): Array<string> {
 
         if (!Array.isArray(middlewareDef))
             middlewareDef = [middlewareDef];
@@ -62,7 +69,14 @@ export class RouteMiddleware {
             } else {
                 mdlwFnc.unshift(validatorMdw);
             }
+        }
 
+        /**
+         * add cors
+         */
+        if (cors) {
+            this.app.options(uri, cors(this.options.corsOptions));
+            mdlwFnc.unshift(cors(this.options.corsOptions) as any);
         }
 
         return mdlwFnc;

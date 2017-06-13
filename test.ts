@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 describe('Server is Up: ', () => {
     it('Has 13 routes', () => {
-        routeInfo.length.should.be.eql(16);
+        routeInfo.length.should.be.eql(18);
     });
 
     it('/GET return 200', (done) => {

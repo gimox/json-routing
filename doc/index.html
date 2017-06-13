@@ -68,13 +68,14 @@
 				<p><a href="https://travis-ci.org/gimox/json-routing"><img src="https://travis-ci.org/gimox/json-routing.svg?branch=2.0" alt="Build Status"></a>
 					<a href="https://badge.fury.io/js/json-routing"><img src="https://badge.fury.io/js/json-routing.svg" alt="npm version"></a>
 				<a href="https://coveralls.io/github/gimox/json-routing?branch=2.0"><img src="https://coveralls.io/repos/github/gimox/json-routing/badge.svg?branch=2.0" alt="Coverage Status"></a></p>
-				<h3 id="this-is-a-rc-version-for-v2-0-release">THIS IS A RC VERSION for v2.0 release</h3>
-				<p>Look at <a href="https://github.com/gimox/json-routing/tree/1.x">v1.x</a> for more stable version.</p>
+				<p>Look at branch <a href="https://github.com/gimox/json-routing/tree/1.x">v1.x</a> for older release.</p>
 				<ul>
 					<li>Typescript code, more optimized</li>
 					<li>more speed</li>
 					<li>remove some unused option</li>
 					<li>make code more extensible and simple</li>
+					<li>add automatic JWT route protection with auth0/express-jwt</li>
+					<li>add route validator with express-validator</li>
 					<li>prepare it for something more...... </li>
 				</ul>
 				<h2 id="make-me-the-code">MAKE ME THE CODE</h2>
@@ -599,8 +600,79 @@ app.use((<span class="hljs-built_in">err</span>: any, req: express.<span class="
 
 }).start();
 </code></pre><p>All routes now start with <code>/api/vi</code></p>
+				<h2 id="route-validation-params">Route validation params</h2>
+				<p>It can be done by express-validator using schema. Add <code>validators</code> object with: </p>
+				<ul>
+					<li>params -&gt; route params es /home/:id</li>
+					<li>query  -&gt; query params es -&gt; /home?id=124</li>
+					<li>boby   -&gt; body params es post params like {&quot;id&quot;:&quot;1233&quot;}</li>
+				</ul>
+				<p>according <a href="https://github.com/ctavan/express-validator">express-validator</a> &quot;validation by Schema&quot;</p>
+				<p>route file.json</p>
+				<pre><code>{
+  <span class="hljs-attr">"/validateparam/:id"</span>: {
+    <span class="hljs-attr">"GET"</span>: {
+      <span class="hljs-attr">"route"</span>: <span class="hljs-string">"validateparam"</span>,
+      <span class="hljs-attr">"jwt"</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"validators"</span>: {
+        <span class="hljs-attr">"params"</span>: {
+          <span class="hljs-attr">"id"</span>: {
+            <span class="hljs-attr">"notEmpty"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">"isLength"</span>: {
+              <span class="hljs-attr">"options"</span>: [
+                {
+                  <span class="hljs-attr">"min"</span>: <span class="hljs-number">5</span>,
+                  <span class="hljs-attr">"max"</span>: <span class="hljs-number">10</span>
+                }
+              ],
+              <span class="hljs-attr">"errorMessage"</span>: <span class="hljs-string">"Must be between 2 and 10 chars long"</span>
+            },
+            <span class="hljs-attr">"errorMessage"</span>: <span class="hljs-string">"id is required"</span>
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre><p><strong>NB body-parser middleware is injected by json-routing, you can pass params in global params</strong></p>
+				<h2 id="all-options">ALL OPTIONS</h2>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> interface IOptions {
+    routesPath?: string
+    , controllersPath?: string
+    , policyPath?: string
+    , processdir?: string
+    , cors?: boolean
+    , displayRoute?: boolean
+    , defaultAction?: string
+    , urlPrefix?: string
+    , jwt?: {
+        <span class="hljs-attr">secret</span>: any
+    }
+    , bodyParserUrlEncoded?: any
+}
+
+... 
+
+let options: IOptions;
+
+...
+<span class="hljs-comment">// add params to optins object</span>
+
+
+<span class="hljs-keyword">let</span> routeInfo:<span class="hljs-built_in">Array</span>&lt;any&gt; = <span class="hljs-keyword">new</span> JsonRoute(app, options}).start();
+</code></pre>
 				<h2 id="example">Example</h2>
 				<p>Look at ./demo for a fully working example.</p>
+				<h2 id="changelog-2-0-5">Changelog 2.0.5</h2>
+				<ul>
+					<li>better cors support</li>
+					<li>can be enable/disable cors for single routes</li>
+					<li>better console output</li>
+				</ul>
+				<h2 id="changelog-2-0-4">Changelog 2.0.4</h2>
+				<ul>
+					<li>add validator</li>
+				</ul>
 				<h2 id="changelog-2-0-1">Changelog 2.0.1</h2>
 				<ul>
 					<li>add protected route with JWT</li>
@@ -691,6 +763,9 @@ app.use((<span class="hljs-built_in">err</span>: any, req: express.<span class="
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
+					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_interfaces_icontrollerglobal_.html">"interfaces/IController<wbr>Global"</a>
 					</li>
@@ -699,9 +774,6 @@ app.use((<span class="hljs-built_in">err</span>: any, req: express.<span class="
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_interfaces_ijsonroute_.html">"interfaces/IJson<wbr>Route"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_interfaces_ioptions_.html">"interfaces/IOptions"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_interfaces_irouteinfo_.html">"interfaces/IRoute<wbr>Info"</a>
@@ -719,7 +791,16 @@ app.use((<span class="hljs-built_in">err</span>: any, req: express.<span class="
 						<a href="modules/_route_middleware_.html">"route-<wbr>middleware"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_route_validator_.html">"route-<wbr>validator"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_routes_display_.html">"routes-<wbr>display"</a>
+					</li>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_interfaces_ioptions_.html">"interfaces/IOptions"</a>
 					</li>
 				</ul>
 			</nav>

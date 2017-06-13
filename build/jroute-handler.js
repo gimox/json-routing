@@ -38,17 +38,19 @@ class JrouteHandler {
     parseRoutes(uri, json) {
         let routeInfo = [];
         for (let verb in json[uri]) {
-            let params = json[uri][verb];
-            let hasJwt = params.jwt || false;
-            let validators = params.validators || {};
-            let handlers = this.routeController.getHandler(params.route, this.globalOptions.controller);
-            let middleware = new route_middleware_1.RouteMiddleware(this.options).get(params.policy, this.globalOptions.policy, hasJwt, validators);
-            let info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt);
+            const params = json[uri][verb];
+            const hasJwt = params.jwt || false;
+            const validators = params.validators || {};
+            const defaultCors = this.options.cors;
+            const hasCors = params.cors || ((params.hasOwnProperty("cors") && !params.cors) ? false : defaultCors);
+            const handlers = this.routeController.getHandler(params.route, this.globalOptions.controller);
+            const middleware = new route_middleware_1.RouteMiddleware(this.app, this.options).get(params.policy, this.globalOptions.policy, hasJwt, validators, hasCors, uri);
+            const info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt, hasCors);
             routeInfo.push(info);
         }
         return routeInfo;
     }
-    add(verb, pattern, middleware, handler, controllerName, hasJwt = false) {
+    add(verb, pattern, middleware, handler, controllerName, hasJwt = false, hasCors) {
         verb = verb.toLowerCase();
         let status = "\x1b[31mFail\x1b[0m";
         let uriEndpoint = pattern;
@@ -81,7 +83,8 @@ class JrouteHandler {
             "url": prefix + basePath + pattern,
             "controllerName": controllerName,
             "status": status,
-            "protected": hasJwt
+            "protected": hasJwt,
+            "cors": hasCors
         };
     }
 }

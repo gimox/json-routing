@@ -7,7 +7,8 @@ class Options {
         options.controllersPath = options.controllersPath || "./api/controllers";
         options.policyPath = options.policyPath || "./api/policy";
         options.processdir = options.processdir || process.cwd();
-        options.cors = options.cors || true;
+        options.cors = options.cors || (options.hasOwnProperty("cors") ? options.cors : true);
+        options.corsOptions = options.corsOptions || {};
         options.displayRoute = options.displayRoute || true;
         options.defaultAction = options.defaultAction || "index";
         options.urlPrefix = options.urlPrefix || "";

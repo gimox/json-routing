@@ -1,0 +1,16 @@
+{
+  "/hascors": {
+    "GET": {
+      "route": "index",
+      "jwt": false,
+      "cors": true
+    }
+  },
+  "/hasnotcors": {
+    "GET": {
+      "route": "indexnot",
+      "jwt": false,
+      "cors": false
+    }
+  }
+}
