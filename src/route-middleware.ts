@@ -1,5 +1,5 @@
 import * as path from "path";
-import * as cors from "cors";
+// import * as cors from "cors";
 
 import {RouteValidator} from "./route-validator";
 import {IOptions} from "./interfaces/IOptions";
@@ -74,10 +74,12 @@ export class RouteMiddleware {
         /**
          * add cors
          */
+        /*
         if (cors) {
             this.app.options(uri, cors(this.options.corsOptions));
             mdlwFnc.unshift(cors(this.options.corsOptions) as any);
         }
+        */
 
         return mdlwFnc;
     }

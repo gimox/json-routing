@@ -27,6 +27,10 @@ export class JsonRoute {
     }
 
     setDefaultMdlw() {
+        if (this.options.cors) {
+            this.setCors();
+        }
+
         this.app.use(bodyParser.urlencoded(this.options.bodyParserUrlEncoded));
         this.app.use(bodyParser.json());
         RouteValidator.init(this.app);
@@ -91,6 +95,28 @@ export class JsonRoute {
      */
     displayinfo(routesInfo: Array<IRouteInfo>) {
         new RoutesDisplay(routesInfo);
+    }
+
+
+    /**
+     * Enable cors for all routes
+     */
+    setCors() {
+        this.app.use((req, res, next) => {
+
+            let method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Credentials", "true");
+            res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+            res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
+
+            if ("OPTIONS" === method)
+                res.sendStatus(204).end();
+            else
+                next();
+
+        });
     }
 
 

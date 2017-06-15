@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const cors = require("cors");
 const route_validator_1 = require("./route-validator");
 class RouteMiddleware {
     constructor(app, options) {
@@ -38,10 +37,6 @@ class RouteMiddleware {
             else {
                 mdlwFnc.unshift(validatorMdw);
             }
-        }
-        if (cors) {
-            this.app.options(uri, cors(this.options.corsOptions));
-            mdlwFnc.unshift(cors(this.options.corsOptions));
         }
         return mdlwFnc;
     }
