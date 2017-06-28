@@ -53,7 +53,7 @@ export class RoutesDisplay {
                 info.controllerName.replace("Controller", ""),
                 (info.protected ? "Yes" : "\x1b[31mNO\x1b[0m"),
              //   (info.cors ? "\x1b[36mYes\x1b[0m" : "NO"),
-                (info.status ? "\u2713" : "\x1b[31mX\x1b[0m")
+                (info.status ? "OK" : "\x1bKO\x1b[0m")
             ])
         }
 

@@ -32,7 +32,7 @@ class RoutesDisplay {
                 info.verb.toUpperCase(),
                 info.controllerName.replace("Controller", ""),
                 (info.protected ? "Yes" : "\x1b[31mNO\x1b[0m"),
-                (info.status ? "\u2713" : "\x1b[31mX\x1b[0m")
+                (info.status ? "OK" : "\x1bKO\x1b[0m")
             ]);
         }
         console.log(table.toString());
