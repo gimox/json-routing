@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const CliTable = require("cli-table");
 class RoutesDisplay {
-    constructor(routesInfo) {
+    constructor(routesInfo, colsWidth) {
         this.routesInfo = routesInfo;
+        this.colsWidth = colsWidth;
         this.main();
     }
     main() {
@@ -24,7 +25,7 @@ class RoutesDisplay {
                 "\x1b[32m\x1b[1mJWT\x1b[0m",
                 "\x1b[32m\x1b[1mCheck\x1b[0m"
             ],
-            colWidths: [40, 7, 25, 7, 7]
+            colWidths: this.colsWidth
         });
         for (let info of this.routesInfo) {
             table.push([

@@ -28,8 +28,9 @@ class JsonRoute {
             let info = new jroute_handler_1.JrouteHandler(route, this.options, this.app).set();
             routesInfo = [...routesInfo, ...info];
         }
-        if (this.options.displayRoute)
+        if (this.options.displayRoute) {
             this.displayinfo(routesInfo);
+        }
         return routesInfo;
     }
     getJsonRoute() {
@@ -53,7 +54,7 @@ class JsonRoute {
         return routes;
     }
     displayinfo(routesInfo) {
-        new routes_display_1.RoutesDisplay(routesInfo);
+        new routes_display_1.RoutesDisplay(routesInfo, this.options.displayCols);
     }
     setCors() {
         this.app.use((req, res, next) => {

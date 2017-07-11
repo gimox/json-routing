@@ -53,8 +53,9 @@ export class JsonRoute {
             routesInfo = [...routesInfo, ...info];
         }
 
-        if (this.options.displayRoute)
+        if (this.options.displayRoute) {
             this.displayinfo(routesInfo);
+        }
 
         return routesInfo;
     }
@@ -94,7 +95,7 @@ export class JsonRoute {
      * @params {Array<IRouteInfo>} route info definition
      */
     displayinfo(routesInfo: Array<IRouteInfo>) {
-        new RoutesDisplay(routesInfo);
+        new RoutesDisplay(routesInfo, this.options.displayCols);
     }
 
 

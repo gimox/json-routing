@@ -13,6 +13,7 @@ class Options {
         options.defaultAction = options.defaultAction || "index";
         options.urlPrefix = options.urlPrefix || "";
         options.bodyParserUrlEncoded = options.bodyParserUrlEncoded || { extended: true };
+        options.displayCols = options.displayCols || [40, 7, 25, 7, 7];
         options.routesPath = path.join(options.processdir, options.routesPath);
         options.controllersPath = path.join(options.processdir, options.controllersPath);
         options.policyPath = path.join(options.processdir, options.policyPath);

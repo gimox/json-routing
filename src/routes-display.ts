@@ -7,9 +7,11 @@ import {IRouteInfo} from "./interfaces/IRouteInfo";
 export class RoutesDisplay {
 
     routesInfo: Array<IRouteInfo>;
+    colsWidth: Array<number>;
 
-    constructor(routesInfo: Array<IRouteInfo>) {
+    constructor(routesInfo: Array<IRouteInfo>, colsWidth: Array<number>) {
         this.routesInfo = routesInfo;
+        this.colsWidth = colsWidth;
         this.main();
     }
 
@@ -43,7 +45,7 @@ export class RoutesDisplay {
              //   "\x1b[32m\x1b[1mCors\x1b[0m",
                 "\x1b[32m\x1b[1mCheck\x1b[0m"
             ]
-            , colWidths: [40, 7, 25, 7, 7]
+            , colWidths: this.colsWidth
         });
 
         for (let info of this.routesInfo) {
