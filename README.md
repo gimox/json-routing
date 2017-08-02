@@ -26,7 +26,7 @@ MAKE ME THE CODE
 **Typescript**
 
 ```javascript
-import {JsonRoute} from "json-route";
+import {JsonRoute} from "json-routing";
 
 let routeInfo:Array<any> = new JsonRoute(app, {
     "routesPath": "./api/routes",
@@ -38,7 +38,7 @@ let routeInfo:Array<any> = new JsonRoute(app, {
 **JS ES6**
 
 ```javascript
-let jsonRoute = require("json-route")
+let jsonRoute = require("json-routing")
 
 let routeInfo = new JsonRoute(app, {
     "routesPath": "./api/routes",
