@@ -7,20 +7,20 @@ import * as path from "path";
  * Interface for json-route option
  */
 export interface IOptions {
-    routesPath?: string
-    , controllersPath?: string
-    , policyPath?: string
-    , processdir?: string
-    , cors?: boolean
-    , corsOptions?: any
-    , displayRoute?: boolean
-    , defaultAction?: string
-    , urlPrefix?: string
-    , jwt?: {
+    routesPath?: string,
+    controllersPath?: string,
+    policyPath?: string,
+    processdir?: string,
+    cors?: boolean,
+    corsOptions?: any,
+    displayRoute?: boolean,
+    defaultAction?: string,
+    urlPrefix?: string,
+    jwt?: {
         secret: any
     }
-    , bodyParserUrlEncoded?: any
-    , displayCols?: Array<number>
+    bodyParserUrlEncoded?: any,
+    displayCols?: Array<number>
 }
 
 /**
@@ -34,7 +34,7 @@ export class Options {
         options.processdir = options.processdir || process.cwd();
         options.cors = options.cors || (options.hasOwnProperty("cors") ? options.cors : true);
         options.corsOptions = options.corsOptions || {};
-        options.displayRoute = options.displayRoute || true;
+        options.displayRoute = options.hasOwnProperty("displayRoute") ?  options.displayRoute : true;
         options.defaultAction = options.defaultAction || "index";
         options.urlPrefix = options.urlPrefix || "";
         options.bodyParserUrlEncoded = options.bodyParserUrlEncoded || {extended: true};

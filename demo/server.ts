@@ -9,9 +9,10 @@ let app: express.Application = express();
 
 export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
     "processdir": __dirname,
+    "displayRoute": true,
     "jwt": {
         "secret": "12345678910abc"
-    }
+    },
 }).start();
 
 
