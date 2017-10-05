@@ -296,7 +296,7 @@ Configure the routing modules in your main js file, as any other nodes modules.
 
 ```javascript
 var routes = require('json-routing');
-new routes(expressApp, options).start();
+new routes.JsonRoute(expressApp, options).start();
 ```
 
 Example:  
@@ -314,7 +314,7 @@ app.set(...);
 app.use(...);
 
 // this is the magic!
-new routes(app, {
+new routes.JsonRoute(app, {
      "processdir": __dirname
 }).start();
 
