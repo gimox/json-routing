@@ -28,7 +28,7 @@ MAKE ME THE CODE
 ```javascript
 import {JsonRoute} from "json-routing";
 
-let routeInfo:Array<any> = new JsonRoute(app, {
+const routeInfo:Array<any> = new JsonRoute(app, {
     "routesPath": "./api/routes",
     "processdir": __dirname
 }).start();
