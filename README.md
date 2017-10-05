@@ -552,42 +552,19 @@ A special case: if we want to add an authentication before some route, take a lo
 ```javascript
 {
 
- "/admin*": {
+ "/admin": {
     "GET": {
-      "route": "./policy/auth:check",
-     },
-    "POST": {
-      "route": "auth:check",
-     },
-    "PUT": {
-      "route": "auth:check",
-     },
-    "DELETE": {
-      "route": "auth:check",
-    },
-  },
-
-   "/admin/dashboard": {
-    "GET": {
-      "route": "getItem",
-      }
-  },
-   "/admin/user": {
-    "GET": {
-      "route": "find",
-    },
-     "PUT": {
-      "route": "create",
-    }
+      "route": "index",
+       "policy":["auth:check"]
+     }
   }
-
 }}
 ```
-All `admin*` route calls the controller `auth`, so now `auth:check` is executed before all `admin*` controller and it becomes
+All `/dadmin` route calls the controller `auth`, so now `auth:check` is executed before all `index` function and it becomes
  a policy (=middleware) and for a clear structure i put the file in policy dir.
 
 
-An alternative example use the global file option:
+An alternative example use the global file option, all routes inside use "auth:check" middleware:
 
 ```javascript
 {
