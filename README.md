@@ -747,7 +747,7 @@ let options: IOptions;
 // add params to optins object
 
 
-let routeInfo:Array<any> = new JsonRoute(app, options}).start();
+let routeInfo:Array<any> = new Routes.JsonRoute(app, options}).start();
 
 ```
 
