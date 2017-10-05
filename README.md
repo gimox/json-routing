@@ -38,9 +38,9 @@ let routeInfo:Array<any> = new JsonRoute(app, {
 **JS ES6**
 
 ```javascript
-let jsonRoute = require("json-routing")
+let Routing = require("json-routing")
 
-let routeInfo = new JsonRoute(app, {
+let routeInfo = new Routing.JsonRoute(app, {
     "routesPath": "./api/routes",
     "processdir": __dirname
 }).start();
@@ -334,7 +334,7 @@ your main.js file.
 // Includes
 var express     = require('express');
 var app         = express();
-var routes      = require('json-routing'); // add module
+var Routes      = require('json-routing'); // add module
 
 // your code..
 app.set(...);
@@ -352,7 +352,7 @@ var routeOptions = {
 }
 
 //init routes
-var routeInfo = new routes(app, routeOptions);
+var routeInfo = new Routes.JsonRoute(app, routeOptions);
 ```
 
 -  routesPath      : the path to your routes folder. `Default ./routes`
@@ -427,7 +427,7 @@ var routeOptions = {
 /**
  * init json-routing
  */
-new routing(app, routeOptions);
+new routing.JsonRoute(app, routeOptions);
 
 /**
  * standard express 4 routing
