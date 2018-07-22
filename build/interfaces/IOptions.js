@@ -9,7 +9,7 @@ class Options {
         options.processdir = options.processdir || process.cwd();
         options.cors = options.cors || (options.hasOwnProperty("cors") ? options.cors : true);
         options.corsOptions = options.corsOptions || {};
-        options.displayRoute = options.displayRoute || true;
+        options.displayRoute = options.hasOwnProperty("displayRoute") ? options.displayRoute : true;
         options.defaultAction = options.defaultAction || "index";
         options.urlPrefix = options.urlPrefix || "";
         options.bodyParserUrlEncoded = options.bodyParserUrlEncoded || { extended: true };

@@ -8,8 +8,9 @@ const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
 class JsonRoute {
-    constructor(app, options) {
-        this.app = app;
+    constructor(osseus, options) {
+        this.osseus = osseus;
+        this.app = osseus.server.app;
         this.options = new IOptions_1.Options().get(options);
         this.setDefaultMdlw();
     }
@@ -25,7 +26,7 @@ class JsonRoute {
         let routes = this.getJsonRoute();
         let routesInfo = [];
         for (let route of routes) {
-            let info = new jroute_handler_1.JrouteHandler(route, this.options, this.app).set();
+            let info = new jroute_handler_1.JrouteHandler(route, this.options, this.osseus).set();
             routesInfo = [...routesInfo, ...info];
         }
         if (this.options.displayRoute) {

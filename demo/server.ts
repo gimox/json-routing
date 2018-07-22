@@ -6,8 +6,11 @@ import {IRouteInfo} from "../src/interfaces/IRouteInfo";
 const port: number = process.env.PORT || 3000;
 let app: express.Application = express();
 
-
-export const routeInfo: Array<IRouteInfo> = new JsonRoute(app, {
+export const routeInfo: Array<IRouteInfo> = new JsonRoute({
+    "server": {
+        "app": app
+    }
+}, {
     "processdir": __dirname,
     "displayRoute": true,
     "jwt": {

@@ -11,10 +11,12 @@ export class RouteController {
 
     controllerName?: string;
     options: IOptions;
+    osseus: any;
 
-    constructor(routeName: string, options: IOptions) {
+    constructor(routeName: string, options: IOptions, osseus: any) {
         this.options = options;
         this.controllerName = this._getName(routeName);
+        this.osseus = osseus;
     }
 
     /**
@@ -90,7 +92,7 @@ export class RouteController {
             ctrlName = globalController;
         }
 
-        let controller: any = require(path.join(basePath, ctrlNamePath));
+        let controller: any = require(path.join(basePath, ctrlNamePath))(this.osseus);
 
         return {"fnc": controller[route[1]], "name": ctrlName};
     }

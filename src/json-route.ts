@@ -16,11 +16,13 @@ import * as bodyParser from "body-parser";
  * Json-route create a express like route using a json definition file without extra code
  */
 export class JsonRoute {
+    osseus: any;
     app: any;
     options: IOptions;
 
-    constructor(app, options: IOptions) {
-        this.app = app;
+    constructor(osseus, options: IOptions) {
+        this.osseus = osseus
+        this.app = osseus.server.app;
         this.options = new Options().get(options);
 
         this.setDefaultMdlw();
@@ -48,7 +50,7 @@ export class JsonRoute {
 
         for (let route of routes) {
 
-            let info: Array<IRouteInfo> = new JrouteHandler(route, this.options, this.app).set();
+            let info: Array<IRouteInfo> = new JrouteHandler(route, this.options, this.osseus).set();
 
             routesInfo = [...routesInfo, ...info];
         }

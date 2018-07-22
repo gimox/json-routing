@@ -3,12 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const route_middleware_1 = require("./route-middleware");
 const route_controller_1 = require("./route-controller");
 class JrouteHandler {
-    constructor(route, options, app) {
+    constructor(route, options, osseus) {
         this.baseUrl = "";
         this.route = route;
         this.options = options;
-        this.routeController = new route_controller_1.RouteController(this.route.name, this.options);
-        this.app = app;
+        this.osseus = osseus;
+        this.routeController = new route_controller_1.RouteController(this.route.name, this.options, this.osseus);
+        this.app = osseus.server.app;
     }
     set() {
         this.json = this.loadRoute();
@@ -44,7 +45,7 @@ class JrouteHandler {
             const defaultCors = this.options.cors;
             const hasCors = params.cors || ((params.hasOwnProperty("cors") && !params.cors) ? false : defaultCors);
             const handlers = this.routeController.getHandler(params.route, this.globalOptions.controller);
-            const middleware = new route_middleware_1.RouteMiddleware(this.app, this.options).get(params.policy, this.globalOptions.policy, hasJwt, validators, hasCors, uri);
+            const middleware = new route_middleware_1.RouteMiddleware(this.options, this.osseus).get(params.policy, this.globalOptions.policy, hasJwt, validators, hasCors, uri);
             const info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt, hasCors);
             routeInfo.push(info);
         }
