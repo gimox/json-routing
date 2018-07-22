@@ -12,10 +12,12 @@ export class RouteMiddleware {
 
     options: IOptions;
     app: any;
+    osseus: any;
 
-    constructor(app, options: IOptions) {
+    constructor(options: IOptions, osseus: any) {
         this.options = options;
-        this.app = app;
+        this.app = osseus.server.app;
+        this.osseus = osseus;
     }
 
     /**
@@ -102,7 +104,7 @@ export class RouteMiddleware {
             if (this.startWith(parts[0], "."))
                 basePath = this.options.processdir;
 
-            let middleware: object = require(path.join(basePath, parts[0]));
+            let middleware: object = require(path.join(basePath, parts[0]))(this.osseus);
 
             result.push(middleware[parts[1]]);
         });

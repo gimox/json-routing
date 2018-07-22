@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 class RouteController {
-    constructor(routeName, options) {
+    constructor(routeName, options, osseus) {
         this.options = options;
         this.controllerName = this._getName(routeName);
+        this.osseus = osseus;
     }
     _getName(name) {
         return name.charAt(0).toUpperCase() + name.slice(1) + "Controller";
@@ -39,7 +40,7 @@ class RouteController {
             ctrlNamePath = "";
             ctrlName = globalController;
         }
-        let controller = require(path.join(basePath, ctrlNamePath));
+        let controller = require(path.join(basePath, ctrlNamePath))(this.osseus);
         return { "fnc": controller[route[1]], "name": ctrlName };
     }
     startWith(value, char) {

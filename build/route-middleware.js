@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const route_validator_1 = require("./route-validator");
 class RouteMiddleware {
-    constructor(app, options) {
+    constructor(options, osseus) {
         this.options = options;
-        this.app = app;
+        this.app = osseus.server.app;
+        this.osseus = osseus;
     }
     get(middlewareDef = [], globalDef = [], hasJwt = false, validators, hasCors, uri) {
         if (!Array.isArray(middlewareDef))
@@ -47,7 +48,7 @@ class RouteMiddleware {
             let basePath = this.options.policyPath;
             if (this.startWith(parts[0], "."))
                 basePath = this.options.processdir;
-            let middleware = require(path.join(basePath, parts[0]));
+            let middleware = require(path.join(basePath, parts[0]))(this.osseus);
             result.push(middleware[parts[1]]);
         });
         return result;

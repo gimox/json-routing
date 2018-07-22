@@ -11,6 +11,7 @@ import {RouteController} from "./route-controller";
  * Prepare controller, middleware handler
  */
 export class JrouteHandler {
+    osseus: any;
     app: any;
     route: IJsonRoute;
     options: IOptions;
@@ -19,11 +20,12 @@ export class JrouteHandler {
     routeController: RouteController;
     globalOptions: IControllerGlobal;
 
-    constructor(route: IJsonRoute, options: IOptions, app: any) {
+    constructor(route: IJsonRoute, options: IOptions, osseus: any) {
         this.route = route;
         this.options = options;
-        this.routeController = new RouteController(this.route.name, this.options);
-        this.app = app;
+        this.osseus = osseus;
+        this.routeController = new RouteController(this.route.name, this.options, this.osseus);
+        this.app = osseus.server.app;
     }
 
     /**
@@ -96,7 +98,7 @@ export class JrouteHandler {
             const hasCors = params.cors || ( (params.hasOwnProperty("cors") && !params.cors) ? false : defaultCors);
 
             const handlers: IHandler = this.routeController.getHandler(params.route, this.globalOptions.controller);
-            const middleware: Array<any> = new RouteMiddleware(this.app, this.options).get(params.policy, this.globalOptions.policy, hasJwt, validators, hasCors, uri);
+            const middleware: Array<any> = new RouteMiddleware(this.options, this.osseus).get(params.policy, this.globalOptions.policy, hasJwt, validators, hasCors, uri);
             const info = this.add(verb, uri, middleware, handlers.fnc, handlers.name, hasJwt, hasCors);
 
             routeInfo.push(info);

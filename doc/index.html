@@ -81,17 +81,17 @@
 				<h2 id="make-me-the-code">MAKE ME THE CODE</h2>
 				<h4 id="1-init-module">1 init module</h4>
 				<p><strong>Typescript</strong></p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {JsonRoute} <span class="hljs-keyword">from</span> <span class="hljs-string">"json-route"</span>;
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {JsonRoute} <span class="hljs-keyword">from</span> <span class="hljs-string">"json-routing"</span>;
 
-<span class="hljs-keyword">let</span> routeInfo:<span class="hljs-built_in">Array</span>&lt;any&gt; = <span class="hljs-keyword">new</span> JsonRoute(app, {
+<span class="hljs-keyword">const</span> routeInfo:<span class="hljs-built_in">Array</span>&lt;any&gt; = <span class="hljs-keyword">new</span> JsonRoute(app, {
     <span class="hljs-string">"routesPath"</span>: <span class="hljs-string">"./api/routes"</span>,
     <span class="hljs-string">"processdir"</span>: __dirname
 }).start();
 </code></pre>
 				<p><strong>JS ES6</strong></p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">let</span> jsonRoute = <span class="hljs-built_in">require</span>(<span class="hljs-string">"json-route"</span>)
+				<pre><code class="lang-javascript"><span class="hljs-keyword">let</span> Routing = <span class="hljs-built_in">require</span>(<span class="hljs-string">"json-routing"</span>)
 
-<span class="hljs-keyword">let</span> routeInfo = <span class="hljs-keyword">new</span> JsonRoute(app, {
+<span class="hljs-keyword">let</span> routeInfo = <span class="hljs-keyword">new</span> Routing.JsonRoute(app, {
     <span class="hljs-string">"routesPath"</span>: <span class="hljs-string">"./api/routes"</span>,
     <span class="hljs-string">"processdir"</span>: __dirname
 }).start();
@@ -280,7 +280,7 @@
 				<h3 id="init-module">Init Module</h3>
 				<p>Configure the routing modules in your main js file, as any other nodes modules.</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> routes = <span class="hljs-built_in">require</span>(<span class="hljs-string">'json-routing'</span>);
-<span class="hljs-keyword">new</span> routes(expressApp, options).start();
+<span class="hljs-keyword">new</span> routes.JsonRoute(expressApp, options).start();
 </code></pre>
 				<p>Example:  </p>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Includes</span>
@@ -295,7 +295,7 @@ app.set(...);
 app.use(...);
 
 <span class="hljs-comment">// this is the magic!</span>
-<span class="hljs-keyword">new</span> routes(app, {
+<span class="hljs-keyword">new</span> routes.JsonRoute(app, {
      <span class="hljs-string">"processdir"</span>: __dirname
 }).start();
 </code></pre>
@@ -307,7 +307,7 @@ app.use(...);
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Includes</span>
 <span class="hljs-keyword">var</span> express     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
 <span class="hljs-keyword">var</span> app         = express();
-<span class="hljs-keyword">var</span> routes      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'json-routing'</span>); <span class="hljs-comment">// add module</span>
+<span class="hljs-keyword">var</span> Routes      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'json-routing'</span>); <span class="hljs-comment">// add module</span>
 
 <span class="hljs-comment">// your code..</span>
 app.set(...);
@@ -325,7 +325,7 @@ app.use(...);
 }
 
 <span class="hljs-comment">//init routes</span>
-<span class="hljs-keyword">var</span> routeInfo = <span class="hljs-keyword">new</span> routes(app, routeOptions);
+<span class="hljs-keyword">var</span> routeInfo = <span class="hljs-keyword">new</span> Routes.JsonRoute(app, routeOptions);
 </code></pre>
 				<ul>
 					<li>routesPath      : the path to your routes folder. <code>Default ./routes</code></li>
@@ -390,7 +390,7 @@ app.use(...);
 <span class="hljs-comment">/**
  * init json-routing
  */</span>
-<span class="hljs-keyword">new</span> routing(app, routeOptions);
+<span class="hljs-keyword">new</span> routing.JsonRoute(app, routeOptions);
 
 <span class="hljs-comment">/**
  * standard express 4 routing
@@ -486,40 +486,17 @@ exports.create = <span class="hljs-function"><span class="hljs-keyword">function
 				<p>A special case: if we want to add an authentication before some route, take a look at this example:</p>
 				<pre><code class="lang-javascript">{
 
- <span class="hljs-string">"/admin*"</span>: {
+ <span class="hljs-string">"/admin"</span>: {
     <span class="hljs-string">"GET"</span>: {
-      <span class="hljs-string">"route"</span>: <span class="hljs-string">"./policy/auth:check"</span>,
-     },
-    <span class="hljs-string">"POST"</span>: {
-      <span class="hljs-string">"route"</span>: <span class="hljs-string">"auth:check"</span>,
-     },
-    <span class="hljs-string">"PUT"</span>: {
-      <span class="hljs-string">"route"</span>: <span class="hljs-string">"auth:check"</span>,
-     },
-    <span class="hljs-string">"DELETE"</span>: {
-      <span class="hljs-string">"route"</span>: <span class="hljs-string">"auth:check"</span>,
-    },
-  },
-
-   <span class="hljs-string">"/admin/dashboard"</span>: {
-    <span class="hljs-string">"GET"</span>: {
-      <span class="hljs-string">"route"</span>: <span class="hljs-string">"getItem"</span>,
-      }
-  },
-   <span class="hljs-string">"/admin/user"</span>: {
-    <span class="hljs-string">"GET"</span>: {
-      <span class="hljs-string">"route"</span>: <span class="hljs-string">"find"</span>,
-    },
-     <span class="hljs-string">"PUT"</span>: {
-      <span class="hljs-string">"route"</span>: <span class="hljs-string">"create"</span>,
-    }
+      <span class="hljs-string">"route"</span>: <span class="hljs-string">"index"</span>,
+       <span class="hljs-string">"policy"</span>:[<span class="hljs-string">"auth:check"</span>]
+     }
   }
-
 }}
 </code></pre>
-				<p>All <code>admin*</code> route calls the controller <code>auth</code>, so now <code>auth:check</code> is executed before all <code>admin*</code> controller and it becomes
+				<p>All <code>/dadmin</code> route calls the controller <code>auth</code>, so now <code>auth:check</code> is executed before all <code>index</code> function and it becomes
 				a policy (=middleware) and for a clear structure i put the file in policy dir.</p>
-				<p>An alternative example use the global file option:</p>
+				<p>An alternative example use the global file option, all routes inside use &quot;auth:check&quot; middleware:</p>
 				<pre><code class="lang-javascript">{
  <span class="hljs-string">"GLOBAL"</span>: {
     <span class="hljs-string">"policy"</span>:[<span class="hljs-string">"auth:check"</span>],
@@ -659,102 +636,12 @@ let options: IOptions;
 <span class="hljs-comment">// add params to optins object</span>
 
 
-<span class="hljs-keyword">let</span> routeInfo:<span class="hljs-built_in">Array</span>&lt;any&gt; = <span class="hljs-keyword">new</span> JsonRoute(app, options}).start();
+<span class="hljs-keyword">let</span> routeInfo:<span class="hljs-built_in">Array</span>&lt;any&gt; = <span class="hljs-keyword">new</span> Routes.JsonRoute(app, options}).start();
 </code></pre>
 				<h2 id="example">Example</h2>
-				<p>Look at ./demo for a fully working example.</p>
-				<h2 id="changelog-2-0-5">Changelog 2.0.5</h2>
-				<ul>
-					<li>better cors support</li>
-					<li>can be enable/disable cors for single routes</li>
-					<li>better console output</li>
-				</ul>
-				<h2 id="changelog-2-0-4">Changelog 2.0.4</h2>
-				<ul>
-					<li>add validator</li>
-				</ul>
-				<h2 id="changelog-2-0-1">Changelog 2.0.1</h2>
-				<ul>
-					<li>add protected route with JWT</li>
-				</ul>
-				<h2 id="changelog-2-0-0">Changelog 2.0.0</h2>
-				<ul>
-					<li>add urlPrefix for all routes</li>
-				</ul>
-				<h2 id="changelog-2-0-0rc1">Changelog 2.0.0Rc1</h2>
-				<ul>
-					<li>minor fix</li>
-					<li>route with regular expression</li>
-				</ul>
-				<h2 id="changelog-2-0-0b1">Changelog 2.0.0b1</h2>
-				<ul>
-					<li>completely rewrite in typecript (build transpiled in es6)</li>
-					<li>remove global policy options </li>
-					<li>global now has &quot;controller&quot; option</li>
-					<li>make more simple</li>
-					<li>regex now work good!</li>
-					<li>more speed</li>
-					<li>add test and coverage</li>
-				</ul>
-				<h2 id="changelog-0-1-5">Changelog 0.1.5</h2>
-				<ul>
-					<li>Preparing for typescript... es6 and node &gt; 6.4 rewrite, removed underscore. No esternal modules deps!!</li>
-				</ul>
-				<h2 id="changelog-0-1-0">Changelog 0.1.0</h2>
-				<ul>
-					<li>minor fix</li>
-				</ul>
-				<h2 id="changelog-0-1-0">Changelog 0.1.0</h2>
-				<ul>
-					<li>removed not working cors features for file definition and route... working on it.. cors for global setting work good.</li>
-				</ul>
-				<h2 id="changelog-0-0-27">Changelog 0.0.27</h2>
-				<ul>
-					<li>improve log info</li>
-				</ul>
-				<h2 id="changelog-0-0-26">Changelog 0.0.26</h2>
-				<ul>
-					<li>add <code>defaultAction</code>, not so useful, but it&#39;s here!.</li>
-					<li>start cleaning code</li>
-					<li>add <code>CORS</code> Global file options, to enable CORS only in specific *.json routes</li>
-					<li>add <code>CORS</code> for specific routes.</li>
-					<li>route log info display CORS status</li>
-				</ul>
-				<h2 id="changelog-0-0-25">Changelog 0.0.25</h2>
-				<ul>
-					<li>improve route info on load, it can disabled with global options &quot;displayRoute:false&quot;</li>
-				</ul>
-				<h2 id="changelog-0-0-24">Changelog 0.0.24</h2>
-				<ul>
-					<li>initial CORS support (look at &quot;Change default Options&quot;), more CORS options coming soon...</li>
-				</ul>
-				<h2 id="changelog-0-23">Changelog 0.23</h2>
-				<ul>
-					<li>fix url union for windows platform</li>
-				</ul>
-				<h2 id="changelog-0-0-20">Changelog 0.0.20</h2>
-				<ul>
-					<li>fix policy string is not added if global policy is set</li>
-					<li>working test</li>
-				</ul>
-				<h2 id="changelog-0-0-19">Changelog 0.0.19</h2>
-				<ul>
-					<li>add Global base Url</li>
-				</ul>
-				<h2 id="changelog-0-0-17">Changelog 0.0.17</h2>
-				<ul>
-					<li>fix default route</li>
-					<li>add mre error check</li>
-				</ul>
-				<h2 id="changelog-0-0-15">Changelog 0.0.15</h2>
-				<ul>
-					<li>add goblal file policy (=middleware)</li>
-				</ul>
-				<h2 id="changelog-from-version-0-0-13">Changelog from version 0.0.13</h2>
-				<ul>
-					<li>No longer compatible with &lt;0.13 version</li>
-					<li>new json syntax</li>
-				</ul>
+				<p>Look at ./demo for a fully working example.   </p>
+				<h2 id="changelog">Changelog</h2>
+				<p>Check git <a href="https://github.com/gimox/json-routing/releases">release history</a> </p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

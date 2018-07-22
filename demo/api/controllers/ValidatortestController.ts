@@ -1,6 +1,7 @@
-
-
-
-exports.validateparam = (req,res) => {
-    res.json({message: 'validate params'});
+module.exports = (osseus) => {
+  return {
+    validateparam: (req, res) => {
+      res.json({message: 'validate params'});
+    }
+  }
 };
